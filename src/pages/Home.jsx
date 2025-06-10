@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
 
-  <main className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 px-2 sm:px-4 md:px-16 pt-28 pb-4">
+  <main className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 px-2 sm:px-4 md:px-16 pt-8 sm:pt-16 md:pt-28 pb-4">
     {/* Search Area */}
     <div className="text-center">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4">
