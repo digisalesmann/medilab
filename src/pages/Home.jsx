@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
 
-  <main className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 px-2 sm:px-4 md:px-16 pt-8 sm:pt-16 md:pt-28 pb-4">
+  <main className="min-h-screen w-full bg-gradient-to-br paddin from-blue-100 via-green-100 to-blue-200 px-2 sm:px-4 md:px-16 pt-28 pb-2">
     {/* Search Area */}
     <div className="text-center">
       <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-4">
@@ -97,38 +97,38 @@ export default function Home() {
       {/* Services Grid */}
       <div className="mt-12">
   <div className="
-  grid grid-cols-2 gap-4
-  sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7
-  sm:gap-6
-  sm:overflow-x-visible
-  px-1 sm:px-0
-  scrollbar-hide
-">
-  {services.map((item, index) => (
-    <Link
-      to={item.link}
-      key={index}
-      className="
-        flex flex-col items-center
-        bg-white border border-gray-100 rounded-xl shadow-sm
-        hover:shadow-md hover:-translate-y-1 hover:scale-105
-        transition-all duration-200
-        mx-2 sm:mx-0
-        py-4
-      "
-    >
-      <img
-        src={item.image}
-        alt={item.title}
-        className="w-14 h-14 sm:w-16 sm:h-16 object-contain mb-2"
-      />
-      <p className="text-sm font-semibold text-gray-800">{item.title}</p>
-      {item.subtitle && (
-        <p className="text-xs text-red-500 font-semibold">{item.subtitle}</p>
-      )}
-    </Link>
-  ))}
-</div>
+    grid grid-flow-col sm:grid-flow-row sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7
+    gap-4 sm:gap-6
+    overflow-x-auto sm:overflow-x-visible
+    px-1 sm:px-0
+    scrollbar-hide
+  ">
+    {services.map((item, index) => (
+      <Link
+        to={item.link}
+        key={index}
+        className="
+          min-w-[120px] sm:min-w-0
+          flex flex-col items-center
+          bg-white border border-gray-100 rounded-xl shadow-sm
+          hover:shadow-md hover:-translate-y-1 hover:scale-105
+          transition-all duration-200
+          mx-2 sm:mx-0
+          py-4
+        "
+      >
+        <img
+          src={item.image}
+          alt={item.title}
+          className="w-14 h-14 sm:w-16 sm:h-16 object-contain mb-2"
+        />
+        <p className="text-sm font-semibold text-gray-800">{item.title}</p>
+        {item.subtitle && (
+          <p className="text-xs text-red-500 font-semibold">{item.subtitle}</p>
+        )}
+      </Link>
+    ))}
+  </div>
 </div>
 
     </main>
