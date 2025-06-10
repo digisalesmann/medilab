@@ -40,7 +40,7 @@ export default function Header() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          <ShoppingCart className="w-6 h-6 text-gray-700 cursor-pointer hover:text-blue-600 transition-colors" />
+          <ShoppingCart className="w-6 h-6 text-gray-700 cursor-pointer hover:text-green-600 transition-colors" />
           <button onClick={toggleMenu} className="ml-2">
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
