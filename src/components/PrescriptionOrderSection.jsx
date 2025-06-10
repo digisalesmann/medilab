@@ -1,0 +1,309 @@
+import React, { useRef } from "react";
+import { FaChevronRight } from "react-icons/fa";
+import { UploadCloud, FilePlus, MapPin, PhoneCall, PackageCheck } from "lucide-react";
+
+export default function PrescriptionOrderSection() {
+  return (
+    <>
+      <div className="w-full flex justify-center px-2 mt-6">
+        <div className="flex flex-col md:flex-row bg-[#f3f8fe] border border-[#e3eefd] rounded-2xl w-full max-w-6xl p-5 md:p-6 gap-6 items-center md:items-stretch">
+          {/* Left Side */}
+          <div className="flex flex-col md:w-1/2 items-center md:items-start justify-center gap-4">
+            <UploadCloud size={48} strokeWidth={1.5} className="text-[#008375]" />
+            <div className="text-center md:text-left">
+              <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-1">Order with Prescription</h2>
+              <p className="text-gray-600 text-sm md:text-base mb-2">
+                Upload your prescription and get your medicines delivered.
+              </p>
+            </div>
+            <button className="flex items-center gap-2 bg-[#008375] hover:bg-[#00695c] text-white font-medium px-6 py-2.5 rounded-lg shadow transition text-sm md:text-base">
+              <FilePlus size={20} />
+              Upload Prescription
+            </button>
+          </div>
+
+          {/* Right Side */}
+          <div className="flex-1 w-full flex flex-col justify-center">
+            <h3 className="text-base md:text-lg font-medium text-gray-800 mb-3">How it works</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Step icon={<FilePlus size={20} className="text-[#3b82f6]" />} text="Upload your prescription photo" />
+              <Step icon={<MapPin size={20} className="text-[#3b82f6]" />} text="Enter your delivery address" />
+              <Step icon={<PhoneCall size={20} className="text-[#3b82f6]" />} text="We'll call to confirm medicines" />
+              <Step icon={<PackageCheck size={20} className="text-[#3b82f6]" />} text="Sit back! Delivery is on the way" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* New Launches Section */}
+      <NewLaunches />
+
+      {/* Shop by Categories Section */}
+      <ShopByCategories />
+      <TrendingNearYou />
+    </>
+  );
+}
+
+function Step({ icon, text }) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="bg-[#e3eefd] p-2 rounded-lg">{icon}</div>
+      <p className="text-gray-700 text-sm md:text-base">{text}</p>
+    </div>
+  );
+}
+
+const categories = [
+  { label: "Must haves", image: "/images/must.webp" },
+  { label: "Sports nutrition", image: "/images/sports.webp" },
+  { label: "Vitamins & supplements", image: "/images/vit.webp" },
+  { label: "Skin care", image: "/images/skin.webp" },
+  { label: "Diabetes essentials", image: "/images/dis.webp" },
+  { label: "Heart health", image: "/images/heartt.webp" },
+  { label: "Ayurvedic care", image: "/images/ay.webp" },
+];
+
+function ShopByCategories() {
+  const scrollRef = useRef(null);
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 320, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section className="w-full max-w-7xl mx-auto mt-12 px-2">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Shop by Categories</h2>
+      <div className="relative">
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
+        >
+          {categories.map((cat, idx) => (
+            <div
+              key={idx}
+              className="flex-shrink-0 w-40 sm:w-48 h-56 bg-white border border-gray-200 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+            >
+              <img
+                src={cat.image}
+                alt={cat.label}
+                className="w-24 h-24 object-contain mb-3"
+                draggable={false}
+              />
+              <span className="text-sm sm:text-base font-medium text-gray-700 text-center px-2">
+                {cat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={scrollRight}
+          className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
+          aria-label="Scroll right"
+        >
+          <FaChevronRight />
+        </button>
+      </div>
+    </section>
+  );
+}
+
+const products = [
+  {
+    title: "Shelcal Total Supplement With You...",
+    image: "/images/shel.webp",
+    mrp: 820,
+    price: 713.4,
+    discount: 13,
+  },
+  {
+    title: "Kofol Lozenge 60 No'S",
+    image: "/images/kof.webp",
+    mrp: 50,
+    price: 43.5,
+    discount: 13,
+  },
+  {
+    title: "Tedibar Atogla Baby Lotion 200ml",
+    image: "/images/ted.webp",
+    mrp: 635,
+    price: 520.7,
+    discount: 18,
+  },
+  {
+    title: "Pilgrim 3% Redensyl & 4% Anagain Advance",
+    image: "/images/pil.webp",
+    mrp: 545,
+    price: 392.4,
+    discount: 28,
+  },
+  {
+    title: "Combiflam Ms Tube Of 30gm Cream",
+    image: "/images/com.webp",
+    mrp: 140,
+    price: 121.8,
+    discount: 13,
+  },
+  {
+    title: "Baidyanath Nagpur Chyawanprash Special",
+    image: "/images/baid.webp",
+    mrp: 460,
+    price: 299,
+    discount: 35,
+  },
+];
+
+function NewLaunches() {
+  const scrollRef = useRef(null);
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 320, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section className="w-full max-w-7xl mx-auto mt-12 px-2">
+      <h2 className="text-3xl font-bold text-gray-800 mb-1">New Launches</h2>
+      <p className="text-lg text-gray-500 mb-6">New wellness range just for you!</p>
+      <div className="relative">
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
+        >
+          {products.map((item, idx) => (
+            <div
+              key={idx}
+              className="flex-shrink-0 w-52 sm:w-60 bg-white border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+            >
+              <img
+                src={item.image}
+                alt={item.title}
+                className="w-28 h-28 object-contain mb-4"
+                draggable={false}
+              />
+              <div className="w-full">
+                <p className="text-sm sm:text-base font-medium text-gray-800 mb-1 truncate">{item.title}</p>
+                <div className="text-sm text-gray-400 mb-1">
+                  MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-base sm:text-lg font-semibold text-gray-900">₦{item.price.toLocaleString()}</span>
+                  <span className="text-xs sm:text-sm text-red-500 font-semibold">({item.discount}%)</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={scrollRight}
+          className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
+          aria-label="Scroll right"
+        >
+          <FaChevronRight />
+        </button>
+      </div>
+    </section>
+  );
+}
+
+const trendingProducts = [
+  {
+    title: "Shelcal 500mg Strip Of 15 Tablets",
+    image: "/images/shel.webp",
+    mrp: 1580,
+    price: 1221.2,
+    discount: 23,
+  },
+  {
+    title: "Abzorb Total Skin Relief Dusting Powder",
+    image: "/images/abz.webp",
+    mrp: 750,
+    price: 600,
+    discount: 20,
+  },
+  {
+    title: "Liveasy Wellness Calcium Magnesium",
+    image: "/images/liv.webp",
+    mrp: 480,
+    price: 384,
+    discount: 20,
+  },
+  {
+    title: "Evion 400mg Strip Of 20 Capsules",
+    image: "/images/evi.webp",
+    mrp: 350,
+    price: 298,
+    discount: 15,
+  },
+  {
+    title: "Revital H Men Multivitamin",
+    image: "/images/rev.webp",
+    mrp: 650,
+    price: 520,
+    discount: 20,
+  },
+  {
+    title: "Dr. Morepen Gluco One Bg 03 Glucometer",
+    image: "/images/mor.webp",
+    mrp: 900,
+    price: 765,
+    discount: 15,
+  },
+];
+
+function TrendingNearYou() {
+  const scrollRef = useRef(null);
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 320, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <section className="w-full max-w-7xl mx-auto mt-12 px-2">
+      <h2 className="text-3xl font-bold text-gray-800 mb-1">Trending Near You</h2>
+      <p className="text-lg text-gray-500 mb-6">Popular in your city</p>
+      <div className="relative">
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
+        >
+          {trendingProducts.map((item, idx) => (
+            <div
+              key={idx}
+              className="flex-shrink-0 w-52 sm:w-60 bg-white border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+            >
+              <img
+                src={item.image}
+                alt={item.title}
+                className="w-28 h-28 object-contain mb-4"
+                draggable={false}
+              />
+              <div className="w-full">
+                <p className="text-sm sm:text-base font-medium text-gray-800 mb-1 truncate">{item.title}</p>
+                <div className="text-sm text-gray-400 mb-1">
+                  MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-base sm:text-lg font-semibold text-gray-900">₦{item.price.toLocaleString()}</span>
+                  <span className="text-xs sm:text-sm text-red-500 font-semibold">({item.discount}% off)</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={scrollRight}
+          className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
+          aria-label="Scroll right"
+        >
+          <FaChevronRight />
+        </button>
+      </div>
+    </section>
+  );
+}

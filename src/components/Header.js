@@ -1,0 +1,140 @@
+import { useState } from "react";
+import { FaHeartbeat } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  Home,
+  Pill,
+  HeartPulse,
+  Info,
+  Sparkles,
+  PawPrint,
+} from "lucide-react";
+
+export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showMessage, setShowMessage] = useState(true);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  return (
+    <header className="w-full bg-white shadow-md fixed top-0 left-0 z-50">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-4">
+        {/* Logo */}
+        <div className="flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <FaHeartbeat className="text-emerald-600 text-2xl" />
+            <span className="text-3xl font-bold text-emerald-600 select-none">MediLab</span>
+          </div>
+        </div>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex flex-1 justify-center space-x-10 text-gray-700 text-base font-medium">
+          <Link to="/" className="hover:text-green-600 transition-colors">Home</Link>
+          <Link to="/pharmacies" className="hover:text-green-600 transition-colors">Pharmacies</Link>
+          <Link to="/inventory" className="hover:text-green-600 transition-colors">Inventory & Pricing</Link>
+          <Link to="/contact" className="hover:text-green-600 transition-colors">Contact/Help</Link>
+        </nav>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-4">
+          <ShoppingCart className="w-6 h-6 text-gray-700 cursor-pointer hover:text-blue-600 transition-colors" />
+          <button onClick={toggleMenu} className="ml-2">
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Hamburger Dropdown */}
+      {isOpen && (
+        <>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-30 z-40"
+            onClick={() => setIsOpen(false)}
+          ></div>
+
+          {/* Sidebar Drawer */}
+          <div className="fixed right-0 top-0 h-screen w-[24rem] max-w-full bg-white shadow-2xl z-50 px-8 py-6 overflow-y-auto border-l border-b border-gray-200">
+            {/* Drawer Header */}
+            <div className="flex justify-between items-start mb-5">
+              <h2 className="text-2xl font-semibold text-gray-700">Welcome to MediLab</h2>
+              <button onClick={() => setIsOpen(false)}>
+                <X className="w-6 h-6 text-gray-500 hover:text-gray-700" />
+              </button>
+            </div>
+
+            {/* Auth Buttons */}
+            <div className="flex gap-4 mb-6">
+              <button className="flex-1 bg-emerald-600 text-white py-2.5 text-base font-medium rounded hover:bg-emerald-700">
+                Sign up
+              </button>
+              <button className="flex-1 border border-emerald-600 text-emerald-600 py-2.5 text-base font-medium rounded hover:bg-emerald-50">
+                Login
+              </button>
+            </div>
+
+            {/* Message Banner */}
+            {showMessage && (
+              <div className="bg-emerald-50 text-emerald-700 p-4 flex justify-between items-start mb-6 text-base rounded">
+                <p className="font-medium">Try MediLab for healthcare professionals</p>
+                <button onClick={() => setShowMessage(false)}>
+                  <X className="w-5 h-5 text-emerald-600 hover:text-emerald-800" />
+                </button>
+              </div>
+            )}
+
+            {/* Mobile Nav */}
+            <div className="block md:hidden mb-6 space-y-1 text-gray-800 text-base">
+              <Link to="/" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+                <Home className="w-5 h-5" /> Home
+              </Link>
+              <Link to="/pharmacies" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+                <Pill className="w-5 h-5" /> Pharmacies
+              </Link>
+              <Link to="/inventory" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+                <HeartPulse className="w-5 h-5" /> Inventory & Pricing
+              </Link>
+              <Link to="/contact" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+                <Info className="w-5 h-5" /> Contact/Help
+              </Link>
+            </div>
+
+            {/* Extra Links */}
+            <div className="space-y-1 text-gray-800 text-base">
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <Pill className="w-5 h-5" /> Medicine
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <Info className="w-5 h-5" /> Health Info
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <HeartPulse className="w-5 h-5" /> Fitness
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <Sparkles className="w-5 h-5" /> Mom & Baby
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <Sparkles className="w-5 h-5" /> Devices
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <HeartPulse className="w-5 h-5" /> Wellness
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <PawPrint className="w-5 h-5" /> Pet Supplies
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <Sparkles className="w-5 h-5" /> Skin Care/Beauty
+              </div>
+              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+                <Info className="w-5 h-5" /> Suggestions
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </header>
+  );
+}
