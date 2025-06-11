@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { RiSearchLine, RiCameraLine, RiFileList2Line } from "react-icons/ri";
+import { RiFlashlightLine, RiFirstAidKitLine, RiCalendarEventLine } from "react-icons/ri";
 
 export default function Home() {
   const services = [
@@ -132,7 +133,20 @@ export default function Home() {
     ))}
   </div>
 </div>
-
+<div className="md:hidden grid grid-flow-col auto-cols-[minmax(80px,1fr)] gap-2 px-4 mb-4">
+  <button className="bg-white/90 text-emerald-600 py-2 rounded-lg shadow-xs text-xs font-medium">
+    <RiFlashlightLine className="mx-auto mb-1" />  
+    Emergency
+  </button>
+  <button className="bg-white/90 text-blue-600 py-2 rounded-lg shadow-xs text-xs font-medium">
+    <RiFirstAidKitLine className="mx-auto mb-1" />  
+    First Aid
+  </button>
+  <button className="bg-white/90 text-purple-600 py-2 rounded-lg shadow-xs text-xs font-medium">
+    <RiCalendarEventLine className="mx-auto mb-1" />  
+    Book Lab
+  </button>
+</div>
     </main>
   );
 }
