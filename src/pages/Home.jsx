@@ -1,8 +1,34 @@
 import { Link } from 'react-router-dom';
 import { RiSearchLine, RiCameraLine, RiFileList2Line } from "react-icons/ri";
-import { RiFlashlightLine, RiFirstAidKitLine, RiCalendarEventLine } from "react-icons/ri";
+import { 
+  RiFlashlightLine, 
+  RiFirstAidKitLine, 
+  RiCalendarEventLine,
+  RiMapPinLine,
+  RiArrowRightSLine 
+} from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const [pharmacyDistance, setPharmacyDistance] = useState("1.2km");
+  const [userLocation, setUserLocation] = useState(null);
+
+   // Simulate fetching user location
+  useEffect(() => {
+    // In a real app, you would use geolocation API here
+    const timer = setTimeout(() => {
+      setUserLocation({
+        lat: 28.6139,
+        lng: 77.2090
+      });
+      setPharmacyDistance("0.8km"); // Update after "fetching"
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const services = [
     {
       title: "Medicine",
@@ -133,20 +159,108 @@ export default function Home() {
     ))}
   </div>
 </div>
-<div className="md:hidden grid grid-flow-col auto-cols-[minmax(80px,1fr)] gap-2 px-4 mb-4">
-  <button className="bg-white/90 text-emerald-600 py-2 rounded-lg shadow-xs text-xs font-medium">
-    <RiFlashlightLine className="mx-auto mb-1" />  
-    Emergency
-  </button>
-  <button className="bg-white/90 text-blue-600 py-2 rounded-lg shadow-xs text-xs font-medium">
-    <RiFirstAidKitLine className="mx-auto mb-1" />  
-    First Aid
-  </button>
-  <button className="bg-white/90 text-purple-600 py-2 rounded-lg shadow-xs text-xs font-medium">
-    <RiCalendarEventLine className="mx-auto mb-1" />  
-    Book Lab
-  </button>
-</div>
+{/* ▼ Mobile-Only Section ▼ */}
+      <div className="md:hidden space-y-3 px-4 mb-6">
+        {/* Quick Actions Bar */}
+        <div className="grid grid-flow-col auto-cols-[minmax(110px,1fr)] gap-3">
+          <button 
+            onClick={() => navigate('/emergency')}
+            className="
+              bg-white/90 backdrop-blur-sm
+              text-emerald-600
+              py-3 px-1
+              rounded-xl
+              shadow-sm hover:shadow-md
+              text-xs font-medium
+              flex flex-col items-center
+              min-h-[100px]
+              justify-between
+              transition-all
+              hover:-translate-y-0.5
+              active:scale-95
+            "
+          >
+            <RiFlashlightLine className="text-xl mb-2 animate-pulse" />
+            <span>Emergency</span>
+          </button>
+          
+          <button 
+            onClick={() => navigate('/first-aid')}
+            className="
+              bg-white/90 backdrop-blur-sm
+              text-blue-600
+              py-3 px-1
+              rounded-xl
+              shadow-sm hover:shadow-md
+              text-xs font-medium
+              flex flex-col items-center
+              min-h-[100px]
+              justify-between
+              transition-all
+              hover:-translate-y-0.5
+              active:scale-95
+            "
+          >
+            <RiFirstAidKitLine className="text-xl mb-2" />
+            <span>First Aid</span>
+          </button>
+          
+          <button 
+            onClick={() => navigate('/lab-booking')}
+            className="
+              bg-white/90 backdrop-blur-sm
+              text-purple-600
+              py-3 px-1
+              rounded-xl
+              shadow-sm hover:shadow-md
+              text-xs font-medium
+              flex flex-col items-center
+              min-h-[100px]
+              justify-between
+              transition-all
+              hover:-translate-y-0.5
+              active:scale-95
+            "
+          >
+            <RiCalendarEventLine className="text-xl mb-2" />
+            <span>Book Lab</span>
+          </button>
+        </div>
+
+        {/* Pharmacy Location Widget */}
+        <div 
+          onClick={() => navigate('/nearby-pharmacies')}
+          className="
+            flex items-center justify-between 
+            bg-white/90 px-4 py-3
+            rounded-lg border border-gray-200
+            shadow-xs hover:shadow-sm
+            transition-all
+            active:bg-gray-50
+            cursor-pointer
+          "
+        >
+          <div className="flex items-center gap-2">
+            <RiMapPinLine className={`
+              text-lg
+              ${userLocation ? 'text-emerald-600 animate-pulse' : 'text-gray-400'}
+            `} />
+            <span className="text-xs font-medium">
+              {userLocation ? (
+                <>Nearest pharmacy: <strong className="text-emerald-700">{pharmacyDistance}</strong></>
+              ) : (
+                "Locating..."
+              )}
+            </span>
+          </div>
+          <RiArrowRightSLine className="text-gray-500" />
+        </div>
+      </div>
+
+      {/* Services Grid (existing) */}
+      <div className="mt-8 sm:mt-12">
+        {/* ... your existing services grid ... */}
+      </div>
     </main>
   );
 }
