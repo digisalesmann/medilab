@@ -6,10 +6,10 @@ import 'swiper/css/navigation';
 
 const slides = [
   { image: "/images/1.png", link: "#" },
-  { image: "/images/1.png", link: "#" },
-  { image: "/images/1.png", link: "#" },
-  { image: "/images/1.png", link: "#" },
-  { image: "/images/1.png", link: "#" }
+  { image: "/images/blue.png", link: "#" },
+  { image: "/images/plant.png", link: "#" },
+  { image: "/images/tips.png", link: "#" },
+  { image: "/images/life.png", link: "#" }
 ];
 
 export default function Carousel() {

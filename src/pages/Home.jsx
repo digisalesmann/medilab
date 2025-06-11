@@ -72,6 +72,12 @@ export default function Home() {
       image: "/images/gift.webp",
       link: "/offers",
     },
+    {
+      title: "Fitness & Wellness",
+      subtitle: "SHOP NOW",
+      image: "/images/gift.webp",
+      link: "/fitness-wellness",
+    },
   ];
 
   return (
@@ -131,32 +137,34 @@ export default function Home() {
     pl-2 /* Left padding for first item */
     pr-2 /* Right padding for last item */
     scrollbar-hide
-    pb-2
+    pb-2 mb-3
   ">
     {services.map((item, index) => (
-      <Link
-        to={item.link}
-        key={index}
-        className="
-          flex flex-col items-center
-          bg-white border border-gray-100 rounded-xl shadow-sm
-          hover:shadow-md hover:-translate-y-1
-          transition-all duration-200
-          py-3 sm:py-4
-          mx-0 /* Explicitly zero horizontal margin */
-        "
-      >
-        <img
-          src={item.image}
-          alt={item.title}
-          className="w-12 h-12 sm:w-16 sm:h-16 object-contain mb-1 sm:mb-2" /* Reduced size on mobile */
-        />
-        <p className="text-xs sm:text-sm font-semibold text-gray-800">{item.title}</p>
-        {item.subtitle && (
-          <p className="text-[10px] sm:text-xs text-red-500 font-semibold">{item.subtitle}</p>
-        )}
-      </Link>
-    ))}
+  <Link
+    to={item.link}
+    key={index}
+    className={`
+      flex flex-col items-center
+      bg-white border border-gray-100 rounded-xl shadow-sm
+      hover:shadow-md hover:-translate-y-1
+      transition-all duration-200
+      py-3 sm:py-4
+      mx-0
+      ${index === services.length - 1 ? 'lg:hidden' : ''}
+    `}
+  >
+    <img
+      src={item.image}
+      alt={item.title}
+      className="w-12 h-12 sm:w-16 sm:h-16 object-contain mb-1 sm:mb-2"
+    />
+    <p className="text-xs sm:text-sm font-semibold text-gray-800">{item.title}</p>
+    {item.subtitle && (
+      <p className="text-[10px] sm:text-xs text-red-500 font-semibold">{item.subtitle}</p>
+    )}
+  </Link>
+))}
+
   </div>
 </div>
 {/* ▼ Mobile-Only Section ▼ */}
