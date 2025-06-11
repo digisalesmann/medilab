@@ -95,36 +95,38 @@ export default function Home() {
     </div>
 
       {/* Services Grid */}
-      <div className="mt-12">
+<div className="mt-8 sm:mt-12">
   <div className="
-    grid grid-flow-col sm:grid-flow-row sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7
-    gap-4 sm:gap-6
+    grid grid-flow-col auto-cols-[minmax(120px,1fr)]
+    sm:grid-flow-row sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7
+    gap-3 sm:gap-6
     overflow-x-auto sm:overflow-x-visible
-    px-1 sm:px-0
+    pl-2 /* Left padding for first item */
+    pr-2 /* Right padding for last item */
     scrollbar-hide
+    pb-2
   ">
     {services.map((item, index) => (
       <Link
         to={item.link}
         key={index}
         className="
-          min-w-[120px] sm:min-w-0
           flex flex-col items-center
           bg-white border border-gray-100 rounded-xl shadow-sm
-          hover:shadow-md hover:-translate-y-1 hover:scale-105
+          hover:shadow-md hover:-translate-y-1
           transition-all duration-200
-          mx-2 sm:mx-0
-          py-4
+          py-3 sm:py-4
+          mx-0 /* Explicitly zero horizontal margin */
         "
       >
         <img
           src={item.image}
           alt={item.title}
-          className="w-14 h-14 sm:w-16 sm:h-16 object-contain mb-2"
+          className="w-12 h-12 sm:w-16 sm:h-16 object-contain mb-1 sm:mb-2" /* Reduced size on mobile */
         />
-        <p className="text-sm font-semibold text-gray-800">{item.title}</p>
+        <p className="text-xs sm:text-sm font-semibold text-gray-800">{item.title}</p>
         {item.subtitle && (
-          <p className="text-xs text-red-500 font-semibold">{item.subtitle}</p>
+          <p className="text-[10px] sm:text-xs text-red-500 font-semibold">{item.subtitle}</p>
         )}
       </Link>
     ))}
