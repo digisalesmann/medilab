@@ -9,6 +9,7 @@ import {
 } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { RiPulseLine } from "react-icons/ri";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ export default function Home() {
     {
       title: "Fitness & Wellness",
       subtitle: "SHOP NOW",
-      image: "/images/gift.webp",
+      image: "/images/store.png",
       link: "/fitness-wellness",
     },
   ];
@@ -269,6 +270,20 @@ export default function Home() {
       <div className="mt-8 sm:mt-12">
         {/* ... your existing services grid ... */}
       </div>
+      <div className="md:hidden bg-white p-3 mx-4 mb-4 rounded-xl shadow-sm">
+  <p className="text-xs font-medium text-gray-800 mb-2 flex items-center">
+    <RiPulseLine className="text-rose-500 mr-1" /> Weekly Activity
+  </p>
+  <div className="h-16 flex items-end gap-1">
+    {[3, 5, 7, 4, 6, 8, 5].map((value, i) => (
+      <div 
+        key={i}
+        className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-200 rounded-t-sm"
+        style={{ height: `${value * 10}%` }}
+      />
+    ))}
+  </div>
+</div>
     </main>
   );
 }
