@@ -6,6 +6,8 @@ import PrescriptionOrderSection from './components/PrescriptionOrderSection';
 import PlusMembershipBanner from './components/PlusMembershipBanner';
 import LabTestSection from './components/LabTestSection';
 import { WellnessGrid } from './components/LabTestSection';
+import { FeaturedBrands } from './components/LabTestSection';
+import { DealsOfTheDay } from './components/LabTestSection';
 
 import './App.css';
 
@@ -19,6 +21,8 @@ function App() {
       <PlusMembershipBanner />
       <LabTestSection />
       <WellnessGrid />
+      <FeaturedBrands />
+      <DealsOfTheDay />
       {/* Add more components as needed */}
       <main className="p-4">
         <h1>Welcome to MediLab</h1>
