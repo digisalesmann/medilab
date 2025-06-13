@@ -110,14 +110,11 @@ function ShopByCategories() {
           className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
         >
           {categories.map((cat, idx) => (
-            <div
-              key={idx}
-              className={`flex-shrink-0 w-40 sm:w-48 h-56 ${cat.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
-            >
+            <div className={`product-card ${cat.bgGradient}`}>
               <img
                 src={cat.image}
                 alt={cat.label}
-                className="w-24 h-24 object-contain mb-3"
+                className="product-img"
                 draggable={false}
               />
               <span className="text-sm sm:text-base font-medium text-gray-700 text-center px-2">
@@ -199,47 +196,50 @@ function NewLaunches() {
   };
 
   return (
-    <section className="w-full max-w-7xl mx-auto mt-12 px-2">
-      <h2 className="text-3xl font-bold text-gray-800 mb-1">New Launches</h2>
-      <p className="text-lg text-gray-500 mb-6">New wellness range just for you!</p>
-      <div className="relative">
+    <section className="w-full max-w-7xl mx-auto mt-8 sm:mt-12 px-2">
+  <h2 className="text-xl sm:text-3xl font-bold text-gray-800 mb-1">New Launches</h2>
+  <p className="text-sm sm:text-lg text-gray-500 mb-4 sm:mb-6">New wellness range just for you!</p>
+  
+  <div className="relative">
+    <div
+      ref={scrollRef}
+      className="flex gap-3 sm:gap-4 overflow-x-auto pb-3 sm:pb-4 scroll-smooth scrollbar-hide"
+    >
+      {products.map((item, idx) => (
         <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
+          key={idx}
+          className={`flex-shrink-0 w-40 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-xl sm:rounded-2xl flex flex-col items-center p-3 sm:p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
         >
-          {products.map((item, idx) => (
-            <div
-              key={idx}
-              className={`flex-shrink-0 w-52 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-28 h-28 object-contain mb-4"
-                draggable={false}
-              />
-              <div className="w-full">
-                <p className="text-sm sm:text-base font-medium text-gray-800 mb-1 truncate">{item.title}</p>
-                <div className="text-sm text-gray-400 mb-1">
-                  MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-base sm:text-lg font-semibold text-gray-900">₦{item.price.toLocaleString()}</span>
-                  <span className="text-xs sm:text-sm text-red-500 font-semibold">({item.discount}%)</span>
-                </div>
-              </div>
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-20 h-20 sm:w-28 sm:h-28 object-contain mb-3"
+            draggable={false}
+          />
+          <div className="w-full">
+            <p className="text-xs sm:text-base font-medium text-gray-800 mb-1 truncate">{item.title}</p>
+            <div className="text-xs sm:text-sm text-gray-400 mb-1">
+              MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
             </div>
-          ))}
+            <div className="flex items-baseline gap-1 sm:gap-2">
+              <span className="text-sm sm:text-lg font-semibold text-gray-900">₦{item.price.toLocaleString()}</span>
+              <span className="text-[10px] sm:text-sm text-red-500 font-semibold">({item.discount}%)</span>
+            </div>
+          </div>
         </div>
-        <button
-          onClick={scrollRight}
-          className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
-          aria-label="Scroll right"
-        >
-          <FaChevronRight />
-        </button>
-      </div>
-    </section>
+      ))}
+    </div>
+
+    {/* Scroll button (only visible on desktop) */}
+    <button
+      onClick={scrollRight}
+      className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
+      aria-label="Scroll right"
+    >
+      <FaChevronRight />
+    </button>
+  </div>
+</section>
   );
 }
 
@@ -304,46 +304,49 @@ function TrendingNearYou() {
   };
 
   return (
-    <section className="w-full max-w-7xl mx-auto mt-12 px-2">
-      <h2 className="text-3xl font-bold text-gray-800 mb-1">Trending Near You</h2>
-      <p className="text-lg text-gray-500 mb-6">Popular in your city</p>
-      <div className="relative">
+    <section className="w-full max-w-7xl mx-auto mt-8 sm:mt-12 px-2">
+  <h2 className="text-xl sm:text-3xl font-bold text-gray-800 mb-1">Trending Near You</h2>
+  <p className="text-sm sm:text-lg text-gray-500 mb-4 sm:mb-6">Popular in your city</p>
+
+  <div className="relative">
+    <div
+      ref={scrollRef}
+      className="flex gap-3 sm:gap-4 overflow-x-auto pb-3 sm:pb-4 scroll-smooth scrollbar-hide"
+    >
+      {trendingProducts.map((item, idx) => (
         <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
+          key={idx}
+          className={`flex-shrink-0 w-40 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-xl sm:rounded-2xl flex flex-col items-center p-3 sm:p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
         >
-          {trendingProducts.map((item, idx) => (
-            <div
-              key={idx}
-              className={`flex-shrink-0 w-52 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-28 h-28 object-contain mb-4"
-                draggable={false}
-              />
-              <div className="w-full">
-                <p className="text-sm sm:text-base font-medium text-gray-800 mb-1 truncate">{item.title}</p>
-                <div className="text-sm text-gray-400 mb-1">
-                  MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-base sm:text-lg font-semibold text-gray-900">₦{item.price.toLocaleString()}</span>
-                  <span className="text-xs sm:text-sm text-red-500 font-semibold">({item.discount}% off)</span>
-                </div>
-              </div>
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-20 h-20 sm:w-28 sm:h-28 object-contain mb-3"
+            draggable={false}
+          />
+          <div className="w-full">
+            <p className="text-xs sm:text-base font-medium text-gray-800 mb-1 truncate">{item.title}</p>
+            <div className="text-xs sm:text-sm text-gray-400 mb-1">
+              MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
             </div>
-          ))}
+            <div className="flex items-baseline gap-1 sm:gap-2">
+              <span className="text-sm sm:text-lg font-semibold text-gray-900">₦{item.price.toLocaleString()}</span>
+              <span className="text-[10px] sm:text-sm text-red-500 font-semibold">({item.discount}% off)</span>
+            </div>
+          </div>
         </div>
-        <button
-          onClick={scrollRight}
-          className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
-          aria-label="Scroll right"
-        >
-          <FaChevronRight />
-        </button>
-      </div>
-    </section>
+      ))}
+    </div>
+
+    {/* Right Scroll Arrow - Desktop Only */}
+    <button
+      onClick={scrollRight}
+      className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
+      aria-label="Scroll right"
+    >
+      <FaChevronRight />
+    </button>
+  </div>
+</section>
   );
 }

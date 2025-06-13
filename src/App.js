@@ -10,6 +10,7 @@ import { FeaturedBrands } from './components/LabTestSection';
 import { DealsOfTheDay } from './components/LabTestSection';
 
 import './App.css';
+import './index.css';
 
 function App() {
   return (

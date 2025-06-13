@@ -53,59 +53,51 @@ const formatCurrency = (value) =>
 
 const LabTestSection = () => {
   return (
-    <section className="px-4 sm:px-6 md:px-8 py-6 bg-white">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Frequently Booked Lab Tests</h2>
-        <a href="/lab-tests" className="text-teal-600 font-medium text-sm hover:underline">View All</a>
-      </div>
+    <section className="px-3 sm:px-6 md:px-8 py-4 sm:py-6 bg-white">
+  <div className="flex justify-between items-center mb-3 sm:mb-4">
+    <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Frequently Booked Lab Tests</h2>
+    <a href="/lab-tests" className="text-teal-600 font-medium text-xs sm:text-sm hover:underline">View All</a>
+  </div>
 
-      <div className="
-  flex space-x-4
-  overflow-x-auto
-  scrollbar-hide
-  pb-4
-  md:overflow-x-hidden  /* disables scroll on desktop */
-">
-  {labTests.map((test, idx) => (
-    <a
-      href={test.link}
-      key={idx}
-      className={`min-w-[240px] sm:min-w-[260px] md:min-w-[280px] ${test.bg}
-        p-4 rounded-2xl relative flex flex-col justify-between
-        shadow-sm hover:shadow-md hover:scale-[1.02]
-        transition-all duration-300 cursor-pointer
-      `}
-      style={{ height: "280px" }}  // ↓ reduced height
-    >
-      <span className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded w-fit mb-2">
-        {test.discount}
-      </span>
+  <div className="flex space-x-3 sm:space-x-4 overflow-x-auto scrollbar-hide pb-3 sm:pb-4 md:overflow-x-hidden">
+    {labTests.map((test, idx) => (
+      <a
+        href={test.link}
+        key={idx}
+        className={`min-w-[200px] sm:min-w-[260px] md:min-w-[280px] ${test.bg}
+          p-3 sm:p-4 rounded-xl sm:rounded-2xl relative flex flex-col justify-between
+          shadow-sm hover:shadow-md hover:scale-[1.02]
+          transition-all duration-300 cursor-pointer
+        `}
+        style={{ height: "240px" }}  // reduced from 280px
+      >
+        <span className="bg-red-500 text-white text-[10px] sm:text-xs font-semibold px-2 py-1 rounded w-fit mb-2">
+          {test.discount}
+        </span>
 
-      <div className="flex-1">
-        <h3 className="text-sm font-semibold text-gray-900 mb-1 leading-snug">
-          {test.title}
-        </h3>
-        {test.desc && (
-          <p className="text-sm text-gray-600">{test.desc}</p>
-        )}
-      </div>
+        <div className="flex-1">
+          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1 leading-snug">
+            {test.title}
+          </h3>
+          {test.desc && (
+            <p className="text-xs sm:text-sm text-gray-600">{test.desc}</p>
+          )}
+        </div>
 
-      {/* 💡 Price Section Aligned Left */}
-      <div className="mt-3 text-left">
-        <p className="text-xs line-through text-gray-400">{formatCurrency(test.oldPrice)}</p>
-        <p className="text-lg font-bold text-gray-800">{formatCurrency(test.newPrice)}</p>
-      </div>
+        <div className="mt-2 sm:mt-3 text-left">
+          <p className="text-[11px] sm:text-xs line-through text-gray-400">{formatCurrency(test.oldPrice)}</p>
+          <p className="text-base sm:text-lg font-bold text-gray-800">{formatCurrency(test.newPrice)}</p>
+        </div>
 
-      {/* 📦 Image still stays in bottom right */}
-      <img
-        src={test.image}
-        alt={test.title}
-        className="absolute bottom-2 right-3 w-16 sm:w-20 object-contain pointer-events-none"
-      />
-    </a>
-  ))}
-</div>
-    </section>
+        <img
+          src={test.image}
+          alt={test.title}
+          className="absolute bottom-2 right-2 w-14 sm:w-20 object-contain pointer-events-none"
+        />
+      </a>
+    ))}
+  </div>
+</section>
   );
 };
 
@@ -172,57 +164,62 @@ const formatNaira = (amount) =>
 
 export const WellnessGrid = () => {
   return (
-    <div className="px-4 py-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-1">
+    <div className="px-3 py-4 sm:px-4 sm:py-6">
+      <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-1">
         Wellness Essentials of the Week
       </h2>
-      <p className="text-gray-500 mb-6">Super charge your immunity with us</p>
-
-      <div className="overflow-x-auto md:overflow-x-visible">
-        <div className="
-          grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))]
-          md:grid-cols-3 gap-4
-          w-[800px] sm:w-[900px] md:w-full
-          md:auto-cols-auto
-          md:grid
-        ">
-          {products.map((product, i) => (
-  <a
-    href={`/product/${i}`} // You can replace with real product link
-    key={i}
-  className={`block ${product.bgGradient} border rounded-lg shadow-sm p-4 hover:shadow-md hover:scale-[1.02] transition-all duration-200 min-w-[200px]`}
->
-    <img
-      src={product.image}
-      alt={product.title}
-      className="w-full h-32 object-contain mb-3"
-    />
-    <h3 className="text-sm font-medium text-gray-900 leading-tight mb-1">
-      {product.title.length > 50
-        ? product.title.slice(0, 50) + "..."
-        : product.title}
-    </h3>
-    <p className="text-xs text-gray-400 line-through">
-      MRP {formatNaira(product.oldPrice)}
-    </p>
-    <div className="flex justify-between items-center">
-      <p className="text-base font-semibold text-gray-800">
-        {formatNaira(product.newPrice)}
+      <p className="text-sm sm:text-base text-gray-500 mb-4 sm:mb-6">
+        Super charge your immunity with us
       </p>
-      {product.discount > 0 && (
-        <span className="text-xs text-red-500 font-medium">
-          ({product.discount}%)
-        </span>
-      )}
-    </div>
-  </a>
-))}
 
+      {/* Wrapper enables horizontal scroll on mobile, grid on desktop */}
+      <div className="overflow-x-auto scrollbar-hide md:overflow-visible">
+        <div
+          className="
+            flex md:grid gap-3 sm:gap-4
+            md:grid-cols-3
+            flex-nowrap md:flex-wrap
+            min-w-[600px] sm:min-w-[700px] md:min-w-0
+          "
+        >
+          {products.map((product, i) => (
+            <a
+              href={`/product/${i}`}
+              key={i}
+              className={`flex-shrink-0 md:flex-shrink ${product.bgGradient} border rounded-md sm:rounded-lg shadow-sm p-3 sm:p-4 hover:shadow-md hover:scale-[1.02] transition-all duration-200 min-w-[160px] sm:min-w-[200px] md:min-w-0 w-[160px] sm:w-[200px] md:w-auto`}
+            >
+              <div className="w-full">
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-24 sm:h-32 object-contain mb-2"
+                />
+                <h3 className="text-xs sm:text-sm font-medium text-gray-900 leading-snug mb-1">
+                  {product.title.length > 50
+                    ? product.title.slice(0, 50) + "..."
+                    : product.title}
+                </h3>
+                <p className="text-[11px] sm:text-xs text-gray-400 line-through">
+                  MRP {formatNaira(product.oldPrice)}
+                </p>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm sm:text-base font-semibold text-gray-800">
+                    {formatNaira(product.newPrice)}
+                  </p>
+                  {product.discount > 0 && (
+                    <span className="text-[11px] sm:text-xs text-red-500 font-medium">
+                      ({product.discount}%)
+                    </span>
+                  )}
+                </div>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 const brands = [
   {
@@ -368,14 +365,12 @@ export const DealsOfTheDay = () => {
   const scrollRef = useRef(null);
   const [timer, setTimer] = useState(15 * 60 + 17); // 15:17 in seconds
 
-  // Countdown timer effect
   useEffect(() => {
     if (timer <= 0) return;
     const interval = setInterval(() => setTimer((t) => t - 1), 1000);
     return () => clearInterval(interval);
   }, [timer]);
 
-  // Scroll functions
   const scroll = (offset) => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
@@ -383,80 +378,87 @@ export const DealsOfTheDay = () => {
   };
 
   return (
-    <section className="w-full max-w-7xl mx-auto px-2 mt-8">
-      <div className="px-2 sm:px-4 md:px-12">
-  <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:items-center sm:justify-between mb-2">
-  {/* Title and Timer on the left (or stacked on mobile) */}
-  <div className="flex flex-col xs:flex-row xs:items-center gap-2 sm:gap-4">
-    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 whitespace-nowrap">
-      Deals of the Day
-    </h2>
-    <div className="flex items-center bg-orange-400 text-white font-semibold px-3 py-1.5 rounded-lg text-sm whitespace-nowrap">
-      <span className="mr-2">⏰</span>
-      {timer > 0 ? `${formatTimer(timer)} MINS LEFT, HURRY!` : "⏰ Offer Expired"}
-    </div>
-  </div>
+    <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 mt-10">
+      {/* Heading + Timer + View All */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
+            Deals of the Day
+          </h2>
+          <div className="flex items-center bg-orange-500 text-white font-semibold px-3 py-1.5 rounded-lg text-sm">
+            <span className="mr-2">⏰</span>
+            {timer > 0
+              ? `${formatTimer(timer)} MINS LEFT, HURRY!`
+              : "⏰ Offer Expired"}
+          </div>
+        </div>
+        <a
+          href="/deals"
+          className="text-teal-600 font-semibold hover:underline text-sm sm:text-base"
+        >
+          View All
+        </a>
+      </div>
 
-  {/* View All on the right */}
-  <a
-    href="/deals"
-    className="text-emerald-600 font-semibold hover:underline text-sm sm:text-base self-start sm:self-center"
-  >
-    View All
-  </a>
-</div>
-
-
-</div>
+      {/* Scrollable Product Row */}
       <div className="relative">
         {/* Left Arrow */}
         <button
-  onClick={() => scroll(-320)}
-  className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
-  aria-label="Scroll left"
->
-  <ChevronLeft size={24} strokeWidth={2.5} />
-</button>
-        {/* Deals Scrollable Row */}
-        <div
-  ref={scrollRef}
-  className="flex gap-4 overflow-x-auto scrollbar-hide px-8 pt-4 pb-4 scroll-smooth"
->
+          onClick={() => scroll(-320)}
+          className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={24} strokeWidth={2.5} />
+        </button>
 
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto scrollbar-hide px-1 sm:px-8 pt-3 pb-4 scroll-smooth"
+        >
           {deals.map((deal, idx) => (
             <a
               href={deal.link}
               key={idx}
-              className={`flex-shrink-0 w-48 sm:w-56 md:w-64 ${deal.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center justify-between shadow-sm hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-200 cursor-pointer p-4`}
-              >
+              className={`flex-shrink-0 w-44 sm:w-52 md:w-60 ${deal.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center justify-between shadow-sm hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-200 cursor-pointer p-3 sm:p-4`}
+            >
               <img
                 src={deal.img}
                 alt={deal.name}
-                className="w-24 h-24 sm:w-32 sm:h-32 object-contain mb-4"
+                className="w-20 h-20 sm:w-28 sm:h-28 object-contain mb-3"
                 draggable={false}
               />
               <div className="w-full">
-                <p className="text-sm sm:text-base font-medium text-gray-800 mb-1 truncate">{deal.name}</p>
+                <p className="text-sm sm:text-base font-medium text-gray-800 mb-1 truncate">
+                  {deal.name}
+                </p>
                 <div className="text-xs sm:text-sm text-gray-400 mb-1">
-                  MRP <span className="line-through">{formatCurrencyNGN(deal.mrp)}</span>
+                  MRP{" "}
+                  <span className="line-through">
+                    {formatCurrencyNGN(deal.mrp)}
+                  </span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-base sm:text-lg font-semibold text-gray-900">{formatCurrencyNGN(deal.price)}</span>
-                  <span className="text-xs sm:text-sm text-red-500 font-semibold">({deal.discount}%)</span>
+                  <span className="text-base sm:text-lg font-semibold text-gray-900">
+                    {formatCurrencyNGN(deal.price)}
+                  </span>
+                  <span className="text-xs sm:text-sm text-red-500 font-semibold">
+                    ({deal.discount}%)
+                  </span>
                 </div>
               </div>
             </a>
           ))}
         </div>
+
         {/* Right Arrow */}
         <button
-  onClick={() => scroll(320)}
-  className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
-  aria-label="Scroll right"
->
-  <ChevronRight size={24} strokeWidth={2.5} />
-</button>
+          onClick={() => scroll(320)}
+          className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={24} strokeWidth={2.5} />
+        </button>
       </div>
     </section>
   );
-}
+};
