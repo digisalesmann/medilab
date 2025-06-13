@@ -119,6 +119,7 @@ const products = [
     oldPrice: 114.93,
     newPrice: 94.24,
     discount: 18,
+    bgGradient: "bg-gradient-to-br from-orange-100 to-white-50",
   },
   {
     title: "Sugar Free Gold Plus Packet Of 500 Pellets",
@@ -126,6 +127,7 @@ const products = [
     oldPrice: 320.0,
     newPrice: 281.6,
     discount: 12,
+    bgGradient: "bg-gradient-to-br from-yellow-100 to-white-50",
   },
   {
     title: "Enterogermina Suspension 10 X 5 Ml",
@@ -133,6 +135,7 @@ const products = [
     oldPrice: 732.0,
     newPrice: 563.64,
     discount: 23,
+    bgGradient: "bg-gradient-to-br from-blue-100 to-purple-50",
   },
   {
     title: "Neurobion Forte Strip Of 30 Tablets",
@@ -140,6 +143,7 @@ const products = [
     oldPrice: 46.1,
     newPrice: 46.1,
     discount: 0,
+    bgGradient: "bg-gradient-to-br from-red-100 to-white-50",
   },
   {
     title: "Sebamed Clear Face Cleansing Foam - 150ml",
@@ -147,6 +151,7 @@ const products = [
     oldPrice: 680.0,
     newPrice: 564.4,
     discount: 17,
+    bgGradient: "bg-gradient-to-br from-pink-100 to-red-50",
   },
   {
     title: "Lite Glo Face Wash Tube Of 100 Ml",
@@ -154,6 +159,7 @@ const products = [
     oldPrice: 499.0,
     newPrice: 429.14,
     discount: 14,
+    bgGradient: "bg-gradient-to-br from-blue-100 to-purple-50",
   },
 ];
 
@@ -184,8 +190,8 @@ export const WellnessGrid = () => {
   <a
     href={`/product/${i}`} // You can replace with real product link
     key={i}
-    className="block bg-white border rounded-lg shadow-sm p-4 hover:shadow-md hover:scale-[1.02] transition-all duration-200 min-w-[200px]"
-  >
+  className={`block ${product.bgGradient} border rounded-lg shadow-sm p-4 hover:shadow-md hover:scale-[1.02] transition-all duration-200 min-w-[200px]`}
+>
     <img
       src={product.image}
       alt={product.title}
@@ -294,6 +300,7 @@ const deals = [
     price: 108.03,
     discount: 6,
     link: "#",
+    bgGradient: "bg-gradient-to-br from-yellow-100 to-yellow-50",
   },
   {
     name: "Evion 400mg Strip Of 20 Capsule",
@@ -302,6 +309,7 @@ const deals = [
     price: 79.92,
     discount: 8,
     link: "#",
+    bgGradient: "bg-gradient-to-br from-green-100 to-green-50",
   },
   {
     name: "Sevenseas Original Capsule 100`S",
@@ -310,6 +318,7 @@ const deals = [
     price: 79.92,
     discount: 8,
     link: "#",
+    bgGradient: "bg-gradient-to-br from-orange-100 to-yellow-50",
   },
   {
     name: "Cetaphil Gentle Skin Cleanser - 125ml",
@@ -318,6 +327,7 @@ const deals = [
     price: 79.92,
     discount: 8,
     link: "#",
+    bgGradient: "bg-gradient-to-br from-blue-100 to-white-50",
   },
   {
     name: "Saliac Foaming Face Wash Foaming Bottle Salicylic Acid Of 60 Ml",
@@ -326,6 +336,7 @@ const deals = [
     price: 79.92,
     discount: 8,
     link: "#",
+    bgGradient: "bg-gradient-to-br from-red-100 to-white-50",
   },
   {
     name: "Grd Smart Vanilla Whey Protein Jar Of 200 G",
@@ -334,6 +345,7 @@ const deals = [
     price: 79.92,
     discount: 8,
     link: "#",
+    bgGradient: "bg-gradient-to-br from-green-100 to-white-50",
   },
   // ...add more deals as needed
 ];
@@ -374,43 +386,49 @@ export const DealsOfTheDay = () => {
     <section className="w-full max-w-7xl mx-auto px-2 mt-8">
       <div className="px-2 sm:px-4 md:px-12">
   <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:items-center sm:justify-between mb-2">
-    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-      <h2 className="px-0 text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-        Deals of the Day
-      </h2>
-      <div className="flex items-center bg-orange-400 text-white font-semibold px-4 py-1.5 rounded-lg text-sm w-fit">
-        <span className="mr-2">⏰</span>
-        {formatTimer(timer)} MINS LEFT, HURRY!
-      </div>
+  {/* Title and Timer on the left (or stacked on mobile) */}
+  <div className="flex flex-col xs:flex-row xs:items-center gap-2 sm:gap-4">
+    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 whitespace-nowrap">
+      Deals of the Day
+    </h2>
+    <div className="flex items-center bg-orange-400 text-white font-semibold px-3 py-1.5 rounded-lg text-sm whitespace-nowrap">
+      <span className="mr-2">⏰</span>
+      {timer > 0 ? `${formatTimer(timer)} MINS LEFT, HURRY!` : "⏰ Offer Expired"}
     </div>
-    <a
-      href="/deals"
-      className="text-emerald-600 font-semibold hover:underline text-base text-right"
-    >
-      View All
-    </a>
   </div>
+
+  {/* View All on the right */}
+  <a
+    href="/deals"
+    className="text-emerald-600 font-semibold hover:underline text-sm sm:text-base self-start sm:self-center"
+  >
+    View All
+  </a>
+</div>
+
+
 </div>
       <div className="relative">
         {/* Left Arrow */}
         <button
   onClick={() => scroll(-320)}
-  className="flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
+  className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
   aria-label="Scroll left"
 >
   <ChevronLeft size={24} strokeWidth={2.5} />
 </button>
         {/* Deals Scrollable Row */}
         <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 scroll-smooth px-8"
-        >
+  ref={scrollRef}
+  className="flex gap-4 overflow-x-auto scrollbar-hide px-8 pt-4 pb-4 scroll-smooth"
+>
+
           {deals.map((deal, idx) => (
             <a
               href={deal.link}
               key={idx}
-              className="flex-shrink-0 w-48 sm:w-56 md:w-64 bg-white border border-gray-200 rounded-2xl flex flex-col items-center justify-between shadow-sm hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-200 cursor-pointer p-4"
-            >
+              className={`flex-shrink-0 w-48 sm:w-56 md:w-64 ${deal.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center justify-between shadow-sm hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-200 cursor-pointer p-4`}
+              >
               <img
                 src={deal.img}
                 alt={deal.name}
@@ -433,7 +451,7 @@ export const DealsOfTheDay = () => {
         {/* Right Arrow */}
         <button
   onClick={() => scroll(320)}
-  className="flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
+  className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
   aria-label="Scroll right"
 >
   <ChevronRight size={24} strokeWidth={2.5} />

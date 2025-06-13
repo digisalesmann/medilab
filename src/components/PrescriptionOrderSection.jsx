@@ -55,13 +55,41 @@ function Step({ icon, text }) {
 }
 
 const categories = [
-  { label: "Must haves", image: "/images/must.webp" },
-  { label: "Sports nutrition", image: "/images/sports.webp" },
-  { label: "Vitamins & supplements", image: "/images/vit.webp" },
-  { label: "Skin care", image: "/images/skin.webp" },
-  { label: "Diabetes essentials", image: "/images/dis.webp" },
-  { label: "Heart health", image: "/images/heartt.webp" },
-  { label: "Ayurvedic care", image: "/images/ay.webp" },
+  {
+    label: "Must haves",
+    image: "/images/must.webp",
+    bgGradient: "bg-gradient-to-b from-yellow-100 to-yellow-50",
+  },
+  {
+    label: "Sports nutrition",
+    image: "/images/sports.webp",
+    bgGradient: "bg-gradient-to-b from-blue-100 to-blue-50",
+  },
+  {
+    label: "Vitamins & supplements",
+    image: "/images/vit.webp",
+    bgGradient: "bg-gradient-to-b from-pink-100 to-pink-50",
+  },
+  {
+    label: "Skin care",
+    image: "/images/skin.webp",
+    bgGradient: "bg-gradient-to-b from-purple-100 to-purple-50",
+  },
+  {
+    label: "Diabetes essentials",
+    image: "/images/dis.webp",
+    bgGradient: "bg-gradient-to-b from-green-100 to-green-50",
+  },
+  {
+    label: "Heart health",
+    image: "/images/heartt.webp",
+    bgGradient: "bg-gradient-to-b from-red-100 to-red-50",
+  },
+  {
+    label: "Ayurvedic care",
+    image: "/images/ay.webp",
+    bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50",
+  },
 ];
 
 function ShopByCategories() {
@@ -84,7 +112,7 @@ function ShopByCategories() {
           {categories.map((cat, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 w-40 sm:w-48 h-56 bg-white border border-gray-200 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+              className={`flex-shrink-0 w-40 sm:w-48 h-56 ${cat.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center justify-center shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
             >
               <img
                 src={cat.image}
@@ -117,6 +145,7 @@ const products = [
     mrp: 820,
     price: 713.4,
     discount: 13,
+    bgGradient: "bg-gradient-to-b from-yellow-100 to-white",
   },
   {
     title: "Kofol Lozenge 60 No'S",
@@ -124,6 +153,7 @@ const products = [
     mrp: 50,
     price: 43.5,
     discount: 13,
+    bgGradient: "bg-gradient-to-b from-green-100 to-white",
   },
   {
     title: "Tedibar Atogla Baby Lotion 200ml",
@@ -131,6 +161,7 @@ const products = [
     mrp: 635,
     price: 520.7,
     discount: 18,
+    bgGradient: "bg-gradient-to-b from-pink-100 to-white",
   },
   {
     title: "Pilgrim 3% Redensyl & 4% Anagain Advance",
@@ -138,6 +169,7 @@ const products = [
     mrp: 545,
     price: 392.4,
     discount: 28,
+    bgGradient: "bg-gradient-to-b from-orange-100 to-white",
   },
   {
     title: "Combiflam Ms Tube Of 30gm Cream",
@@ -145,6 +177,7 @@ const products = [
     mrp: 140,
     price: 121.8,
     discount: 13,
+    bgGradient: "bg-gradient-to-b from-blue-100 to-white",
   },
   {
     title: "Baidyanath Nagpur Chyawanprash Special",
@@ -152,6 +185,7 @@ const products = [
     mrp: 460,
     price: 299,
     discount: 35,
+    bgGradient: "bg-gradient-to-b from-red-100 to-white",
   },
 ];
 
@@ -176,7 +210,7 @@ function NewLaunches() {
           {products.map((item, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 w-52 sm:w-60 bg-white border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+              className={`flex-shrink-0 w-52 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
             >
               <img
                 src={item.image}
@@ -216,6 +250,7 @@ const trendingProducts = [
     mrp: 1580,
     price: 1221.2,
     discount: 23,
+    bgGradient: "bg-gradient-to-b from-yellow-100 to-white-50",
   },
   {
     title: "Abzorb Total Skin Relief Dusting Powder",
@@ -223,6 +258,7 @@ const trendingProducts = [
     mrp: 750,
     price: 600,
     discount: 20,
+    bgGradient: "bg-gradient-to-b from-blue-100 to-white-50",
   },
   {
     title: "Liveasy Wellness Calcium Magnesium",
@@ -230,6 +266,7 @@ const trendingProducts = [
     mrp: 480,
     price: 384,
     discount: 20,
+    bgGradient: "bg-gradient-to-b from-orange-100 to-white-50",
   },
   {
     title: "Evion 400mg Strip Of 20 Capsules",
@@ -237,6 +274,7 @@ const trendingProducts = [
     mrp: 350,
     price: 298,
     discount: 15,
+    bgGradient: "bg-gradient-to-b from-green-100 to-white-50",
   },
   {
     title: "Revital H Men Multivitamin",
@@ -244,6 +282,7 @@ const trendingProducts = [
     mrp: 650,
     price: 520,
     discount: 20,
+    bgGradient: "bg-gradient-to-b from-orange-100 to-white-50",
   },
   {
     title: "Dr. Morepen Gluco One Bg 03 Glucometer",
@@ -251,6 +290,7 @@ const trendingProducts = [
     mrp: 900,
     price: 765,
     discount: 15,
+    bgGradient: "bg-gradient-to-b from-pink-100 to-white-50",
   },
 ];
 
@@ -275,7 +315,7 @@ function TrendingNearYou() {
           {trendingProducts.map((item, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 w-52 sm:w-60 bg-white border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+              className={`flex-shrink-0 w-52 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-2xl flex flex-col items-center p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
             >
               <img
                 src={item.image}
