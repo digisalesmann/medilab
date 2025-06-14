@@ -1,4 +1,5 @@
 import React from "react";
+import { FaUsers, FaMotorcycle, FaPills, FaMapMarkerAlt } from 'react-icons/fa';
 
 const topDoctors = [
   {
@@ -203,3 +204,67 @@ export const HealthArticles = () => {
     </section>
   );
 };
+
+export const WhyChooseUs = () => {
+  const stats = [
+    {
+      icon: <FaUsers className="text-yellow-500 text-3xl mb-2" />,
+      title: "46 Million+",
+      desc: "Registered users as of June 14, 2025",
+    },
+    {
+      icon: <FaMotorcycle className="text-teal-600 text-3xl mb-2" />,
+      title: "66 Million+",
+      desc: "Orders delivered till date",
+    },
+    {
+      icon: <FaPills className="text-green-600 text-3xl mb-2" />,
+      title: "60,000+",
+      desc: "Unique items sold in 6 months",
+    },
+    {
+      icon: <FaMapMarkerAlt className="text-red-500 text-3xl mb-2" />,
+      title: "19,000+",
+      desc: "Pin codes serviced in 3 months",
+    },
+  ];
+
+  return (
+    <section className="px-4 py-8 bg-gray-50">
+      <div className="text-center mb-6 lg:text-left">
+        <h2 className="text-2xl font-bold text-gray-800">Why Choose Us?</h2>
+      </div>
+
+      {/* Mobile & Tablet Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 lg:hidden">
+        {stats.map((item, idx) => (
+          <div
+            key={idx}
+            className="bg-white p-4 rounded-xl shadow flex flex-col items-center text-center"
+          >
+            {item.icon}
+            <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
+            <p className="text-sm text-gray-600">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Horizontal Layout */}
+      <div className="hidden lg:flex justify-start gap-4">
+  {stats.map((item, idx) => (
+    <div
+      key={idx}
+      className="w-1/4 bg-white p-4 rounded-xl shadow flex flex-col items-center text-center"
+    >
+      {item.icon}
+      <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
+      <p className="text-sm text-gray-600">{item.desc}</p>
+    </div>
+  ))}
+</div>
+
+    </section>
+  );
+};
+
+export default WhyChooseUs;

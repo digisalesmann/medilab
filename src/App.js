@@ -10,6 +10,8 @@ import { FeaturedBrands } from './components/LabTestSection';
 import { DealsOfTheDay } from './components/LabTestSection';
 import { TopRatedDoctors } from './components/TopRatedDoctors';
 import { HealthArticles } from './components/TopRatedDoctors';
+import { WhyChooseUs } from './components/TopRatedDoctors';
+import AppPromoBanner from './components/AppPromoBanner';
 
 
 import './App.css';
@@ -29,6 +31,8 @@ function App() {
       <DealsOfTheDay />
       <TopRatedDoctors />
       <HealthArticles />
+      <WhyChooseUs />
+      <AppPromoBanner />
       {/* Add more components as needed */}
       <main className="p-4">
         <h1>Welcome to MediLab</h1>
