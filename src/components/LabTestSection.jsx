@@ -389,7 +389,7 @@ export const DealsOfTheDay = () => {
             <span className="mr-2">⏰</span>
             {timer > 0
               ? `${formatTimer(timer)} MINS LEFT, HURRY!`
-              : "⏰ Offer Expired"}
+              : "Offer Expired"}
           </div>
         </div>
         <a
