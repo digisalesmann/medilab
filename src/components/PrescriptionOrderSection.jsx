@@ -139,7 +139,7 @@ function ShopByCategories() {
 const products = [
   {
     title: "Shelcal Total Supplement With You...",
-    image: "/images/shel.webp",
+    image: "/images/shell.png",
     mrp: 820,
     price: 713.4,
     discount: 13,
@@ -147,7 +147,7 @@ const products = [
   },
   {
     title: "Kofol Lozenge 60 No'S",
-    image: "/images/kof.webp",
+    image: "/images/koff.png",
     mrp: 50,
     price: 43.5,
     discount: 13,
@@ -155,7 +155,7 @@ const products = [
   },
   {
     title: "Tedibar Atogla Baby Lotion 200ml",
-    image: "/images/ted.webp",
+    image: "/images/tedd.png",
     mrp: 635,
     price: 520.7,
     discount: 18,
@@ -163,7 +163,7 @@ const products = [
   },
   {
     title: "Pilgrim 3% Redensyl & 4% Anagain Advance",
-    image: "/images/pil.webp",
+    image: "/images/pill.png",
     mrp: 545,
     price: 392.4,
     discount: 28,
@@ -171,7 +171,7 @@ const products = [
   },
   {
     title: "Combiflam Ms Tube Of 30gm Cream",
-    image: "/images/com.webp",
+    image: "/images/comm.png",
     mrp: 140,
     price: 121.8,
     discount: 13,
@@ -179,7 +179,7 @@ const products = [
   },
   {
     title: "Baidyanath Nagpur Chyawanprash Special",
-    image: "/images/baid.webp",
+    image: "/images/baid.png",
     mrp: 460,
     price: 299,
     discount: 35,
@@ -249,7 +249,7 @@ function NewLaunches() {
 const trendingProducts = [
   {
     title: "Shelcal 500mg Strip Of 15 Tablets",
-    image: "/images/shel.webp",
+    image: "/images/shel.png",
     mrp: 1580,
     price: 1221.2,
     discount: 23,
@@ -265,7 +265,7 @@ const trendingProducts = [
   },
   {
     title: "Liveasy Wellness Calcium Magnesium",
-    image: "/images/liv.webp",
+    image: "/images/liv.png",
     mrp: 480,
     price: 384,
     discount: 20,
@@ -273,7 +273,7 @@ const trendingProducts = [
   },
   {
     title: "Evion 400mg Strip Of 20 Capsules",
-    image: "/images/evi.webp",
+    image: "/images/evionn.png",
     mrp: 350,
     price: 298,
     discount: 15,
@@ -281,7 +281,7 @@ const trendingProducts = [
   },
   {
     title: "Revital H Men Multivitamin",
-    image: "/images/rev.webp",
+    image: "/images/rev.png",
     mrp: 650,
     price: 520,
     discount: 20,
@@ -289,7 +289,7 @@ const trendingProducts = [
   },
   {
     title: "Dr. Morepen Gluco One Bg 03 Glucometer",
-    image: "/images/mor.webp",
+    image: "/images/morr.png",
     mrp: 900,
     price: 765,
     discount: 15,

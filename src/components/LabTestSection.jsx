@@ -109,7 +109,7 @@ export default LabTestSection;
 const products = [
   {
     title: "Depura Vitamin D3 60k Sugar Free Oral Solution",
-    image: "/images/depura.webp",
+    image: "/images/depura.png",
     oldPrice: 114.93,
     newPrice: 94.24,
     discount: 18,
@@ -117,7 +117,7 @@ const products = [
   },
   {
     title: "Sugar Free Gold Plus Packet Of 500 Pellets",
-    image: "/images/sugar.webp",
+    image: "/images/sugar.png",
     oldPrice: 320.0,
     newPrice: 281.6,
     discount: 12,
@@ -125,7 +125,7 @@ const products = [
   },
   {
     title: "Enterogermina Suspension 10 X 5 Ml",
-    image: "/images/enterogermina.webp",
+    image: "/images/enterogermina.png",
     oldPrice: 732.0,
     newPrice: 563.64,
     discount: 23,
@@ -133,7 +133,7 @@ const products = [
   },
   {
     title: "Neurobion Forte Strip Of 30 Tablets",
-    image: "/images/neurobion.webp",
+    image: "/images/neurobion.png",
     oldPrice: 46.1,
     newPrice: 46.1,
     discount: 0,
@@ -141,7 +141,7 @@ const products = [
   },
   {
     title: "Sebamed Clear Face Cleansing Foam - 150ml",
-    image: "/images/sebamed.webp",
+    image: "/images/sebamed.png",
     oldPrice: 680.0,
     newPrice: 564.4,
     discount: 17,
@@ -149,7 +149,7 @@ const products = [
   },
   {
     title: "Lite Glo Face Wash Tube Of 100 Ml",
-    image: "/images/lite.webp",
+    image: "/images/lite.png",
     oldPrice: 499.0,
     newPrice: 429.14,
     discount: 14,
@@ -294,7 +294,7 @@ export { LabTestSection, FeaturedBrands };
 const deals = [
   {
     name: "Depura Vitamin D3 60k Sugar Free Oral...",
-    img: "/images/depuraa.webp",
+    img: "/images/depura.png",
     mrp: 114.93,
     price: 108.03,
     discount: 6,
@@ -303,7 +303,7 @@ const deals = [
   },
   {
     name: "Evion 400mg Strip Of 20 Capsule",
-    img: "/images/evionn.webp",
+    img: "/images/evionn.png",
     mrp: 86.87,
     price: 79.92,
     discount: 8,
@@ -312,7 +312,7 @@ const deals = [
   },
   {
     name: "Sevenseas Original Capsule 100`S",
-    img: "/images/sevenseas.webp",
+    img: "/images/sevenseas.png",
     mrp: 86.87,
     price: 79.92,
     discount: 8,
@@ -321,7 +321,7 @@ const deals = [
   },
   {
     name: "Cetaphil Gentle Skin Cleanser - 125ml",
-    img: "/images/cetaphil.webp",
+    img: "/images/cetaphil.png",
     mrp: 86.87,
     price: 79.92,
     discount: 8,
@@ -339,7 +339,7 @@ const deals = [
   },
   {
     name: "Grd Smart Vanilla Whey Protein Jar Of 200 G",
-    img: "/images/grd.webp",
+    img: "/images/grd.png",
     mrp: 86.87,
     price: 79.92,
     discount: 8,
