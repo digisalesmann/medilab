@@ -54,6 +54,7 @@ const formatCurrency = (value) =>
 const LabTestSection = () => {
   return (
     <section className="px-3 sm:px-6 md:px-8 py-4 sm:py-6 bg-white">
+      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
   <div className="flex justify-between items-center mb-3 sm:mb-4">
     <h2 className="text-lg sm:text-2xl font-bold text-gray-800">Frequently Booked Lab Tests</h2>
     <a href="/lab-tests" className="text-teal-600 font-medium text-xs sm:text-sm hover:underline">View All</a>
@@ -97,6 +98,7 @@ const LabTestSection = () => {
       </a>
     ))}
   </div>
+  <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
 </section>
   );
 };
@@ -459,6 +461,7 @@ export const DealsOfTheDay = () => {
           <ChevronRight size={24} strokeWidth={2.5} />
         </button>
       </div>
+      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
     </section>
   );
 };

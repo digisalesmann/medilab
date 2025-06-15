@@ -33,7 +33,7 @@ const AppPromoBanner = () => {
 
   <a href="#" target="_blank" rel="noopener noreferrer">
     <img
-      src="/images/app-store-badge.png"
+      src="/images/apple.png"
       alt="Download on the App Store"
       className="h-12"
     />

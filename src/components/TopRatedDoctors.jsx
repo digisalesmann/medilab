@@ -120,7 +120,7 @@ export const TopRatedDoctors = () => {
     ))}
   </div>
 </div>
-
+<div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
 </section>
   );
 };
@@ -201,6 +201,7 @@ export const HealthArticles = () => {
           ))}
         </div>
       </div>
+      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
     </section>
   );
 };

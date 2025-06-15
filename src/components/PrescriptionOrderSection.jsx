@@ -131,6 +131,7 @@ function ShopByCategories() {
           <FaChevronRight />
         </button>
       </div>
+      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
     </section>
   );
 }
@@ -197,6 +198,7 @@ function NewLaunches() {
 
   return (
     <section className="w-full max-w-7xl mx-auto mt-8 sm:mt-12 px-2">
+     <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
   <h2 className="text-xl sm:text-3xl font-bold text-gray-800 mb-1">New Launches</h2>
   <p className="text-sm sm:text-lg text-gray-500 mb-4 sm:mb-6">New wellness range just for you!</p>
   
@@ -239,6 +241,7 @@ function NewLaunches() {
       <FaChevronRight />
     </button>
   </div>
+  <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
 </section>
   );
 }
@@ -347,6 +350,7 @@ function TrendingNearYou() {
       <FaChevronRight />
     </button>
   </div>
+  <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
 </section>
   );
 }
