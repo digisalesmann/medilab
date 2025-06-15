@@ -4,7 +4,7 @@ import './PlusMembershipBanner.css';
 
 const PlusMembershipBanner = () => {
   return (
-    <div className="relative overflow-hidden rounded-xl p-6 md:p-10 m-4 shadow-md bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 animate-fade-float flex flex-col md:flex-row items-start md:items-center justify-between min-h-[200px] gap-6">
+    <div className="relative mt-12 overflow-hidden rounded-xl p-6 md:p-10 m-4 shadow-md bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 animate-fade-float flex flex-col md:flex-row items-start md:items-center justify-between min-h-[200px] gap-6">
   {/* Left Section */}
   <div className="flex-1 flex flex-col items-start justify-center">
     <h2 className="text-xl md:text-4xl font-bold text-gray-800 mb-2 flex items-center gap-2">

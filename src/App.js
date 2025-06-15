@@ -12,6 +12,8 @@ import { TopRatedDoctors } from './components/TopRatedDoctors';
 import { HealthArticles } from './components/TopRatedDoctors';
 import { WhyChooseUs } from './components/TopRatedDoctors';
 import AppPromoBanner from './components/AppPromoBanner';
+import AppPromoBannerr from './components/AppPromoBannerr';
+import { WhatsAppFloatButton } from './components/AppPromoBannerr';
 
 
 import './App.css';
@@ -35,6 +37,8 @@ function App() {
       <HealthArticles />
       <WhyChooseUs />
       <AppPromoBanner />
+      <AppPromoBannerr />
+      <WhatsAppFloatButton />
       {/* Add more components as needed */}
       <main className="p-4">
         <h1>Welcome to MediLab</h1>
