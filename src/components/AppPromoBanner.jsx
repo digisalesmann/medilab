@@ -2,7 +2,7 @@ import React from "react";
 
 const AppPromoBanner = () => {
   return (
-    <section className="relative bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 py-16 px-4 sm:px-8 md:px-20 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 py-16 px-4 sm:px-8 md:px-20 overflow-hidden mb-24">
       
       {/* Left phone mockup */}
       <img

@@ -30,7 +30,7 @@ export default function AppPromoBanner() {
 
   return (
     <div
-      className={`md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-3 flex items-center justify-between rounded-t-xl shadow-lg transform transition-all duration-500 ${
+      className={`md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-3 flex items-center justify-between rounded-t-xl shadow-lg transform transition-all duration-500 ${
         showBanner ? "translate-y-0" : "translate-y-full"
       }`}
     >
@@ -39,6 +39,7 @@ export default function AppPromoBanner() {
         <div className="bg-white bg-opacity-20 p-2 rounded-full">
           <Flame className="w-5 h-5 text-white" />
         </div>
+
         <div className="leading-tight">
           <p className="text-sm font-bold">Get 24% OFF</p>
           <p className="text-xs opacity-80">Only on App</p>
@@ -51,7 +52,7 @@ export default function AppPromoBanner() {
           href={storeLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-white text-blue-600 text-sm font-semibold px-4 py-1.5 rounded-md shadow-sm hover:bg-gray-100 transition"
+          className="bg-white text-teal-700 text-sm font-semibold px-4 py-1.5 rounded-md shadow-sm hover:bg-gray-100 transition"
         >
           Get App
         </a>

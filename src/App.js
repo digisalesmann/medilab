@@ -32,17 +32,17 @@ function App() {
               <PlusMembershipBanner />
               <LabTestSection />
               <WellnessGrid />
-              <div className="lg:hidden w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
+              <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
               <FeaturedBrands />
-              <div className="lg:hidden w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
+              <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
               <DealsOfTheDay />
               <TopRatedDoctors />
               <HealthArticles />
               <WhyChooseUs />
+              <TestimonialsSection />
               <AppPromoBanner />
               <AppPromoBannerr />
               <WhatsAppFloatButton />
-              <TestimonialsSection />
             </>
           }
         />

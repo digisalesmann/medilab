@@ -41,7 +41,7 @@ const Footer = () => {
                         <span className="text-3xl font-bold text-emerald-600 select-none">MediLab</span>
                       </div>
           </div>
-          <p className="text-sm leading-relaxed">
+          <p className="text-sm text-left leading-relaxed">
             Empowering your health journey with expert care, tracking & delivery — all in one tap.
           </p>
         </div>
@@ -74,13 +74,13 @@ const Footer = () => {
           <ul className="space-y-3 text-sm">
             <li className="flex items-center gap-2"><FaPhoneAlt /> +234 800 123 4567</li>
             <li className="flex items-center gap-2"><FaEnvelope /> support@medilab.com</li>
-            <li className="flex items-center gap-2"><FaMapMarkerAlt /> Lagos, Nigeria</li>
+            <li className="flex items-center gap-2"><FaMapMarkerAlt /> Imo, Nigeria</li>
           </ul>
         </div>
       </div>
 
       {/* MOBILE / TABLET View */}
-      <div className="lg:hidden space-y-4 pb-8">
+      <div className="lg:hidden text-left space-y-4 pb-8">
         <AccordionItem title="Quick Links">
           <Link to="/" className="block hover:text-green-600">Home</Link>
           <Link to="/pharmacies" className="block hover:text-green-600">Pharmacies</Link>
@@ -104,16 +104,16 @@ const Footer = () => {
 
       {/* Newsletter + Social */}
       <div className="border-t border-gray-300 pt-6 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="w-full md:w-auto flex flex-col sm:flex-row items-center gap-3">
-          <input
-            type="email"
-            placeholder="Subscribe to our newsletter"
-            className="w-full sm:w-72 px-4 py-2 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
-          />
-          <button className="bg-green-600 text-white px-4 py-2 rounded-full text-sm hover:bg-green-700 transition">
-            Subscribe
-          </button>
-        </div>
+        <div className="w-full md:w-auto flex flex-row items-center gap-3">
+    <input
+      type="email"
+      placeholder="Subscribe to our newsletter"
+      className="w-full sm:w-80 px-5 py-3 border border-green-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+    />
+    <button className="bg-green-600 text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-green-700 transition">
+      Subscribe
+    </button>
+  </div>
         <div className="flex space-x-4 text-green-600 text-lg">
           <a href="https://facebook.com" target="_blank" rel="noreferrer"><FaFacebookF /></a>
           <a href="https://instagram.com" target="_blank" rel="noreferrer"><FaInstagram /></a>
