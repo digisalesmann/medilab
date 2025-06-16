@@ -1,6 +1,7 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Carousel from './components/Carousel';
 import PrescriptionOrderSection from './components/PrescriptionOrderSection';
@@ -13,14 +14,19 @@ import TestimonialsSection from './components/TestimonialsSection';
 import Pharmacies from "./pages/Pharmacies";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
-import Footer from "./components/Footer";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from './pages/ForgotPassword';
 
 import './App.css';
 
 function App() {
+  const location = useLocation();
+   const hideLayout = ['/login', '/register', '/forgot-password'].includes(location.pathname); 
+
   return (
     <div className="App">
-      <Header />
+      {!hideLayout && <Header />}
       <Routes>
         <Route
           path="/"
@@ -49,8 +55,11 @@ function App() {
         <Route path="/pharmacies" element={<Pharmacies />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
-      <Footer />
+      {!hideLayout && <Footer />}
     </div>
   );
 }

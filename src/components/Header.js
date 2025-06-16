@@ -68,12 +68,16 @@ export default function Header() {
 
             {/* Auth Buttons */}
             <div className="flex gap-4 mb-6">
-              <button className="flex-1 bg-emerald-600 text-white py-2.5 text-base font-medium rounded hover:bg-emerald-700">
-                Sign up
-              </button>
-              <button className="flex-1 border border-emerald-600 text-emerald-600 py-2.5 text-base font-medium rounded hover:bg-emerald-50">
-                Login
-              </button>
+              <Link to="/register" className="flex-1">
+                <button className="bg-emerald-600 text-white py-2.5 text-base font-medium rounded hover:bg-emerald-700 w-full">
+                  Sign up
+                </button>
+              </Link>
+              <Link to="/login" className="flex-1">
+                <button className="w-full border border-emerald-600 text-emerald-600 py-2.5 text-base font-medium rounded hover:bg-emerald-50">
+                  Login
+                </button>
+              </Link>
             </div>
 
             {/* Message Banner */}
