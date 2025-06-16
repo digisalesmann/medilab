@@ -47,12 +47,6 @@ export default function Carousel() {
         ))}
 
         {/* Custom Navigation Arrows */}
-<div className="custom-prev absolute top-1/2 -translate-y-1/2 left-2 z-10 bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 text-blue-700 hover:text-green-700 w-9 h-9 flex items-center justify-center rounded-full shadow cursor-pointer transition">
-  ←
-</div>
-<div className="custom-next absolute top-1/2 -translate-y-1/2 right-2 z-10 bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 text-blue-700 hover:text-green-700 w-9 h-9 flex items-center justify-center rounded-full shadow cursor-pointer transition">
-  →
-</div>
       </Swiper>
 
       {/* Green Progress Bar */}
