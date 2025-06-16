@@ -273,12 +273,12 @@ const FeaturedBrands = () => {
           <div key={idx} className="flex flex-col items-center">
             <a
   href={brand.link}
-  className={`flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-xl shadow hover:shadow-lg transform hover:-translate-y-1 transition duration-300 flex items-center justify-center ${brand.bg}`}
+    className={`flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-xl shadow hover:shadow-lg ...`}
 >
   <img
     src={brand.img}
     alt={brand.name}
-    className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain rounded-xl"
+      className="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 object-contain rounded-xl"
   />
 </a>
             <div className="mt-2 text-gray-800 font-medium text-center w-full">{brand.name}</div>
@@ -405,13 +405,14 @@ export const DealsOfTheDay = () => {
       {/* Scrollable Product Row */}
       <div className="relative">
         {/* Left Arrow */}
-        <button
-          onClick={() => scroll(-320)}
-          className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
-          aria-label="Scroll left"
-        >
-          <ChevronLeft size={24} strokeWidth={2.5} />
-        </button>
+          <button
+            onClick={() => scroll(-320)}
+            className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={24} strokeWidth={2.5} />
+          </button>
+
 
         <div
           ref={scrollRef}
@@ -453,13 +454,13 @@ export const DealsOfTheDay = () => {
         </div>
 
         {/* Right Arrow */}
-        <button
-          onClick={() => scroll(320)}
-          className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
-          aria-label="Scroll right"
-        >
-          <ChevronRight size={24} strokeWidth={2.5} />
-        </button>
+          <button
+            onClick={() => scroll(320)}
+            className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={24} strokeWidth={2.5} />
+          </button>
       </div>
       <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
     </section>

@@ -8,14 +8,14 @@ const AppPromoBanner = () => {
       <img
         src="/images/left.png"
         alt="App Preview Left"
-        className="hidden md:block absolute bottom-0 left-0 w-36 md:w-48 lg:w-56 xl:w-64"
+        className="hidden lg:block absolute bottom-0 left-0 w-36 md:w-48 lg:w-56 xl:w-64"
       />
 
       {/* Right phone mockup */}
       <img
         src="/images/right.png"
         alt="App Preview Right"
-        className="hidden md:block absolute top-0 right-0 w-36 md:w-48 lg:w-56 xl:w-64"
+        className="hidden lg:block absolute top-0 right-0 w-36 md:w-48 lg:w-56 xl:w-64"
       />
 
       {/* Center Content */}

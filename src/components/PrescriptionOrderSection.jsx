@@ -90,6 +90,16 @@ const categories = [
     image: "/images/ay.webp",
     bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50",
   },
+  {
+    label: "Heart health",
+    image: "/images/heartt.webp",
+    bgGradient: "bg-gradient-to-b from-red-100 to-red-50",
+  },
+  {
+    label: "Ayurvedic care",
+    image: "/images/ay.webp",
+    bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50",
+  },
 ];
 
 function ShopByCategories() {
@@ -102,19 +112,30 @@ function ShopByCategories() {
   };
 
   return (
-    <section className="w-full max-w-7xl mx-auto mt-12 px-2">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">Shop by Categories</h2>
+    <section className="w-full max-w-7xl mx-auto mt-12 px-4">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+        Shop by Categories
+      </h2>
+
+      {/* Grid on mobile/tab, horizontal scroll on desktop */}
       <div className="relative">
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-4 scroll-smooth scrollbar-hide"
+          className={`
+            grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4
+            lg:flex lg:gap-4 lg:overflow-x-auto lg:scroll-smooth lg:pb-4 scrollbar-hide
+          `}
         >
           {categories.map((cat, idx) => (
-            <div className={`product-card ${cat.bgGradient}`}>
+            <div
+              key={idx}
+              className={`flex flex-col items-center justify-center rounded-lg p-4 min-w-[110px] sm:min-w-[130px] md:min-w-[150px] lg:min-w-[160px] bg-white shadow-md ${cat.bgGradient} cursor-pointer hover:shadow-lg transition duration-300`}
+              onClick={() => console.log("Clicked:", cat.label)}
+            >
               <img
                 src={cat.image}
                 alt={cat.label}
-                className="product-img"
+                className="w-20 h-20 sm:w-24 sm:h-24 md:w-24 md:h-24 object-contain mb-2"
                 draggable={false}
               />
               <span className="text-sm sm:text-base font-medium text-gray-700 text-center px-2">
@@ -123,15 +144,26 @@ function ShopByCategories() {
             </div>
           ))}
         </div>
+
+        {/* Scroll arrow on desktop only */}
         <button
           onClick={scrollRight}
-          className="hidden md:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
+          className="hidden lg:flex absolute top-1/2 right-0 -translate-y-1/2 bg-gray-800 hover:bg-teal-600 text-white w-10 h-10 items-center justify-center rounded-full shadow transition-colors duration-300 z-10"
           aria-label="Scroll right"
         >
           <FaChevronRight />
         </button>
       </div>
-      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
+
+      {/* View All button on mobile/tab only */}
+      <div className="mt-6 flex justify-center lg:hidden">
+        <button className="w-[85%] sm:w-[65%] md:w-[50%] text-teal-600 border border-teal-600 px-6 py-2.5 rounded-md text-base font-medium hover:bg-teal-50 transition">
+          View All Categories
+        </button>
+      </div>
+
+      {/* Mobile divider */}
+      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4" />
     </section>
   );
 }
@@ -209,26 +241,44 @@ function NewLaunches() {
     >
       {products.map((item, idx) => (
         <div
-          key={idx}
-          className={`flex-shrink-0 w-40 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-xl sm:rounded-2xl flex flex-col items-center p-3 sm:p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
-        >
-          <img
-            src={item.image}
-            alt={item.title}
-            className="w-20 h-20 sm:w-28 sm:h-28 object-contain mb-3"
-            draggable={false}
-          />
-          <div className="w-full">
-            <p className="text-xs sm:text-base font-medium text-gray-800 mb-1 truncate">{item.title}</p>
-            <div className="text-xs sm:text-sm text-gray-400 mb-1">
-              MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
-            </div>
-            <div className="flex items-baseline gap-1 sm:gap-2">
-              <span className="text-sm sm:text-lg font-semibold text-gray-900">₦{item.price.toLocaleString()}</span>
-              <span className="text-[10px] sm:text-sm text-red-500 font-semibold">({item.discount}%)</span>
-            </div>
-          </div>
-        </div>
+  key={idx}
+  className={`
+    flex-shrink-0 
+    w-40 sm:w-60 lg:w-56
+    ${item.bgGradient} 
+    border border-gray-200 
+    rounded-xl sm:rounded-2xl lg:rounded-xl
+    flex flex-col items-center 
+    p-3 sm:p-4 lg:p-3.5
+    shadow-sm hover:shadow-lg 
+    transition-shadow duration-300 
+    cursor-pointer
+  `}
+>
+  <img
+    src={item.image}
+    alt={item.title}
+    className="w-20 h-20 sm:w-28 sm:h-28 lg:w-24 lg:h-24 object-contain mb-3"
+    draggable={false}
+  />
+  <div className="w-full">
+    <p className="text-xs sm:text-base lg:text-sm font-medium text-gray-800 mb-1 truncate">
+      {item.title}
+    </p>
+    <div className="text-xs sm:text-sm lg:text-xs text-gray-400 mb-1">
+      MRP <span className="line-through">₦{item.mrp.toLocaleString()}</span>
+    </div>
+    <div className="flex items-baseline gap-1 sm:gap-2 lg:gap-1.5">
+      <span className="text-sm sm:text-lg lg:text-base font-semibold text-gray-900">
+        ₦{item.price.toLocaleString()}
+      </span>
+      <span className="text-[10px] sm:text-sm lg:text-xs text-red-500 font-semibold">
+        ({item.discount}%)
+      </span>
+    </div>
+  </div>
+</div>
+
       ))}
     </div>
 
@@ -319,12 +369,12 @@ function TrendingNearYou() {
       {trendingProducts.map((item, idx) => (
         <div
           key={idx}
-          className={`flex-shrink-0 w-40 sm:w-60 ${item.bgGradient} border border-gray-200 rounded-xl sm:rounded-2xl flex flex-col items-center p-3 sm:p-4 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
+         className={`flex-shrink-0 w-40 sm:w-60 lg:w-56 ${item.bgGradient} border border-gray-200 rounded-xl sm:rounded-2xl lg:rounded-xl flex flex-col items-center p-3 sm:p-4 lg:p-3.5 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
         >
           <img
             src={item.image}
             alt={item.title}
-            className="w-20 h-20 sm:w-28 sm:h-28 object-contain mb-3"
+            className="w-20 h-20 sm:w-28 sm:h-28 lg:w-24 lg:h-24 object-contain mb-3"
             draggable={false}
           />
           <div className="w-full">
