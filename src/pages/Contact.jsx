@@ -104,7 +104,7 @@ const Contact = () => {
       <div className="bg-emerald-100 border-l-4 border-emerald-500 p-4 rounded-lg shadow mb-10">
         <h2 className="text-lg font-semibold text-emerald-800">Emergency?</h2>
         <p className="text-emerald-700">
-          For urgent assistance, call our 24/7 support line: <span className="font-bold">+234 903 788 4753 MEDILAB</span>
+          For urgent assistance, call our 24/7 support line: <span className="font-bold">+234 903 788 4753 MediLab</span>
         </p>
       </div>
 

@@ -100,47 +100,47 @@ export default function Header() {
 
             {/* Mobile Nav */}
             <div className="block md:hidden mb-6 space-y-1 text-gray-800 text-base">
-              <Link to="/" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+              <Link to="/" className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100">
                 <Home className="w-5 h-5" /> Home
               </Link>
-              <Link to="/pharmacies" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+              <Link to="/pharmacies" className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100">
                 <Pill className="w-5 h-5" /> Pharmacies
               </Link>
-              <Link to="/inventory" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+              <Link to="/inventory" className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100">
                 <HeartPulse className="w-5 h-5" /> Inventory & Pricing
               </Link>
-              <Link to="/contact" className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+              <Link to="/contact" className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100">
                 <Info className="w-5 h-5" /> Contact/Help
               </Link>
             </div>
 
             {/* Extra Links */}
             <div className="space-y-1 text-gray-800 text-base">
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <Pill className="w-5 h-5" /> Medicine
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <Info className="w-5 h-5" /> Health Info
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <HeartPulse className="w-5 h-5" /> Fitness
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <Sparkles className="w-5 h-5" /> Mom & Baby
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <Sparkles className="w-5 h-5" /> Devices
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <HeartPulse className="w-5 h-5" /> Wellness
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <PawPrint className="w-5 h-5" /> Pet Supplies
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <Sparkles className="w-5 h-5" /> Skin Care/Beauty
               </div>
-              <div className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
+              <div className="flex onClick={() => setIsOpen(false)}> items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <Info className="w-5 h-5" /> Suggestions
               </div>
             </div>
