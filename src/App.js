@@ -17,12 +17,16 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from './pages/ForgotPassword';
+import PharmacyProfile from './pages/PharmacyProfile';
 
 import './App.css';
 
 function App() {
   const location = useLocation();
    const hideLayout = ['/login', '/register', '/forgot-password'].includes(location.pathname); 
+   const hideFooter =
+  location.pathname === '/pharmacies' ||
+  location.pathname.startsWith('/pharmacy/');
 
   return (
     <div className="App">
@@ -58,8 +62,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
       </Routes>
-      {!hideLayout && <Footer />}
+      {!hideLayout && !hideFooter && <Footer />}
     </div>
   );
 }
