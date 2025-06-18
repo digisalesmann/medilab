@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FaHeartbeat } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import Logo from './Logo'; 
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import {
   ShoppingCart,
   Menu,
@@ -16,6 +16,17 @@ import {
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+   // Inline function for "Home" link
+  const handleHomeClick = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -23,19 +34,16 @@ export default function Header() {
     <header className="w-full bg-white shadow-md fixed top-0 left-0 z-50">
       <div className="max-w-screen-xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Logo */}
-        <div className="flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <FaHeartbeat className="text-emerald-600 text-2xl" />
-            <span className="text-3xl font-bold text-emerald-600 select-none">MediLab</span>
-          </div>
-        </div>
+         <Logo />
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex flex-1 justify-center space-x-10 text-gray-700 text-base font-medium">
-          <Link to="/" className="hover:text-green-600 transition-colors">Home</Link>
+          <span onClick={handleHomeClick} className="cursor-pointer hover:text-green-600 transition-colors">
+          Home
+        </span>
           <Link to="/pharmacies" className="hover:text-green-600 transition-colors">Pharmacies</Link>
           <Link to="/inventory" className="hover:text-green-600 transition-colors">Inventory & Pricing</Link>
-          <Link to="/contact" className="hover:text-green-600 transition-colors">Contact/Help</Link>
+          <Link to="/Contact" className="hover:text-green-600 transition-colors">Contact/Help</Link>
         </nav>
 
         {/* Right Actions */}
