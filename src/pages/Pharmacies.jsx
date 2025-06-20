@@ -149,15 +149,15 @@ export default function Pharmacies() {
   const [radius, setRadius] = useState(10);
   const navigate = useNavigate();
 
-  const lowerQuery = query.toLowerCase().trim();
+  const normalizedQuery = query.toLowerCase().replace(/\s+/g, '').trim();
 
-  const filtered = mockPharmacies.filter((pharm) => {
-    const matchName = pharm.name.toLowerCase().includes(lowerQuery);
-    const matchDrug = pharm.inventory?.some((med) =>
-      med.name.toLowerCase().includes(lowerQuery)
-    );
-    return pharm.distance <= radius && (matchName || matchDrug);
-  });
+const filtered = mockPharmacies.filter((pharm) => {
+  const matchName = pharm.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery);
+  const matchDrug = pharm.inventory?.some((med) =>
+    med.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery)
+  );
+  return pharm.distance <= radius && (matchName || matchDrug);
+});
 
   const handleViewPharmacy = (pharmacyId) => {
     navigate(`/pharmacy/${pharmacyId}?q=${encodeURIComponent(query)}`);
@@ -210,7 +210,7 @@ export default function Pharmacies() {
         ) : (
           filtered.map((pharmacy) => {
             const matchingMeds = pharmacy.inventory?.filter((med) =>
-              med.name.toLowerCase().includes(lowerQuery)
+              med.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery)
             );
 
             return (

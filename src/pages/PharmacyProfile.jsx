@@ -208,8 +208,9 @@ export default function PharmacyProfile() {
     .join('')
     .toUpperCase();
 
+  const normalizedQuery = query.toLowerCase().replace(/\s+/g, '').trim();
   const filteredInventory = pharmacy.inventory.filter(drug =>
-    drug.name.toLowerCase().includes(query)
+    drug.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery)
   );
 
   return (
@@ -299,9 +300,7 @@ export default function PharmacyProfile() {
                 ))
               ) : (
                 <>
-                  <li className="py-3 text-gray-500 text-center">
-                    {`"${query}" is not available at this pharmacy.`}
-                  </li>
+                  {`"${query.trim()}" is not available at this pharmacy.`}
                   <li className="py-3 text-gray-700 text-center font-medium">
                     Suggested alternatives:
                   </li>

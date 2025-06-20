@@ -142,6 +142,14 @@ export default function Header() {
               <div onClick={() => setIsOpen(false)} className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer">
                 <Info className="w-5 h-5" /> Suggestions
               </div>
+              <Link
+                to="/admin"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-4 p-2 rounded hover:bg-gray-100 cursor-pointer"
+              >
+                <Info className="w-5 h-5" />
+                Admin Panel
+              </Link>
             </div>
           </div>
         </>
