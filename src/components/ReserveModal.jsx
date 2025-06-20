@@ -1,30 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function ReserveModal({ medicine, pharmacy, onClose }) {
+export default function ReserveModal({ medicine, pharmacy, onClose, updateStock }) {
   const [quantity, setQuantity] = useState(1);
-  const [pickupTime, setPickupTime] = useState('');
+  const [availableStock, setAvailableStock] = useState(medicine.stock);
   const [confirmed, setConfirmed] = useState(false);
   const [reservationId] = useState(uuidv4());
+  const [deliveryWindow, setDeliveryWindow] = useState('3-7 Days');
+  const [pickupSlot] = useState('8:00 AM - 4:00 PM');
 
-  const reservationData = {
-    id: reservationId,
-    pharmacyId: pharmacy.id,
-    pharmacyName: pharmacy.name,
-    medicine: medicine.name,
-    quantity,
-    pickupTime,
-  };
+  useEffect(() => {
+    const existing = JSON.parse(localStorage.getItem('reservations') || '[]');
+    const usedStock = existing
+      .filter(r => r.medicine === medicine.name && r.pharmacy === pharmacy.name)
+      .reduce((sum, r) => sum + Number(r.quantity), 0);
+    setAvailableStock(Math.max(medicine.stock - usedStock, 0));
+  }, [medicine.name, pharmacy.name, medicine.stock]);
 
   const handleConfirm = () => {
-    if (!pickupTime) return;
+    if (quantity < 1 || quantity > availableStock) {
+      alert(`Please enter a quantity between 1 and ${availableStock}`);
+      return;
+    }
+
+    const reservationData = {
+      id: reservationId,
+      pharmacyId: pharmacy.id,
+      pharmacyName: pharmacy.name,
+      medicine: medicine.name,
+      quantity,
+      pickupSlot,
+      deliveryWindow,
+    };
 
     const newReservation = {
       ...reservationData,
-      userName: 'Anonymous', // Replace with actual user if available
+      userName: 'Anonymous',
       pharmacy: pharmacy.name,
       verified: false,
     };
@@ -33,7 +47,12 @@ export default function ReserveModal({ medicine, pharmacy, onClose }) {
     existing.push(newReservation);
     localStorage.setItem('reservations', JSON.stringify(existing));
 
+    setAvailableStock(availableStock - quantity);
     setConfirmed(true);
+
+    if (typeof updateStock === 'function') {
+      updateStock(medicine.name, pharmacy.id, quantity);
+    }
   };
 
   return createPortal(
@@ -51,11 +70,20 @@ export default function ReserveModal({ medicine, pharmacy, onClose }) {
           <>
             <p className="text-sm mb-2 text-center">Show this QR code during pickup:</p>
             <div className="flex justify-center">
-              <QRCodeCanvas value={JSON.stringify(reservationData)} size={180} />
+              <QRCodeCanvas value={JSON.stringify({
+                id: reservationId,
+                pharmacyId: pharmacy.id,
+                pharmacyName: pharmacy.name,
+                medicine: medicine.name,
+                quantity,
+                pickupSlot,
+                deliveryWindow
+              })} size={180} />
             </div>
             <p className="text-xs mt-4 text-gray-500 text-center">
               Pharmacy: {pharmacy.name} <br />
-              Quantity: {quantity} | Time: {new Date(pickupTime).toLocaleString()} <br />
+              Quantity: {quantity} | Pickup Time: {pickupSlot} <br />
+              Delivery: {deliveryWindow} <br />
               <strong>Reservation ID:</strong> {reservationId}
             </p>
           </>
@@ -67,19 +95,33 @@ export default function ReserveModal({ medicine, pharmacy, onClose }) {
                 <input
                   type="number"
                   min="1"
-                  max={medicine.stock}
+                  max={availableStock}
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
                   className="w-full border rounded px-3 py-2 mt-1"
                 />
+                <p className="text-xs text-gray-500 mt-1">Available: {availableStock}</p>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Delivery Window</label>
+                <select
+                  value={deliveryWindow}
+                  onChange={(e) => setDeliveryWindow(e.target.value)}
+                  className="w-full border rounded px-3 py-2 mt-1"
+                >
+                  <option value="1-3 Days">1–3 Days</option>
+                  <option value="3-7 Days">3–7 Days</option>
+                  <option value="7-14 Days">7–14 Days</option>
+                </select>
+                <p className="text-xs text-gray-500 mt-1">Estimated based on delivery logistics</p>
               </div>
               <div>
                 <label className="text-sm font-medium">Pickup Time</label>
                 <input
-                  type="datetime-local"
-                  value={pickupTime}
-                  onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full border rounded px-3 py-2 mt-1"
+                  type="text"
+                  value={pickupSlot}
+                  disabled
+                  className="w-full border rounded px-3 py-2 mt-1 bg-gray-100 cursor-not-allowed"
                 />
               </div>
             </div>

@@ -197,7 +197,9 @@ export default function PharmacyProfile() {
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get('q')?.toLowerCase() || '';
 
-  const pharmacy = mockPharmacies.find((p) => p.id === id);
+  const [pharmacies, setPharmacies] = useState(mockPharmacies);
+  const pharmacyIndex = pharmacies.findIndex((p) => p.id === id);
+  const pharmacy = pharmacies[pharmacyIndex];
   const [selectedMedicine, setSelectedMedicine] = useState(null);
 
   if (!pharmacy) return <div className="text-center py-10 text-gray-500">Pharmacy not found.</div>;
@@ -213,18 +215,34 @@ export default function PharmacyProfile() {
     drug.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery)
   );
 
+  const updateStock = (medicineName, pharmacyId, quantityUsed) => {
+    const updatedPharmacies = pharmacies.map((pharm) => {
+      if (pharm.id === pharmacyId) {
+        return {
+          ...pharm,
+          inventory: pharm.inventory.map((item) =>
+            item.name === medicineName
+              ? { ...item, stock: Math.max(0, item.stock - quantityUsed) }
+              : item
+          )
+        };
+      }
+      return pharm;
+    });
+    setPharmacies(updatedPharmacies);
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 pt-28 pb-12 space-y-10">
-      {/* Reserve Modal */}
       {selectedMedicine && (
         <ReserveModal
           medicine={selectedMedicine}
           pharmacy={pharmacy}
           onClose={() => setSelectedMedicine(null)}
+          updateStock={updateStock}
         />
       )}
 
-      {/* Pharmacy Info Card */}
       <div className="bg-white shadow-xl text-left rounded-2xl p-6 space-y-6 border">
         <div className="flex flex-col md:flex-row justify-between items-start gap-6">
           <div className="flex items-start gap-4 w-full md:w-2/3">
@@ -274,50 +292,12 @@ export default function PharmacyProfile() {
         </div>
       </div>
 
-      {/* Inventory List */}
-        <div className="bg-white shadow-md rounded-2xl p-6 border">
-          <h3 className="text-xl font-semibold mb-4">Available Medicines</h3>
-          <ul className="divide-y divide-gray-200">
-            {query ? (
-              filteredInventory.length > 0 ? (
-                filteredInventory.map((drug, idx) => (
-                  <li key={idx} className="flex justify-between items-center py-3">
-                    <span className="text-gray-800">{drug.name}</span>
-                    {drug.stock > 0 ? (
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-green-600 font-medium">In stock: {drug.stock}</span>
-                        <button
-                          onClick={() => setSelectedMedicine(drug)}
-                          className="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                        >
-                          Reserve
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-sm text-red-500 font-medium">Out of stock</span>
-                    )}
-                  </li>
-                ))
-              ) : (
-                <>
-                  {`"${query.trim()}" is not available at this pharmacy.`}
-                  <li className="py-3 text-gray-700 text-center font-medium">
-                    Suggested alternatives:
-                  </li>
-                  <li className="flex justify-center gap-3 flex-wrap py-3">
-                    {getAlternativeMedicines(query).map((alt, i) => (
-                      <span
-                        key={i}
-                        className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
-                      >
-                        {alt}
-                      </span>
-                    ))}
-                  </li>
-                </>
-              )
-            ) : (
-              pharmacy.inventory.map((drug, idx) => (
+      <div className="bg-white shadow-md rounded-2xl p-6 border">
+        <h3 className="text-xl font-semibold mb-4">Available Medicines</h3>
+        <ul className="divide-y divide-gray-200">
+          {query ? (
+            filteredInventory.length > 0 ? (
+              filteredInventory.map((drug, idx) => (
                 <li key={idx} className="flex justify-between items-center py-3">
                   <span className="text-gray-800">{drug.name}</span>
                   {drug.stock > 0 ? (
@@ -335,9 +315,47 @@ export default function PharmacyProfile() {
                   )}
                 </li>
               ))
-            )}
-          </ul>
-        </div>
+            ) : (
+              <>
+                {`"${query.trim()}" is not available at this pharmacy.`}
+                <li className="py-3 text-gray-700 text-center font-medium">
+                  Suggested alternatives:
+                </li>
+                <li className="flex justify-center gap-3 flex-wrap py-3">
+                  {getAlternativeMedicines(query).map((alt, i) => (
+                    <span
+                      key={i}
+                      className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
+                    >
+                      {alt}
+                    </span>
+                  ))}
+                </li>
+              </>
+            )
+          ) : (
+            pharmacy.inventory.map((drug, idx) => (
+              <li key={idx} className="flex justify-between items-center py-3">
+                <span className="text-gray-800">{drug.name}</span>
+                {drug.stock > 0 ? (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-green-600 font-medium">In stock: {drug.stock}</span>
+                    <button
+                      onClick={() => setSelectedMedicine(drug)}
+                      className="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                    >
+                      Reserve
+                    </button>
+                  </div>
+                ) : (
+                  <span className="text-sm text-red-500 font-medium">Out of stock</span>
+                )}
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
     </div>
   );
 }
+

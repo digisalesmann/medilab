@@ -28,7 +28,8 @@ export default function AdminPanel() {
   }, [logs]);
 
   const verifyReservation = useCallback((reservationId) => {
-    const index = reservations.findIndex(r => r.id === reservationId);
+    const existing = JSON.parse(localStorage.getItem("reservations") || "[]");
+    const index = existing.findIndex(r => r.id === reservationId);
     const timestamp = new Date().toLocaleString();
 
     if (index === -1) {
@@ -37,21 +38,21 @@ export default function AdminPanel() {
       return;
     }
 
-    if (reservations[index].verified) {
+    if (existing[index].verified) {
       setVerifyMessage(`⚠️ Reservation "${reservationId}" is already verified.`);
       setLogs(prev => [...prev, { id: reservationId, status: "Already verified", time: timestamp }]);
       return;
     }
 
-    const updated = [...reservations];
-    updated[index].verified = true;
-    updated[index].verifiedAt = timestamp;
-    setReservations(updated);
+    existing[index].verified = true;
+    existing[index].verifiedAt = timestamp;
+    localStorage.setItem("reservations", JSON.stringify(existing));
+    setReservations(existing);
     setVerifyMessage(`✅ Reservation "${reservationId}" verified successfully.`);
     setLogs(prev => [...prev, { id: reservationId, status: "Verified", time: timestamp }]);
-  }, [reservations]);
+  }, []);
 
-  const filteredReservations = reservations.filter(r => r.pharmacy === MOCK_ADMIN_PHARMACY);
+  const filteredReservations = reservations.filter(r => r.pharmacyName === MOCK_ADMIN_PHARMACY);
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-8 pt-20">
