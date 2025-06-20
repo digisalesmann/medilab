@@ -2,22 +2,38 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ReserveModal({ medicine, pharmacy, onClose }) {
   const [quantity, setQuantity] = useState(1);
   const [pickupTime, setPickupTime] = useState('');
   const [confirmed, setConfirmed] = useState(false);
-
-  const handleConfirm = () => {
-    if (pickupTime) setConfirmed(true);
-  };
+  const [reservationId] = useState(uuidv4());
 
   const reservationData = {
+    id: reservationId,
     pharmacyId: pharmacy.id,
     pharmacyName: pharmacy.name,
     medicine: medicine.name,
     quantity,
     pickupTime,
+  };
+
+  const handleConfirm = () => {
+    if (!pickupTime) return;
+
+    const newReservation = {
+      ...reservationData,
+      userName: 'Anonymous', // Replace with actual user if available
+      pharmacy: pharmacy.name,
+      verified: false,
+    };
+
+    const existing = JSON.parse(localStorage.getItem('reservations') || '[]');
+    existing.push(newReservation);
+    localStorage.setItem('reservations', JSON.stringify(existing));
+
+    setConfirmed(true);
   };
 
   return createPortal(
@@ -39,7 +55,8 @@ export default function ReserveModal({ medicine, pharmacy, onClose }) {
             </div>
             <p className="text-xs mt-4 text-gray-500 text-center">
               Pharmacy: {pharmacy.name} <br />
-              Quantity: {quantity} | Time: {new Date(pickupTime).toLocaleString()}
+              Quantity: {quantity} | Time: {new Date(pickupTime).toLocaleString()} <br />
+              <strong>Reservation ID:</strong> {reservationId}
             </p>
           </>
         ) : (
