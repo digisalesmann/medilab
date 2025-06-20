@@ -2,153 +2,146 @@ import React, { useState } from 'react';
 import { MapPin, Search, SlidersHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+// 💊 Mock alternative suggestions
+function getAlternativeMedicines(name) {
+  const altMap = {
+    paracetamol: ['Acetaminophen', 'Panadol', 'Ibuprofen'],
+    ibuprofen: ['Diclofenac', 'Naproxen', 'Aspirin'],
+    amoxicillin: ['Ampicillin', 'Azithromycin', 'Ciprofloxacin'],
+    'cough syrup': ['Expectorant', 'Lozenges', 'Antihistamine'],
+    default: ['Consult Pharmacist'],
+  };
+  const keyword = name.toLowerCase().split(' ')[0];
+  return altMap[keyword] || altMap.default;
+}
+
 const mockPharmacies = [
   {
-    id: 1,
+    id: "1",
     name: "HealthPlus Pharmacy",
     location: "Owerri Imo-State",
     distance: 3.2,
     hasMedicine: true,
-    stock: 10,
     inventory: [
-      { name: 'Amoxicillin 500mg' },
-      { name: 'Paracetamol' },
+      { name: 'Amoxicillin 500mg', stock: 12 },
+      { name: 'Paracetamol', stock: 34 },
+      { name: 'Ventolin Inhaler', stock: 0 },
     ],
   },
   {
-    id: 2,
+    id: "2",
     name: "MediStore",
     location: "Owerri Imo-State",
     distance: 6.5,
     hasMedicine: true,
-    stock: 2,
     inventory: [
       { name: 'Ibuprofen' },
       { name: 'Cough Syrup' },
     ],
   },
   {
-    id: 3,
-    name: "Wellness Pharmacy",
-    location: "Lekki",
+    id: "3",
+    name: "CityMed Pharmacy",
+    location: "Yaba, Lagos, Nigeria",
     distance: 11.4,
-    hasMedicine: false,
-    stock: 0,
-    inventory: [],
+    hasMedicine: true,
+    inventory: [
+      { name: 'Cetirizine', stock: 10 },
+      { name: 'Metformin', stock: 7 },
+    ],
   },
   {
-  id: 4,
-  name: "CityMed Pharmacy",
-  location: "Yaba, Lagos",
+  id: "4",
+  name: "LifeCare Drugs",
+  location: "Victoria Island, Lagos, Nigeria",
   distance: 4.7,
   hasMedicine: true,
-  stock: 5,
   inventory: [
-    { name: 'Cetirizine' },
-    { name: 'Metformin' },
+      { name: 'Loratadine', stock: 8 },
+      { name: 'Vitamin C', stock: 21 },
   ],
 },
 {
-  id: 5,
-  name: "LifeCare Drugs",
-  location: "Victoria Island, Lagos",
-  distance: 8.9,
-  hasMedicine: true,
-  stock: 12,
-  inventory: [
-    { name: 'Loratadine' },
-    { name: 'Vitamin C' },
-  ],
-},
-{
-  id: 6,
+  id: "5",
   name: "GreenMed Pharmacy",
-  location: "Maitama, Abuja",
-  distance: 2.3,
+  location: "Maitama, Abuja, Nigeria",
+  distance: 8.9,
   hasMedicine: false,
-  stock: 0,
   inventory: [],
 },
 {
-  id: 7,
+  id: "6",
   name: "PrimeCare Pharmacy",
+  location: "Wuse Zone 2, Abuja, Nigeria",
+  distance: 2.3,
+  hasMedicine: true,
+  inventory: [
+      { name: 'Azithromycin', stock: 13 },
+      { name: 'Paracetamol', stock: 40 },
+    ],
+},
+{
+  id: "7",
+  name: "Silverline Pharmacy",
   location: "Wuse Zone 2, Abuja",
   distance: 6.1,
   hasMedicine: true,
-  stock: 7,
   inventory: [
-    { name: 'Azithromycin' },
-    { name: 'Paracetamol' },
-  ],
+      { name: 'Amoxicillin 250mg', stock: 6 },
+    ],
 },
 {
-  id: 8,
-  name: "Silverline Pharmacy",
-  location: "Ikeja, Lagos",
+  id: "8",
+  name: "Wellcare Pharmacy",
+  location: "Asaba, Delta State, Nigeria",
   distance: 3.9,
   hasMedicine: true,
-  stock: 3,
   inventory: [
-    { name: 'Amoxicillin 250mg' },
-  ],
+      { name: 'Ibuprofen', stock: 18 },
+      { name: 'Diclofenac', stock: 9 },
+    ],
 },
 {
-  id: 9,
-  name: "Wellcare Pharmacy",
-  location: "Asaba, Delta State",
-  distance: 9.5,
-  hasMedicine: true,
-  stock: 9,
-  inventory: [
-    { name: 'Ibuprofen' },
-    { name: 'Diclofenac' },
-  ],
-},
-{
-  id: 10,
+  id: "9",
   name: "MedEase",
-  location: "Enugu, Enugu State",
-  distance: 1.8,
+  location: "Enugu, Enugu State, Nigeria",
+  distance: 9.5,
   hasMedicine: false,
-  stock: 0,
   inventory: [],
 },
 {
-  id: 11,
+  id: "10",
   name: "Access Pharma",
-  location: "Abeokuta, Ogun State",
+  location: "Abeokuta, Ogun State, Nigeria",
+  distance: 1.8,
+  hasMedicine: true,
+  inventory: [
+      { name: 'Cough Syrup', stock: 12 },
+      { name: 'Antacid', stock: 6 },
+    ],
+},
+{
+  id: "11",
+  name: "VitalMed",
+  location: "Port Harcourt, Rivers, Nigeria",
   distance: 10.2,
   hasMedicine: true,
-  stock: 6,
   inventory: [
-    { name: 'Cough Syrup' },
-    { name: 'Antacid' },
-  ],
+      { name: 'Multivitamins', stock: 15 },
+      { name: 'Chlorphenamine', stock: 4 },
+    ],
 },
 {
-  id: 12,
-  name: "VitalMed",
-  location: "Port Harcourt, Rivers",
+  id: "12",
+  name: "CareFirst Pharmacy",
+  location: "Owerri Imo-State, Nigeria",
   distance: 7.4,
   hasMedicine: true,
-  stock: 4,
   inventory: [
-    { name: 'Multivitamins' },
-    { name: 'Chlorphenamine' },
-  ],
+      { name: 'Paracetamol', stock: 20 },
+      { name: 'Loperamide', stock: 5 },
+    ],
 },
-{
-  id: 13,
-  name: "CareFirst Pharmacy",
-  location: "Owerri Imo-State",
-  distance: 2.6,
-  hasMedicine: true,
-  stock: 8,
-  inventory: [
-    { name: 'Paracetamol' },
-    { name: 'Loperamide' },
-  ],
-}
 ];
 
 export default function Pharmacies() {
@@ -156,10 +149,8 @@ export default function Pharmacies() {
   const [radius, setRadius] = useState(10);
   const navigate = useNavigate();
 
-  // Normalize query
-  const lowerQuery = query.toLowerCase();
+  const lowerQuery = query.toLowerCase().trim();
 
-  // Filter pharmacies by radius + search term in name or inventory
   const filtered = mockPharmacies.filter((pharm) => {
     const matchName = pharm.name.toLowerCase().includes(lowerQuery);
     const matchDrug = pharm.inventory?.some((med) =>
@@ -171,6 +162,8 @@ export default function Pharmacies() {
   const handleViewPharmacy = (pharmacyId) => {
     navigate(`/pharmacy/${pharmacyId}?q=${encodeURIComponent(query)}`);
   };
+
+  const showSuggestions = query && filtered.length === 0;
 
   return (
     <div className="pt-24 pb-24 max-w-6xl mx-auto px-4 space-y-8 bg-gray-50">
@@ -203,9 +196,17 @@ export default function Pharmacies() {
       {/* Results */}
       <div className="grid gap-6 md:grid-cols-2">
         {filtered.length === 0 ? (
-          <p className="text-center text-gray-500 col-span-full">
-            No pharmacies found within {radius}km.
-          </p>
+          <div className="text-center text-gray-500 col-span-full space-y-2">
+            <p>
+              No pharmacies or medicines matching "<strong>{query}</strong>" found within {radius}km.
+            </p>
+            {showSuggestions && (
+              <div className="text-sm text-green-700">
+                <strong>Try alternatives:</strong>{' '}
+                {getAlternativeMedicines(query).join(', ')}
+              </div>
+            )}
+          </div>
         ) : (
           filtered.map((pharmacy) => {
             const matchingMeds = pharmacy.inventory?.filter((med) =>
@@ -228,19 +229,17 @@ export default function Pharmacies() {
                   {pharmacy.location}
                 </div>
                 <div className="text-sm">
-                  {pharmacy.hasMedicine ? (
+                  {pharmacy.inventory.length > 0 ? (
                     <span className="text-green-600 font-medium">
-                      In stock: {pharmacy.stock} units
+                      {pharmacy.inventory.length} medicine{pharmacy.inventory.length > 1 ? 's' : ''} available
                     </span>
                   ) : (
-                    <span className="text-red-500 font-medium">Not in stock</span>
+                    <span className="text-red-500 font-medium">No medicines in stock</span>
                   )}
                 </div>
-
-                {/* Highlight matched drug names */}
                 {query && matchingMeds?.length > 0 && (
                   <div className="text-sm mt-1 text-green-700">
-                    <strong>Match:</strong>{" "}
+                    <strong>Match:</strong>{' '}
                     {matchingMeds.map((m) => m.name).join(', ')}
                   </div>
                 )}

@@ -53,7 +53,7 @@ const Footer = () => {
             <li><Link to="/" className="hover:text-green-600">Home</Link></li>
             <li><Link to="/pharmacies" className="hover:text-green-600">Pharmacies</Link></li>
             <li><Link to="/pricing" className="hover:text-green-600">Pricing</Link></li>
-            <li><Link to="/" className="hover:text-green-600">Contact / Help</Link></li>
+            <li><Link to="contact" className="hover:text-green-600">Contact / Help</Link></li>
           </ul>
         </div>
 
@@ -85,7 +85,7 @@ const Footer = () => {
           <Link to="/" className="block hover:text-green-600">Home</Link>
           <Link to="/pharmacies" className="block hover:text-green-600">Pharmacies</Link>
           <Link to="/pricing" className="block hover:text-green-600">Pricing</Link>
-          <Link to="/" className="block hover:text-green-600">Contact / Help</Link>
+          <Link to="contact" className="block hover:text-green-600">Contact / Help</Link>
         </AccordionItem>
 
         <AccordionItem title="Categories">
