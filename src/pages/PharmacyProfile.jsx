@@ -15,9 +15,21 @@ export const mockPharmacies = [
     reviews: 128,
     rating: 4.6,
     inventory: [
-      { name: 'Amoxicillin 500mg', stock: 12 },
-      { name: 'Paracetamol', stock: 34 },
-      { name: 'Ventolin Inhaler', stock: 0 },
+      { name: 'Amoxicillin 500mg', stock: 12, price: 1200 },
+      { name: 'Paracetamol', stock: 34, price: 1600 },
+      { name: 'Ventolin Inhaler', stock: 0, price: 1200 },
+      { name: 'Ibuprofen 400mg', stock: 20, price: 1000 },
+      { name: 'Ciprofloxacin 500mg', stock: 15, price: 1800 },
+      { name: 'Metformin 1000mg', stock: 25, price: 2000 },
+      { name: 'Lisinopril 10mg', stock: 18, price: 1500 },
+      { name: 'Cetirizine 10mg', stock: 40, price: 900 },
+      { name: 'Azithromycin 250mg', stock: 10, price: 2500 },
+      { name: 'Augmentin 625mg', stock: 5, price: 3200 },
+      { name: 'Omeprazole 20mg', stock: 50, price: 1100 },
+      { name: 'Artemether/Lumefantrine', stock: 8, price: 2800 },
+      { name: 'Coartem 80/480mg', stock: 6, price: 3000 },
+      { name: 'Folic Acid 5mg', stock: 60, price: 700 },
+      { name: 'Chlorpheniramine Maleate', stock: 22, price: 800 },
     ],
   },
   {
@@ -31,8 +43,16 @@ export const mockPharmacies = [
     reviews: 75,
     rating: 4.2,
     inventory: [
-      { name: 'Ibuprofen', stock: 22 },
-      { name: 'Cough Syrup', stock: 5 },
+      { name: 'Lorazepam 2mg', stock: 7, price: 2900 },
+      { name: 'Diazepam 5mg', stock: 12, price: 2200 },
+      { name: 'Prednisone 20mg', stock: 10, price: 2100 },
+      { name: 'Losartan 50mg', stock: 14, price: 1700 },
+      { name: 'Simvastatin 40mg', stock: 9, price: 1900 },
+      { name: 'Hydroxychloroquine 200mg', stock: 6, price: 2600 },
+      { name: 'Salbutamol Syrup', stock: 11, price: 1300 },
+      { name: 'Diclofenac Sodium 100mg', stock: 30, price: 1000 },
+      { name: 'Erythromycin 500mg', stock: 8, price: 2400 },
+      { name: 'Multivitamin Complex', stock: 35, price: 1500 },
     ],
   },
   {
@@ -46,8 +66,22 @@ export const mockPharmacies = [
     reviews: 102,
     rating: 4.5,
     inventory: [
-      { name: 'Cetirizine', stock: 10 },
-      { name: 'Metformin', stock: 7 },
+      { name: 'Cetirizine', stock: 10, price: 2200 },
+      { name: 'Metformin', stock: 7, price: 1950 },
+      { name: 'Simvastatin 40mg', stock: 9, price: 1900 },
+      { name: 'Hydroxychloroquine 200mg', stock: 6, price: 2600 },
+      { name: 'Salbutamol Syrup', stock: 11, price: 1300 },
+      { name: 'Diclofenac Sodium 100mg', stock: 30, price: 1000 },
+      { name: 'Erythromycin 500mg', stock: 8, price: 2400 },
+      { name: 'Multivitamin Complex', stock: 35, price: 1500 },
+      { name: 'Azithromycin 250mg', stock: 10, price: 2500 },
+      { name: 'Augmentin 625mg', stock: 5, price: 3200 },
+      { name: 'Omeprazole 20mg', stock: 50, price: 1100 },
+      { name: 'Artemether/Lumefantrine', stock: 8, price: 2800 },
+      { name: 'Coartem 80/480mg', stock: 6, price: 3000 },
+      { name: 'Folic Acid 5mg', stock: 60, price: 700 },
+      { name: 'Chlorpheniramine Maleate', stock: 22, price: 800 },
+      { name: 'Levosalbutamol', stock: 28, price: 900 },
     ],
   },
   {
@@ -61,8 +95,23 @@ export const mockPharmacies = [
     reviews: 89,
     rating: 4.4,
     inventory: [
-      { name: 'Loratadine', stock: 8 },
-      { name: 'Vitamin C', stock: 21 },
+      { name: 'Loratadine', stock: 8, price: 1900 },
+      { name: 'Vitamin C', stock: 21, price: 2800 },
+      { name: 'Cetirizine', stock: 10, price: 3400 },
+      { name: 'Simvastatin 40mg', stock: 9, price: 1900 },
+      { name: 'Hydroxychloroquine 200mg', stock: 6, price: 2600 },
+      { name: 'Salbutamol Syrup', stock: 11, price: 1300 },
+      { name: 'Diclofenac Sodium 100mg', stock: 30, price: 1000 },
+      { name: 'Erythromycin 500mg', stock: 8, price: 2400 },
+      { name: 'Multivitamin Complex', stock: 35, price: 1500 },
+      { name: 'Azithromycin 250mg', stock: 10, price: 2500 },
+      { name: 'Amoxicillin 500mg', stock: 12, price: 1200 },
+      { name: 'Paracetamol', stock: 34, price: 1600 },
+      { name: 'Ventolin Inhaler', stock: 0, price: 1200 },
+      { name: 'Ibuprofen 400mg', stock: 20, price: 1000 },
+      { name: 'Ciprofloxacin 500mg', stock: 15, price: 1800 },
+      { name: 'Metformin 1000mg', stock: 25, price: 2000 },
+      { name: 'Lisinopril 10mg', stock: 18, price: 1500 },
     ],
   },
   {
@@ -88,8 +137,13 @@ export const mockPharmacies = [
     reviews: 116,
     rating: 4.7,
     inventory: [
-      { name: 'Azithromycin', stock: 13 },
-      { name: 'Paracetamol', stock: 40 },
+      { name: 'Erythromycin 500mg', stock: 8, price: 2400 },
+      { name: 'Multivitamin Complex', stock: 35, price: 1500 },
+      { name: 'Azithromycin 250mg', stock: 10, price: 2500 },
+      { name: 'Amoxicillin 500mg', stock: 12, price: 1200 },
+      { name: 'Paracetamol', stock: 34, price: 1600 },
+      { name: 'Ventolin Inhaler', stock: 10, price: 1200 },
+      { name: 'Ibuprofen 400mg', stock: 20, price: 1000 },
     ],
   },
   {
@@ -103,7 +157,17 @@ export const mockPharmacies = [
     reviews: 59,
     rating: 4.1,
     inventory: [
-      { name: 'Amoxicillin 250mg', stock: 6 },
+      { name: 'Amoxicillin 250mg', stock: 6, price: 3200 },
+      { name: 'Nitrazepam 5mg', stock: 6, price: 2200 },
+      { name: 'Clopidogrel 75mg', stock: 14, price: 2700 },
+      { name: 'Atorvastatin 20mg', stock: 18, price: 2100 },
+      { name: 'Cimetidine 200mg', stock: 7, price: 1300 },
+      { name: 'Domperidone 10mg', stock: 12, price: 1400 },
+      { name: 'Albendazole 400mg', stock: 16, price: 1500 },
+      { name: 'Hydralazine 25mg', stock: 5, price: 2400 },
+      { name: 'Sildenafil 50mg', stock: 10, price: 2900 },
+      { name: 'Ketoconazole Shampoo', stock: 9, price: 3200 },
+      { name: 'Vitamin B-Complex Injection', stock: 3, price: 3500 },
     ],
   },
   {
@@ -117,8 +181,19 @@ export const mockPharmacies = [
     reviews: 71,
     rating: 4.3,
     inventory: [
-      { name: 'Ibuprofen', stock: 18 },
-      { name: 'Diclofenac', stock: 9 },
+      { name: 'Ibuprofen', stock: 18, price: 4600 },
+      { name: 'Loratadine', stock: 8, price: 6700 },
+      { name: 'Vitamin C', stock: 21, price: 9900 },
+      { name: 'Cetirizine', stock: 10, price: 2360 },
+      { name: 'Metformin', stock: 7, price: 1150 },
+      { name: 'Simvastatin 40mg', stock: 9, price: 1900 },
+      { name: 'Hydroxychloroquine 200mg', stock: 6, price: 2600 },
+      { name: 'Salbutamol Syrup', stock: 11, price: 1300 },
+      { name: 'Diclofenac Sodium 100mg', stock: 30, price: 1000 },
+      { name: 'Erythromycin 500mg', stock: 8, price: 2400 },
+      { name: 'Multivitamin Complex', stock: 35, price: 1500 },
+      { name: 'Azithromycin 250mg', stock: 10, price: 2500 },
+      { name: 'Amoxicillin 500mg', stock: 12, price: 1200 },
     ],
   },
   {
@@ -144,8 +219,17 @@ export const mockPharmacies = [
     reviews: 47,
     rating: 4.0,
     inventory: [
-      { name: 'Cough Syrup', stock: 12 },
-      { name: 'Antacid', stock: 6 },
+      { name: 'Antacid', stock: 6, price: 2870 },
+      { name: 'Insulin Glargine', stock: 4, price: 5500 },
+      { name: 'Amlodipine 10mg', stock: 16, price: 1400 },
+      { name: 'Ranitidine 150mg', stock: 9, price: 1200 },
+      { name: 'Clotrimazole Cream', stock: 13, price: 1600 },
+      { name: 'Betamethasone Cream', stock: 10, price: 1700 },
+      { name: 'Magnesium Sulfate', stock: 5, price: 2000 },
+      { name: 'Gentamicin Injection', stock: 6, price: 2500 },
+      { name: 'Zinc Sulphate Syrup', stock: 28, price: 1000 },
+      { name: 'ORS Sachet', stock: 100, price: 300 },
+      { name: 'Cough Syrup (Expectorant)', stock: 21, price: 1800 }
     ],
   },
   {
@@ -159,8 +243,18 @@ export const mockPharmacies = [
     reviews: 95,
     rating: 4.6,
     inventory: [
-      { name: 'Multivitamins', stock: 15 },
-      { name: 'Chlorphenamine', stock: 4 },
+      { name: 'Multivitamins', stock: 15, price: 5500 },
+      { name: 'Chlorphenamine', stock: 4, price: 7650 },
+      { name: 'Nifedipine 20mg', stock: 18, price: 1600 },
+      { name: 'Doxycycline 100mg', stock: 11, price: 1900 },
+      { name: 'Fluconazole 150mg', stock: 7, price: 2100 },
+      { name: 'Miconazole Oral Gel', stock: 9, price: 2300 },
+      { name: 'Iron Supplement (Ferrous Sulfate)', stock: 25, price: 1000 },
+      { name: 'Levothyroxine 50mcg', stock: 13, price: 2000 },
+      { name: 'Warfarin 5mg', stock: 5, price: 2800 },
+      { name: 'Metronidazole 400mg', stock: 20, price: 1100 },
+      { name: 'Calcium + Vitamin D3', stock: 30, price: 1700 },
+      { name: 'Antacid Suspension', stock: 22, price: 900 },
     ],
   },
   {
@@ -174,8 +268,17 @@ export const mockPharmacies = [
     reviews: 82,
     rating: 4.2,
     inventory: [
-      { name: 'Paracetamol', stock: 20 },
-      { name: 'Loperamide', stock: 5 },
+      { name: 'Paracetamol', stock: 20, price: 3200 },
+      { name: 'Cough Suppressant (Dextromethorphan)', stock: 14, price: 1500 },
+      { name: 'Codeine Phosphate Syrup', stock: 8, price: 2500 },
+      { name: 'Penicillin V 250mg', stock: 6, price: 2400 },
+      { name: 'Chloroquine Phosphate', stock: 12, price: 1800 },
+      { name: 'Neurovite Forte', stock: 19, price: 1600 },
+      { name: 'Loperamide 2mg', stock: 40, price: 800 },
+      { name: 'Sodium Valproate 200mg', stock: 9, price: 2600 },
+      { name: 'Vitamin C Tablets', stock: 50, price: 700 },
+      { name: 'Melatonin 3mg', stock: 10, price: 2700 },
+      { name: 'Oral Contraceptive Pill', stock: 15, price: 1900 },
     ],
   }
 ];
@@ -346,100 +449,124 @@ export default function PharmacyProfile() {
 
       <div className="bg-white shadow-md rounded-2xl p-6 border">
         <h3 className="text-xl font-semibold mb-4">Available Medicines</h3>
-        <ul className="divide-y divide-gray-200">
-          {query ? (
-            filteredInventory.length > 0 ? (
-              <>
-                {filteredInventory.map((drug, idx) => (
-                  <li key={idx} className="flex justify-between items-center py-3">
-                    <span className="text-gray-800">{drug.name}</span>
-                    {drug.stock > 0 ? (
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-green-600 font-medium">In stock: {drug.stock}</span>
-                        <button
-                          onClick={() => setSelectedMedicine(drug)}
-                          className="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                        >
-                          Reserve
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-sm text-red-500 font-medium">Out of stock</span>
-                    )}
-                  </li>
-                ))}
-
-                {filteredInventory.every(drug => drug.stock === 0) && (
-                  <>
-                    <li className="py-3 text-gray-700 text-center font-medium">
-                      Suggested alternatives:
-                    </li>
-                    <li className="flex justify-center gap-3 flex-wrap py-3">
-                      {getAlternativeMedicines(query).map((alt, i) => (
-                        <span
-                          key={i}
-                          className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
-                        >
-                          {alt}
-                        </span>
-                      ))}
-                    </li>
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                <li className="py-3 text-center text-gray-500 col-span-full space-y-3">
-                  <p>
-                    <strong>"{query.trim()}"</strong> is not available at this pharmacy.
-                  </p>
-                </li>
-                <li className="text-sm text-green-700 space-y-2">
-                  <strong>Try alternatives:</strong>
-                  <div className="flex flex-wrap gap-2 mt-2 justify-center">
-                    {getAlternativeMedicines(query).map((alt, i) => (
-                        alt.toLowerCase() === 'consult pharmacist' ? (
-                          <button
-                            key={i}
-                            onClick={() => setShowConsultModal(true)}
-                            className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200"
-                          >
-                            {alt}
-                          </button>
-                        ) : (
-                          <span
-                            key={i}
-                            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200"
-                          >
-                            {alt}
-                          </span>
-                        )
-                      ))}
-                  </div>
-                </li>
-              </>
-            )
-          ) : (
-            pharmacy.inventory.map((drug, idx) => (
-              <li key={idx} className="flex justify-between items-center py-3">
-                <span className="text-gray-800">{drug.name}</span>
-                {drug.stock > 0 ? (
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-green-600 font-medium">In stock: {drug.stock}</span>
-                    <button
-                      onClick={() => setSelectedMedicine(drug)}
-                      className="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                    >
-                      Reserve
-                    </button>
-                  </div>
-                ) : (
-                  <span className="text-sm text-red-500 font-medium">Out of stock</span>
-                )}
-              </li>
-            ))
+        {query && filteredInventory.length > 0 ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {filteredInventory.map((drug, idx) => (
+      <div key={idx} className="p-4 bg-white rounded-xl shadow border flex flex-col justify-between">
+        <div>
+          <h4 className="text-md font-semibold text-gray-800">{drug.name}</h4>
+          {drug.price && (
+            <p className="text-sm text-green-700 mt-1 font-medium">
+              ₦{drug.price.toLocaleString()}
+            </p>
           )}
-        </ul>
+          <p
+            className={`text-sm mt-1 font-medium ${
+              drug.stock > 0 ? 'text-green-600' : 'text-red-500'
+            }`}
+          >
+            {drug.stock > 0 ? `In stock: ${drug.stock}` : 'Out of stock'}
+          </p>
+        </div>
+
+        {drug.stock > 0 ? (
+          <button
+            onClick={() => setSelectedMedicine(drug)}
+            className="mt-3 bg-green-600 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-lg"
+          >
+            Reserve
+          </button>
+        ) : (
+          <div className="mt-4 text-sm text-blue-800">
+            <p className="mb-1">Suggested alternatives:</p>
+            <div className="flex flex-wrap gap-2">
+              {getAlternativeMedicines(drug.name).map((alt, i) =>
+                alt.toLowerCase() === 'consult pharmacist' ? (
+                  <button
+                    key={i}
+                    onClick={() => setShowConsultModal(true)}
+                    className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200"
+                  >
+                    {alt}
+                  </button>
+                ) : (
+                  <span
+                    key={i}
+                    className="px-3 py-1 ml-4 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200"
+                  >
+                    {alt}
+                  </span>
+                )
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+) : query && filteredInventory.length === 0 ? (
+  <>
+    <p className="text-center text-gray-600 font-medium py-4">
+      No medicines found matching <strong>"{query}"</strong>.
+    </p>
+    <div className="text-center text-sm text-green-700">
+      Try these alternatives:
+      <div className="flex flex-wrap justify-center gap-2 mt-2">
+        {getAlternativeMedicines(query).map((alt, i) =>
+          alt.toLowerCase() === "consult pharmacist" ? (
+            <button
+              key={i}
+              onClick={() => setShowConsultModal(true)}
+              className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200"
+            >
+              {alt}
+            </button>
+          ) : (
+            <span
+              key={i}
+              className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200"
+            >
+              {alt}
+            </span>
+          )
+        )}
+      </div>
+    </div>
+  </>
+) : (
+  // When no query, show normal list without alternatives
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    {pharmacy.inventory.map((drug, idx) => (
+      <div key={idx} className="p-4 bg-white rounded-xl shadow border flex flex-col justify-between">
+        <div>
+          <h4 className="text-md font-semibold text-gray-800">{drug.name}</h4>
+          {drug.price && (
+            <p className="text-sm text-green-700 mt-1 font-medium">
+              ₦{drug.price.toLocaleString()}
+            </p>
+          )}
+          <p
+            className={`text-sm mt-1 font-medium ${
+              drug.stock > 0 ? 'text-green-600' : 'text-red-500'
+            }`}
+          >
+            {drug.stock > 0 ? `In stock: ${drug.stock}` : 'Out of stock'}
+          </p>
+        </div>
+
+        {drug.stock > 0 && (
+          <button
+            onClick={() => setSelectedMedicine(drug)}
+            className="mt-3 bg-green-600 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-lg"
+          >
+            Reserve
+          </button>
+        )}
+      </div>
+    ))}
+  </div>
+)}
+
       </div>
 
        <div className="bg-white shadow-md rounded-2xl p-6 border space-y-6">
