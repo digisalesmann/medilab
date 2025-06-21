@@ -188,7 +188,11 @@ const alternativeSuggestions = {
 };
 
 function getAlternativeMedicines(name) {
-  return alternativeSuggestions[name] || ["Consult Pharmacist"];
+  const cleaned = name.toLowerCase().replace(/\s+/g, '');
+  const matchedKey = Object.keys(alternativeSuggestions).find(
+    (key) => key.toLowerCase().replace(/\s+/g, '') === cleaned
+  );
+  return alternativeSuggestions[matchedKey] || ["Consult Pharmacist"];
 }
 
 export default function PharmacyProfile() {
@@ -201,6 +205,11 @@ export default function PharmacyProfile() {
   const pharmacyIndex = pharmacies.findIndex((p) => p.id === id);
   const pharmacy = pharmacies[pharmacyIndex];
   const [selectedMedicine, setSelectedMedicine] = useState(null);
+  const [showConsultModal, setShowConsultModal] = useState(false);
+  const [consultMessage, setConsultMessage] = useState('');
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [feedbackList, setFeedbackList] = useState([]);
 
   if (!pharmacy) return <div className="text-center py-10 text-gray-500">Pharmacy not found.</div>;
 
@@ -232,6 +241,21 @@ export default function PharmacyProfile() {
     setPharmacies(updatedPharmacies);
   };
 
+  const submitFeedback = () => {
+    if (!rating || !comment.trim()) return alert("Please enter rating and comment");
+    const newFeedback = { rating, comment };
+    setFeedbackList([...feedbackList, newFeedback]);
+    setRating(0);
+    setComment('');
+
+    const updatedPharmacies = pharmacies.map((p, index) =>
+      index === pharmacyIndex ? { ...p, reviews: p.reviews + 1 } : p
+    );
+    setPharmacies(updatedPharmacies);
+
+    alert("Thank you for your feedback!");
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 pt-28 pb-12 space-y-10">
       {selectedMedicine && (
@@ -241,6 +265,34 @@ export default function PharmacyProfile() {
           onClose={() => setSelectedMedicine(null)}
           updateStock={updateStock}
         />
+      )}
+
+      {showConsultModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+            <h3 className="text-lg font-semibold mb-3">Consult a Pharmacist</h3>
+            <textarea
+              rows="4"
+              placeholder="Type your concern or question..."
+              className="w-full border rounded p-2 mb-3"
+              value={consultMessage}
+              onChange={(e) => setConsultMessage(e.target.value)}
+            />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setShowConsultModal(false)} className="text-sm text-gray-500">Cancel</button>
+              <button
+                onClick={() => {
+                  alert('Your message has been sent to the pharmacist.');
+                  setShowConsultModal(false);
+                  setConsultMessage('');
+                }}
+                className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="bg-white shadow-xl text-left rounded-2xl p-6 space-y-6 border">
@@ -297,39 +349,73 @@ export default function PharmacyProfile() {
         <ul className="divide-y divide-gray-200">
           {query ? (
             filteredInventory.length > 0 ? (
-              filteredInventory.map((drug, idx) => (
-                <li key={idx} className="flex justify-between items-center py-3">
-                  <span className="text-gray-800">{drug.name}</span>
-                  {drug.stock > 0 ? (
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-green-600 font-medium">In stock: {drug.stock}</span>
-                      <button
-                        onClick={() => setSelectedMedicine(drug)}
-                        className="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                      >
-                        Reserve
-                      </button>
-                    </div>
-                  ) : (
-                    <span className="text-sm text-red-500 font-medium">Out of stock</span>
-                  )}
-                </li>
-              ))
+              <>
+                {filteredInventory.map((drug, idx) => (
+                  <li key={idx} className="flex justify-between items-center py-3">
+                    <span className="text-gray-800">{drug.name}</span>
+                    {drug.stock > 0 ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-green-600 font-medium">In stock: {drug.stock}</span>
+                        <button
+                          onClick={() => setSelectedMedicine(drug)}
+                          className="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                        >
+                          Reserve
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-sm text-red-500 font-medium">Out of stock</span>
+                    )}
+                  </li>
+                ))}
+
+                {filteredInventory.every(drug => drug.stock === 0) && (
+                  <>
+                    <li className="py-3 text-gray-700 text-center font-medium">
+                      Suggested alternatives:
+                    </li>
+                    <li className="flex justify-center gap-3 flex-wrap py-3">
+                      {getAlternativeMedicines(query).map((alt, i) => (
+                        <span
+                          key={i}
+                          className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
+                        >
+                          {alt}
+                        </span>
+                      ))}
+                    </li>
+                  </>
+                )}
+              </>
             ) : (
               <>
-                {`"${query.trim()}" is not available at this pharmacy.`}
-                <li className="py-3 text-gray-700 text-center font-medium">
-                  Suggested alternatives:
+                <li className="py-3 text-center text-gray-500 col-span-full space-y-3">
+                  <p>
+                    <strong>"{query.trim()}"</strong> is not available at this pharmacy.
+                  </p>
                 </li>
-                <li className="flex justify-center gap-3 flex-wrap py-3">
-                  {getAlternativeMedicines(query).map((alt, i) => (
-                    <span
-                      key={i}
-                      className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
-                    >
-                      {alt}
-                    </span>
-                  ))}
+                <li className="text-sm text-green-700 space-y-2">
+                  <strong>Try alternatives:</strong>
+                  <div className="flex flex-wrap gap-2 mt-2 justify-center">
+                    {getAlternativeMedicines(query).map((alt, i) => (
+                        alt.toLowerCase() === 'consult pharmacist' ? (
+                          <button
+                            key={i}
+                            onClick={() => setShowConsultModal(true)}
+                            className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200"
+                          >
+                            {alt}
+                          </button>
+                        ) : (
+                          <span
+                            key={i}
+                            className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200"
+                          >
+                            {alt}
+                          </span>
+                        )
+                      ))}
+                  </div>
                 </li>
               </>
             )
@@ -355,7 +441,50 @@ export default function PharmacyProfile() {
           )}
         </ul>
       </div>
+
+       <div className="bg-white shadow-md rounded-2xl p-6 border space-y-6">
+        <h3 className="text-xl font-semibold mb-2">Leave Feedback</h3>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <Star
+              key={i}
+              className={`w-6 h-6 cursor-pointer ${i <= rating ? 'fill-yellow-400 text-yellow-500' : 'text-gray-300'}`}
+              onClick={() => setRating(i)}
+            />
+          ))}
+        </div>
+        <textarea
+          placeholder="Write your feedback here..."
+          className="w-full border rounded p-2"
+          rows="3"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <button
+          onClick={submitFeedback}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Submit Feedback
+        </button>
+
+        {feedbackList.length > 0 && (
+          <div className="mt-6">
+            <h4 className="font-semibold mb-2">Recent Feedback</h4>
+            <ul className="space-y-2">
+              {feedbackList.map((fb, idx) => (
+                <li key={idx} className="border rounded-lg p-3 bg-gray-50">
+                  <div className="flex items-center gap-1 mb-1">
+                    {[...Array(fb.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-500" />
+                    ))}
+                  </div>
+                  <p className="text-sm text-left text-gray-700">{fb.comment}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
-

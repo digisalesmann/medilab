@@ -147,17 +147,20 @@ const mockPharmacies = [
 export default function Pharmacies() {
   const [query, setQuery] = useState('');
   const [radius, setRadius] = useState(10);
+  const [showConsultModal, setShowConsultModal] = useState(false);
+  const [consultMessage, setConsultMessage] = useState('');
   const navigate = useNavigate();
 
+  const trimmedQuery = query.trim().toLowerCase();
   const normalizedQuery = query.toLowerCase().replace(/\s+/g, '').trim();
 
-const filtered = mockPharmacies.filter((pharm) => {
-  const matchName = pharm.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery);
-  const matchDrug = pharm.inventory?.some((med) =>
-    med.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery)
-  );
-  return pharm.distance <= radius && (matchName || matchDrug);
-});
+  const filtered = mockPharmacies.filter((pharm) => {
+    const matchName = pharm.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery);
+    const matchDrug = pharm.inventory?.some((med) =>
+      med.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery)
+    );
+    return pharm.distance <= radius && (matchName || matchDrug);
+  });
 
   const handleViewPharmacy = (pharmacyId) => {
     navigate(`/pharmacy/${pharmacyId}?q=${encodeURIComponent(query)}`);
@@ -167,7 +170,34 @@ const filtered = mockPharmacies.filter((pharm) => {
 
   return (
     <div className="pt-24 pb-24 max-w-6xl mx-auto px-4 space-y-8 bg-gray-50">
-      {/* Search & Radius Filter */}
+      {showConsultModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+            <h3 className="text-lg font-semibold mb-3">Consult a Pharmacist</h3>
+            <textarea
+              rows="4"
+              placeholder="Type your concern or question..."
+              className="w-full border rounded p-2 mb-3"
+              value={consultMessage}
+              onChange={(e) => setConsultMessage(e.target.value)}
+            />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setShowConsultModal(false)} className="text-sm text-gray-500">Cancel</button>
+              <button
+                onClick={() => {
+                  alert('Your message has been sent to the pharmacist.');
+                  setShowConsultModal(false);
+                  setConsultMessage('');
+                }}
+                className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row gap-4 items-center">
         <div className="flex items-center w-full md:w-2/3 gap-3 border rounded-xl px-4 py-2">
           <Search className="text-green-500" />
@@ -193,7 +223,6 @@ const filtered = mockPharmacies.filter((pharm) => {
         </div>
       </div>
 
-      {/* Results */}
       <div className="grid gap-6 md:grid-cols-2">
         {filtered.length === 0 ? (
           <div className="text-center text-gray-500 col-span-full space-y-2">
@@ -201,9 +230,29 @@ const filtered = mockPharmacies.filter((pharm) => {
               No pharmacies or medicines matching "<strong>{query}</strong>" found within {radius}km.
             </p>
             {showSuggestions && (
-              <div className="text-sm text-green-700">
-                <strong>Try alternatives:</strong>{' '}
-                {getAlternativeMedicines(query).join(', ')}
+              <div className="text-sm text-green-700 space-y-2">
+                <strong>Try alternatives:</strong>
+                <div className="flex flex-wrap gap-2 mt-2 justify-center">
+                  {getAlternativeMedicines(trimmedQuery).map((alt, idx) => (
+                    alt === 'Consult Pharmacist' ? (
+                      <button
+                        key={idx}
+                        onClick={() => setShowConsultModal(true)}
+                        className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs hover:bg-green-200"
+                      >
+                        {alt}
+                      </button>
+                    ) : (
+                      <button
+                        key={idx}
+                        onClick={() => setQuery(alt)}
+                        className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs hover:bg-blue-200"
+                      >
+                        {alt}
+                      </button>
+                    )
+                  ))}
+                </div>
               </div>
             )}
           </div>
