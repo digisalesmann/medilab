@@ -1,7 +1,7 @@
 // src/pages/AdminDashboard.jsx
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '../layouts/AdminLayout';
-import { Card, CardContent } from '@/components/ui/card'; // or use your own Card component
+import { Card, CardContent } from '../components/ui/card'; // or use your own Card component
 import {
   LineChart,
   Line,

@@ -19,6 +19,8 @@ import Register from "./pages/Register";
 import ForgotPassword from './pages/ForgotPassword';
 import PharmacyProfile from './pages/PharmacyProfile';
 import AdminPanel from './pages/AdminPanel';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminRoute from './routes/AdminRoute';
 
 import './App.css';
 
@@ -65,7 +67,23 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
-        <Route path="/admin" element={<AdminPanel />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminPanel />
+            </AdminRoute>
+          }
+        />
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
       </Routes>
       {!hideLayout && !hideFooter && <Footer />}
     </div>

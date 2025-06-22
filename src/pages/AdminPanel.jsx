@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ScannerInput from '../components/ScannerInput';
+import AdminLayout from '../layouts/AdminLayout';
+import { Link } from 'react-router-dom';
 
 const MOCK_ADMIN_PHARMACY = "MediLab Central";
 
@@ -55,11 +57,21 @@ export default function AdminPanel() {
   const filteredReservations = reservations.filter(r => r.pharmacyName === MOCK_ADMIN_PHARMACY);
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8 pt-20">
+    <AdminLayout>
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-extrabold text-center text-emerald-700 mb-6">
-          Admin Panel – {MOCK_ADMIN_PHARMACY}
-        </h1>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+  <h1 className="text-3xl font-extrabold text-emerald-700 text-center md:text-left">
+    Admin Panel
+  </h1>
+
+  <Link
+    to="/admin/dashboard"
+    className="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition whitespace-nowrap"
+  >
+    📊 Go to Dashboard
+  </Link>
+</div>
+
 
         <div className="flex gap-4 mb-6">
           <button onClick={() => setActiveTab("reservations")} className={`px-4 py-2 rounded ${activeTab === "reservations" ? "bg-emerald-600 text-white" : "bg-white border text-emerald-700"}`}>
@@ -78,7 +90,7 @@ export default function AdminPanel() {
             </div>
 
             <div className="bg-white p-4 rounded-lg shadow">
-              <h2 className="text-xl font-semibold mb-4">Active Reservations – MediLab Admin</h2>
+              <h2 className="text-xl font-semibold mb-4">Active Reservations</h2>
               {filteredReservations.length === 0 ? (
                 <p className="text-gray-600">No reservations found.</p>
               ) : (
@@ -187,6 +199,6 @@ export default function AdminPanel() {
           </div>
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 }
