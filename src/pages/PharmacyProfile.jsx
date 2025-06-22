@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Star, MapPin, Phone, ShieldCheck } from 'lucide-react';
 import { useParams, useLocation } from 'react-router-dom';
 import ReserveModal from '../components/ReserveModal';
+import { useNotifications } from '../context/NotificationContext';
 
 export const mockPharmacies = [
   {
@@ -313,6 +314,8 @@ export default function PharmacyProfile() {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [feedbackList, setFeedbackList] = useState([]);
+  const { addNotification } = useNotifications();
+
 
   if (!pharmacy) return <div className="text-center py-10 text-gray-500">Pharmacy not found.</div>;
 
@@ -328,7 +331,8 @@ export default function PharmacyProfile() {
   );
 
   const updateStock = (medicineName, pharmacyId, quantityUsed) => {
-    const updatedPharmacies = pharmacies.map((pharm) => {
+  setPharmacies((prevPharmacies) =>
+    prevPharmacies.map((pharm) => {
       if (pharm.id === pharmacyId) {
         return {
           ...pharm,
@@ -336,13 +340,14 @@ export default function PharmacyProfile() {
             item.name === medicineName
               ? { ...item, stock: Math.max(0, item.stock - quantityUsed) }
               : item
-          )
+          ),
         };
       }
       return pharm;
-    });
-    setPharmacies(updatedPharmacies);
-  };
+    })
+  );
+};
+
 
   const submitFeedback = () => {
     if (!rating || !comment.trim()) return alert("Please enter rating and comment");
@@ -367,6 +372,10 @@ export default function PharmacyProfile() {
           pharmacy={pharmacy}
           onClose={() => setSelectedMedicine(null)}
           updateStock={updateStock}
+          onConfirm={(quantity) => {
+            addNotification(`${selectedMedicine.name} reserved successfully from ${pharmacy.name}`);
+            setSelectedMedicine(null); // Close modal
+          }}
         />
       )}
 
@@ -556,19 +565,17 @@ export default function PharmacyProfile() {
 
         {drug.stock > 0 && (
           <button
-            onClick={() => setSelectedMedicine(drug)}
-            className="mt-3 bg-green-600 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-lg"
-          >
-            Reserve
+              onClick={() => setSelectedMedicine(drug)}
+              className="mt-3 bg-green-600 hover:bg-green-700 text-white text-sm py-2 px-4 rounded-lg"
+            >
+              Reserve
           </button>
         )}
       </div>
     ))}
   </div>
 )}
-
-      </div>
-
+</div>
        <div className="bg-white shadow-md rounded-2xl p-6 border space-y-6">
         <h3 className="text-xl font-semibold mb-2">Leave Feedback</h3>
         <div className="flex gap-1">

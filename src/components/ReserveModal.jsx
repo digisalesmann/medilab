@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function ReserveModal({ medicine, pharmacy, onClose, updateStock }) {
+export default function ReserveModal({ medicine, pharmacy, onClose, updateStock, onConfirm }) {
   const [quantity, setQuantity] = useState(1);
   const [availableStock, setAvailableStock] = useState(medicine.stock);
   const [confirmed, setConfirmed] = useState(false);
@@ -21,39 +21,44 @@ export default function ReserveModal({ medicine, pharmacy, onClose, updateStock 
   }, [medicine.name, pharmacy.name, medicine.stock]);
 
   const handleConfirm = () => {
-    if (quantity < 1 || quantity > availableStock) {
-      alert(`Please enter a quantity between 1 and ${availableStock}`);
-      return;
-    }
+  if (quantity < 1 || quantity > availableStock) {
+    alert(`Please enter a quantity between 1 and ${availableStock}`);
+    return;
+  }
 
-    const reservationData = {
-      id: reservationId,
-      pharmacyId: pharmacy.id,
-      pharmacyName: pharmacy.name,
-      medicine: medicine.name,
-      quantity,
-      pickupSlot,
-      deliveryWindow,
-    };
-
-    const newReservation = {
-      ...reservationData,
-      userName: 'Anonymous',
-      pharmacy: pharmacy.name,
-      verified: false,
-    };
-
-    const existing = JSON.parse(localStorage.getItem('reservations') || '[]');
-    existing.push(newReservation);
-    localStorage.setItem('reservations', JSON.stringify(existing));
-
-    setAvailableStock(availableStock - quantity);
-    setConfirmed(true);
-
-    if (typeof updateStock === 'function') {
-      updateStock(medicine.name, pharmacy.id, quantity);
-    }
+  const reservationData = {
+    id: reservationId,
+    pharmacyId: pharmacy.id,
+    pharmacyName: pharmacy.name,
+    medicine: medicine.name,
+    quantity,
+    pickupSlot,
+    deliveryWindow,
   };
+
+  const newReservation = {
+    ...reservationData,
+    userName: 'Anonymous',
+    pharmacy: pharmacy.name,
+    verified: false,
+  };
+
+  const existing = JSON.parse(localStorage.getItem('reservations') || '[]');
+  existing.push(newReservation);
+  localStorage.setItem('reservations', JSON.stringify(existing));
+
+  setAvailableStock(availableStock - quantity);
+  setConfirmed(true);
+
+  if (typeof updateStock === 'function') {
+    updateStock(medicine.name, pharmacy.id, quantity);
+  }
+
+  // ✅ 🔔 Trigger the notification from parent
+  if (typeof onConfirm === 'function') {
+    onConfirm(quantity); // You can also pass `reservationData` if needed
+  }
+};
 
   return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4">

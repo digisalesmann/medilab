@@ -12,12 +12,18 @@ import {
   Sparkles,
   PawPrint,
 } from "lucide-react";
+import { Bell, X as CloseIcon } from 'lucide-react';
+import { useNotifications } from '../context/NotificationContext';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const { notifications, markAllAsRead, markAsRead, deleteNotification } = useNotifications();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const unreadCount = notifications.filter(n => !n.read).length;
+
 
    // Inline function for "Home" link
   const handleHomeClick = () => {
@@ -47,12 +53,67 @@ export default function Header() {
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-4">
-          <ShoppingCart className="w-6 h-6 text-gray-700 cursor-pointer hover:text-green-600 transition-colors" />
-          <button onClick={toggleMenu} className="ml-2">
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        <div className="flex items-center gap-4 relative">
+  {/* Notification Icon with Dropdown */}
+  <div className="relative">
+    <button
+      onClick={() => setShowDropdown(prev => !prev)}
+      className="relative p-1.5 rounded-full hover:bg-gray-100"
+    >
+      <Bell className="w-6 h-6 text-gray-700" />
+      {unreadCount > 0 && (
+        <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1.5">
+          {unreadCount}
+        </span>
+      )}
+    </button>
+
+    {showDropdown && (
+      <div className="absolute right-0 mt-2 w-72 bg-white border rounded-lg shadow-lg z-50 animate-fade-in">
+        <div className="p-3 border-b font-semibold text-sm text-gray-700 flex justify-between items-center">
+          Notifications
+          <button
+            onClick={markAllAsRead}
+            className="text-xs text-blue-500 hover:underline"
+          >
+            Mark all as read
           </button>
         </div>
+        <ul className="max-h-64 overflow-y-auto divide-y">
+          {notifications.length === 0 ? (
+            <li className="p-3 text-gray-500 text-sm">No notifications</li>
+          ) : (
+            notifications.map((note) => (
+              <li
+                key={note.id}
+                className={`p-3 text-sm flex justify-between items-start gap-2 cursor-pointer ${
+                  note.read ? 'text-gray-500' : 'text-black font-medium'
+                } hover:bg-gray-50`}
+              >
+                <span onClick={() => markAsRead(note.id)}>
+                  {note.message}
+                </span>
+                <CloseIcon
+                  onClick={() => deleteNotification(note.id)}
+                  className="w-4 h-4 text-gray-400 hover:text-red-500"
+                />
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+    )}
+  </div>
+
+  {/* Cart Icon */}
+  <ShoppingCart className="w-6 h-6 text-gray-700 cursor-pointer hover:text-green-600 transition-colors" />
+
+  {/* Menu Toggle */}
+  <button onClick={toggleMenu} className="ml-2">
+    {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+  </button>
+</div>
+
       </div>
 
       {/* Hamburger Dropdown */}

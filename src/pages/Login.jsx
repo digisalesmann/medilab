@@ -13,7 +13,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (email === "admin@medilab.com" && password === "admin123") {
+    if (email === "admin@medilab.com" && password === "4Sx4#AC9y4Mka*y") {
       localStorage.setItem("isAdmin", "true");
       localStorage.setItem("userEmail", email);
       navigate("/admin");
