@@ -21,6 +21,7 @@ import PharmacyProfile from './pages/PharmacyProfile';
 import AdminPanel from './pages/AdminPanel';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './routes/AdminRoute';
+import RewardWalletPage from './pages/RewardWalletPage';
 
 import './App.css';
 
@@ -30,7 +31,9 @@ function App() {
    const hideFooter =
   location.pathname === '/pharmacies' ||
   location.pathname.startsWith('/pharmacy/') ||
-  location.pathname.startsWith('/admin');
+  location.pathname.startsWith('/admin') ||
+  location.pathname.startsWith('/wallet');
+
 
   return (
     <div className="App">
@@ -67,6 +70,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
+        <Route path="/wallet" element={<RewardWalletPage />} />
         <Route
           path="/admin"
           element={

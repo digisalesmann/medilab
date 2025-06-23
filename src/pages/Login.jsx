@@ -11,18 +11,25 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (email === "admin@medilab.com" && password === "4Sx4#AC9y4Mka*y") {
-      localStorage.setItem("isAdmin", "true");
-      localStorage.setItem("userEmail", email);
-      navigate("/admin");
-    } else {
-      localStorage.setItem("isAdmin", "false");
-      localStorage.setItem("userEmail", email);
-      navigate("/");
-    }
+  const isAdmin = email === "admin@medilab.com" && password === "4Sx4#AC9y4Mka*y";
+
+  const user = {
+    email,
+    isAdmin,
+    points: 0,
   };
+
+  localStorage.setItem("currentUser", JSON.stringify(user));
+
+  if (isAdmin) {
+    navigate("/admin");
+  } else {
+    navigate("/");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-blue-50 to-white px-4 py-8">

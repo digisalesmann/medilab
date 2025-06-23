@@ -43,9 +43,18 @@ export default function ReserveModal({ medicine, pharmacy, onClose, updateStock,
     verified: false,
   };
 
+  // Save reservation
   const existing = JSON.parse(localStorage.getItem('reservations') || '[]');
   existing.push(newReservation);
   localStorage.setItem('reservations', JSON.stringify(existing));
+
+  // ✅ PHASE 1: Reward user with 10 points
+  const user = JSON.parse(localStorage.getItem('currentUser')) || {
+    email: localStorage.getItem('userEmail') || 'anonymous@medilab.com',
+    points: 0,
+  };
+  user.points += 10; // 🪙 Earn 10 points
+  localStorage.setItem('currentUser', JSON.stringify(user));
 
   setAvailableStock(availableStock - quantity);
   setConfirmed(true);
@@ -54,9 +63,8 @@ export default function ReserveModal({ medicine, pharmacy, onClose, updateStock,
     updateStock(medicine.name, pharmacy.id, quantity);
   }
 
-  // ✅ 🔔 Trigger the notification from parent
   if (typeof onConfirm === 'function') {
-    onConfirm(quantity); // You can also pass `reservationData` if needed
+    onConfirm(quantity);
   }
 };
 

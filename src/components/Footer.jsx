@@ -52,7 +52,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm">
             <li><Link to="/" className="hover:text-green-600">Home</Link></li>
             <li><Link to="/pharmacies" className="hover:text-green-600">Pharmacies</Link></li>
-            <li><Link to="/pricing" className="hover:text-green-600">Pricing</Link></li>
+            <li><Link to="/pricing" className="hover:text-green-600">Reward System</Link></li>
             <li><Link to="contact" className="hover:text-green-600">Contact / Help</Link></li>
           </ul>
         </div>
@@ -84,7 +84,7 @@ const Footer = () => {
         <AccordionItem title="Quick Links">
           <Link to="/" className="block hover:text-green-600">Home</Link>
           <Link to="/pharmacies" className="block hover:text-green-600">Pharmacies</Link>
-          <Link to="/pricing" className="block hover:text-green-600">Pricing</Link>
+          <Link to="/pricing" className="block hover:text-green-600">Reward System</Link>
           <Link to="contact" className="block hover:text-green-600">Contact / Help</Link>
         </AccordionItem>
 

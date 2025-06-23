@@ -48,7 +48,7 @@ export default function Header() {
           Home
         </span>
           <Link to="/pharmacies" className="hover:text-green-600 transition-colors">Pharmacies</Link>
-          <Link to="/inventory" className="hover:text-green-600 transition-colors">Inventory & Pricing</Link>
+          <Link to="/wallet" className="hover:text-green-600 transition-colors">Reward System</Link>
           <Link to="/Contact" className="hover:text-green-600 transition-colors">Contact/Help</Link>
         </nav>
 
