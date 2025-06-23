@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { BsPhone } from "react-icons/bs";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
@@ -54,17 +57,30 @@ const Login = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-left text-sm font-medium mb-1">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500"
-              placeholder="••••••••"
-              required
-            />
-          </div>
+         <div className="relative">
+  <label className="block text-left text-sm font-medium mb-1">Password</label>
+  <div className="relative">
+    <input
+      type={showPassword ? "text" : "password"}
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className="w-full border rounded-md px-3 py-2 pr-10 outline-none focus:ring-2 focus:ring-emerald-500"
+      placeholder="••••••••"
+      required
+    />
+    <div className="absolute inset-y-0 right-3 flex items-center">
+      <button
+        type="button"
+        onClick={() => setShowPassword(!showPassword)}
+        className="text-gray-500 hover:text-emerald-600 focus:outline-none"
+      >
+        {showPassword ? <FiEye size={16} /> : <FiEyeOff size={16} />}
+      </button>
+    </div>
+  </div>
+</div>
+
+
 
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center">
