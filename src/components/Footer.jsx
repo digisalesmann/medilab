@@ -84,7 +84,7 @@ const Footer = () => {
         <AccordionItem title="Quick Links">
           <Link to="/" className="block hover:text-green-600">Home</Link>
           <Link to="/pharmacies" className="block hover:text-green-600">Pharmacies</Link>
-          <Link to="/pricing" className="block hover:text-green-600">Reward System</Link>
+          <Link to="/wallet" className="block hover:text-green-600">Reward System</Link>
           <Link to="contact" className="block hover:text-green-600">Contact / Help</Link>
         </AccordionItem>
 

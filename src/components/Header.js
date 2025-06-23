@@ -167,8 +167,8 @@ export default function Header() {
               <Link to="/pharmacies" onClick={() => setIsOpen(false)} className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
                 <Pill className="w-5 h-5" /> Pharmacies
               </Link>
-              <Link to="/inventory" onClick={() => setIsOpen(false)} className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
-                <HeartPulse className="w-5 h-5" /> Inventory & Pricing
+              <Link to="/wallet" onClick={() => setIsOpen(false)} className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
+                <HeartPulse className="w-5 h-5" /> Reward System
               </Link>
               <Link to="/contact" onClick={() => setIsOpen(false)} className="flex items-center gap-4 p-2 rounded hover:bg-gray-100">
                 <Info className="w-5 h-5" /> Contact/Help
