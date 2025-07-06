@@ -316,7 +316,6 @@ export default function PharmacyProfile() {
   const [feedbackList, setFeedbackList] = useState([]);
   const { addNotification } = useNotifications();
 
-
   if (!pharmacy) return <div className="text-center py-10 text-gray-500">Pharmacy not found.</div>;
 
   const initials = pharmacy.name
@@ -330,22 +329,8 @@ export default function PharmacyProfile() {
     drug.name.toLowerCase().replace(/\s+/g, '').includes(normalizedQuery)
   );
 
-  const updateStock = (medicineName, pharmacyId, quantityUsed) => {
-  setPharmacies((prevPharmacies) =>
-    prevPharmacies.map((pharm) => {
-      if (pharm.id === pharmacyId) {
-        return {
-          ...pharm,
-          inventory: pharm.inventory.map((item) =>
-            item.name === medicineName
-              ? { ...item, stock: Math.max(0, item.stock - quantityUsed) }
-              : item
-          ),
-        };
-      }
-      return pharm;
-    })
-  );
+  const updateStock = () => {
+  // Do nothing — stock is auto-computed from localStorage in ReserveModal
 };
 
 
@@ -374,7 +359,6 @@ export default function PharmacyProfile() {
           updateStock={updateStock}
           onConfirm={(quantity) => {
             addNotification(`${selectedMedicine.name} reserved successfully from ${pharmacy.name}`);
-            setSelectedMedicine(null); // Close modal
           }}
         />
       )}
@@ -469,13 +453,18 @@ export default function PharmacyProfile() {
               ₦{drug.price.toLocaleString()}
             </p>
           )}
-          <p
-            className={`text-sm mt-1 font-medium ${
-              drug.stock > 0 ? 'text-green-600' : 'text-red-500'
-            }`}
-          >
-            {drug.stock > 0 ? `In stock: ${drug.stock}` : 'Out of stock'}
-          </p>
+          {(() => {
+            const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+            const usedStock = reservations
+              .filter(r => r.medicine === drug.name && r.pharmacyId === pharmacy.id)
+              .reduce((sum, r) => sum + Number(r.quantity), 0);
+            const available = Math.max(0, drug.stock - usedStock);
+            return (
+              <p className={`text-sm mt-1 font-medium ${available > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                {available > 0 ? `In stock: ${available}` : 'Out of stock'}
+              </p>
+            );
+          })()}
         </div>
 
         {drug.stock > 0 ? (
@@ -554,13 +543,18 @@ export default function PharmacyProfile() {
               ₦{drug.price.toLocaleString()}
             </p>
           )}
-          <p
-            className={`text-sm mt-1 font-medium ${
-              drug.stock > 0 ? 'text-green-600' : 'text-red-500'
-            }`}
-          >
-            {drug.stock > 0 ? `In stock: ${drug.stock}` : 'Out of stock'}
-          </p>
+          {(() => {
+            const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+            const usedStock = reservations
+              .filter(r => r.medicine === drug.name && r.pharmacyId === pharmacy.id)
+              .reduce((sum, r) => sum + Number(r.quantity), 0);
+            const available = Math.max(0, drug.stock - usedStock);
+            return (
+              <p className={`text-sm mt-1 font-medium ${available > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                {available > 0 ? `In stock: ${available}` : 'Out of stock'}
+              </p>
+            );
+          })()}
         </div>
 
         {drug.stock > 0 && (

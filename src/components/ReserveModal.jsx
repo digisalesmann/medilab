@@ -43,21 +43,19 @@ export default function ReserveModal({ medicine, pharmacy, onClose, updateStock,
     verified: false,
   };
 
-  // Save reservation
   const existing = JSON.parse(localStorage.getItem('reservations') || '[]');
   existing.push(newReservation);
   localStorage.setItem('reservations', JSON.stringify(existing));
 
-  // ✅ PHASE 1: Reward user with 10 points
+  // Reward user with points
   const user = JSON.parse(localStorage.getItem('currentUser')) || {
     email: localStorage.getItem('userEmail') || 'anonymous@medilab.com',
     points: 0,
   };
-  user.points += 10; // 🪙 Earn 10 points
+  user.points += 10;
   localStorage.setItem('currentUser', JSON.stringify(user));
 
-  setAvailableStock(availableStock - quantity);
-  setConfirmed(true);
+  setConfirmed(true); // ✅ Only this line remains
 
   if (typeof updateStock === 'function') {
     updateStock(medicine.name, pharmacy.id, quantity);
@@ -66,6 +64,22 @@ export default function ReserveModal({ medicine, pharmacy, onClose, updateStock,
   if (typeof onConfirm === 'function') {
     onConfirm(quantity);
   }
+};
+
+const downloadPDF = async () => {
+  const html2canvas = (await import('html2canvas')).default;
+  const jsPDF = (await import('jspdf')).jsPDF;
+
+  const element = document.getElementById("reservation-preview");
+  const canvas = await html2canvas(element);
+  const imgData = canvas.toDataURL('image/png');
+  const pdf = new jsPDF();
+  const imgProps = pdf.getImageProperties(imgData);
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
+  pdf.save(`Reservation_${reservationId}.pdf`);
 };
 
   return createPortal(
@@ -82,23 +96,45 @@ export default function ReserveModal({ medicine, pharmacy, onClose, updateStock,
         {confirmed ? (
           <>
             <p className="text-sm mb-2 text-center">Show this QR code during pickup:</p>
-            <div className="flex justify-center">
-              <QRCodeCanvas value={JSON.stringify({
-                id: reservationId,
-                pharmacyId: pharmacy.id,
-                pharmacyName: pharmacy.name,
-                medicine: medicine.name,
-                quantity,
-                pickupSlot,
-                deliveryWindow
-              })} size={180} />
+            <div id="reservation-preview" className="bg-gray-50 p-4 rounded-lg border">
+              <div className="flex justify-center">
+                <QRCodeCanvas
+                  value={JSON.stringify({
+                    id: reservationId,
+                    pharmacyId: pharmacy.id,
+                    pharmacyName: pharmacy.name,
+                    medicine: medicine.name,
+                    quantity,
+                    pickupSlot,
+                    deliveryWindow,
+                  }, null, 2)}
+                  size={180}
+                />
+              </div>
+              <p className="text-sm mt-4 text-gray-700 text-center space-y-1">
+                <strong>Pharmacy:</strong> {pharmacy.name} <br />
+                <strong>Medicine:</strong> {medicine.name} <br />
+                <strong>Quantity:</strong> {quantity} <br />
+                <strong>Pickup Time:</strong> {pickupSlot} <br />
+                <strong>Delivery Window:</strong> {deliveryWindow} <br />
+                <strong>Reservation ID:</strong> {reservationId}
+              </p>
             </div>
-            <p className="text-xs mt-4 text-gray-500 text-center">
-              Pharmacy: {pharmacy.name} <br />
-              Quantity: {quantity} | Pickup Time: {pickupSlot} <br />
-              Delivery: {deliveryWindow} <br />
-              <strong>Reservation ID:</strong> {reservationId}
-            </p>
+
+            <div className="mt-4 flex justify-center gap-4">
+              <button
+                onClick={downloadPDF}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              >
+                Download
+              </button>
+              <button
+                onClick={window.print}
+                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+              >
+                Print
+              </button>
+            </div>
           </>
         ) : (
           <>
