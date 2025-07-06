@@ -55,7 +55,7 @@ export default function ReserveModal({ medicine, pharmacy, onClose, updateStock,
   user.points += 10;
   localStorage.setItem('currentUser', JSON.stringify(user));
 
-  setConfirmed(true); // ✅ Only this line remains
+  setConfirmed(true);
 
   if (typeof updateStock === 'function') {
     updateStock(medicine.name, pharmacy.id, quantity);
