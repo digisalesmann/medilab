@@ -106,7 +106,9 @@ export default function Header() {
   </div>
 
   {/* Cart Icon */}
+  <Link to="/cart">
   <ShoppingCart className="w-6 h-6 text-gray-700 cursor-pointer hover:text-green-600 transition-colors" />
+</Link>
 
   {/* Menu Toggle */}
   <button onClick={toggleMenu} className="ml-2">
