@@ -106,7 +106,7 @@ const LabTestSection = () => {
 export default LabTestSection;
 
 
-const products = [
+const wellnessEssentials = [
   {
     title: "Depura Vitamin D3 60k Sugar Free Oral Solution",
     image: "/images/depura.png",
@@ -184,7 +184,7 @@ export const WellnessGrid = () => {
             min-w-[600px] sm:min-w-[700px] md:min-w-0
           "
         >
-          {products.map((product, i) => (
+          {wellnessEssentials.map((product, i) => (
             <a
               href={`/product/${i}`}
               key={i}

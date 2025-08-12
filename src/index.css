@@ -27,3 +27,16 @@ code {
 .product-img {
   @apply w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 object-contain mb-3;
 }
+
+/* Hide horizontal/vertical scrollbars but keep scrolling */
+.scroll-hide {
+  -ms-overflow-style: none;   /* IE/Edge */
+  scrollbar-width: none;      /* Firefox */
+  overscroll-behavior-x: contain; /* optional: nicer trackpad fling */
+  -webkit-overflow-scrolling: touch; /* smoother on iOS */
+}
+.scroll-hide::-webkit-scrollbar {
+  width: 0;
+  height: 0;  /* Chrome/Safari/Opera */
+  display: none;
+}

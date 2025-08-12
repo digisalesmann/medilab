@@ -22,6 +22,8 @@ import AdminPanel from './pages/AdminPanel';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './routes/AdminRoute';
 import RewardWalletPage from './pages/RewardWalletPage';
+import ProductProfile from "./pages/ProductProfile";
+import Cart from "./pages/Cart";
 
 import './App.css';
 
@@ -71,6 +73,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
         <Route path="/wallet" element={<RewardWalletPage />} />
+        <Route path="/product/:slug" element={<ProductProfile />} />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="/admin"
           element={

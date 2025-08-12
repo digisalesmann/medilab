@@ -790,8 +790,6 @@ Object.entries(pharmacy.inventory).forEach(([category, items]) => {
   )}
 </div>
 
-
-
        <div className="bg-white shadow-md rounded-2xl p-6 border space-y-6">
         <h3 className="text-xl font-semibold mb-2">Leave Feedback</h3>
         <div className="flex gap-1">
