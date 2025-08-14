@@ -1,129 +1,121 @@
-import React from "react";
-import { FaUsers, FaMotorcycle, FaPills, FaMapMarkerAlt } from 'react-icons/fa';
+// src/components/TopRatedDoctors.jsx
+import React, { useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaUsers, FaMotorcycle, FaPills, FaMapMarkerAlt } from "react-icons/fa";
+import { doctors } from "../data/mockData"; // <- uses your mock doctors
 
-const topDoctors = [
-  {
-    name: "Dr. Aisha Bello",
-    specialty: "Cardiologist",
-    location: "Lagos, Nigeria",
-    rating: 4.9,
-    reviews: 132,
-    img: "/images/aisha.png",
-    bg: "bg-blue-50",
-    link: "/doctors/aisha-bello",
-  },
-  {
-    name: "Dr. John Okeke",
-    specialty: "Pediatrician",
-    location: "Abuja, Nigeria",
-    rating: 4.8,
-    reviews: 98,
-    img: "/images/john.png",
-    bg: "bg-green-50",
-    link: "/doctors/john-okeke",
-  },
-  {
-    name: "Dr. Mary Uduak",
-    specialty: "Dermatologist",
-    location: "Port Harcourt, Nigeria",
-    rating: 4.7,
-    reviews: 110,
-    img: "/images/mary.png",
-    bg: "bg-yellow-50",
-    link: "/doctors/mary-uduak",
-  },
-  {
-    name: "Dr. Ibrahim Sule",
-    specialty: "Neurologist",
-    location: "Kano, Nigeria",
-    rating: 4.9,
-    reviews: 85,
-    img: "/images/ibrahim.png",
-    bg: "bg-indigo-50",
-    link: "/doctors/ibrahim-sule",
-  },
-  {
-  name: "Dr. Fatima Oladipo",
-  specialty: "Endocrinologist",
-  location: "Ibadan, Nigeria",
-  rating: 4.8,
-  reviews: 121,
-  img: "/images/fatima.png", // Use a high-quality PNG image
-  bg: "bg-pink-50",
-  link: "/doctors/fatima-oladipo",
-},
-{
-  name: "Dr. Emeka Uche",
-  specialty: "Orthopedic Surgeon",
-  location: "Enugu, Nigeria",
-  rating: 4.7,
-  reviews: 102,
-  img: "/images/emeka.png",
-  bg: "bg-orange-50",
-  link: "/doctors/emeka-uche",
-},
-{
-  name: "Dr. Grace Nwosu",
-  specialty: "General Practitioner",
-  location: "Benin City, Nigeria",
-  rating: 4.9,
-  reviews: 143,
-  img: "/images/grace.png",
-  bg: "bg-purple-50",
-  link: "/doctors/grace-nwosu",
+/* --- small helpers --- */
+function slugify(s = "") {
+  return String(s)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 }
-];
 
+/* --- Card for each doctor --- */
+function DoctorCard({ doc, onClick }) {
+  const safeRating = Number(doc.rating || 0);
+  return (
+    <button
+      onClick={onClick}
+      className={`min-w-[200px] sm:min-w-[240px] md:min-w-[260px] ${doc.bg || "bg-gray-50"}
+        p-3 rounded-xl relative flex flex-col shadow-sm hover:shadow-md
+        hover:-translate-y-1 hover:scale-[1.03]
+        transition-all duration-200 cursor-pointer text-left focus:outline-none`}
+      aria-label={`View ${doc.name}`}
+      type="button"
+    >
+      <img
+        src={doc.img}
+        alt={doc.name}
+        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover mb-2 mx-auto border"
+      />
+      <div className="text-center">
+        <h3 className="text-sm sm:text-base font-semibold text-gray-800">
+          {doc.name}
+        </h3>
+        <p className="text-xs sm:text-sm text-gray-500">{doc.specialty}</p>
+        <p className="text-xs text-gray-400">{doc.location}</p>
+
+        <div className="mt-1 text-xs sm:text-sm flex justify-center items-center gap-2">
+          <span className="inline-flex items-center">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <svg
+                key={i}
+                viewBox="0 0 20 20"
+                className={`w-4 h-4 ${i < Math.round(safeRating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+              >
+                <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.562-.954L10 0l2.95 5.956 6.562.954-4.756 4.634 1.122 6.545z" />
+              </svg>
+            ))}
+          </span>
+          <span className="text-gray-700">{safeRating.toFixed(1)}</span>
+          <span className="text-gray-400">({doc.reviews})</span>
+        </div>
+      </div>
+
+      <div className="mt-3 flex items-center justify-between text-xs sm:text-sm">
+        <span className="text-gray-500">{doc.experienceYears}+ yrs exp</span>
+        {doc.fee && (
+          <span className="font-semibold text-emerald-700">
+            ₦{Number(doc.fee).toLocaleString()}
+          </span>
+        )}
+      </div>
+    </button>
+  );
+}
+
+/* --- Top Rated Doctors (dynamic) --- */
 export const TopRatedDoctors = () => {
+  const navigate = useNavigate();
+  const scrollRef = useRef(null);
+
+  // choose up to 12 best-rated doctors
+  const top = useMemo(() => {
+    return [...(doctors || [])]
+      .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+      .slice(0, 12);
+  }, []);
+
   return (
     <section className="px-3 sm:px-6 py-5 bg-white">
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-lg sm:text-2xl font-bold text-gray-800">
           Top Rated Doctors Near You
         </h2>
-        <a
-          href="/doctors"
+        <button
+          onClick={() => navigate("/doctors")}
           className="text-teal-600 font-medium text-xs sm:text-sm hover:underline"
         >
           See All
-        </a>
+        </button>
       </div>
 
-            <div className="overflow-x-auto scrollbar-hide pt-2 pb-5">
-  <div className="flex space-x-4 w-max">
-    {topDoctors.map((doctor, idx) => (
-      <a
-        href={doctor.link}
-        key={idx}
-        className={`min-w-[200px] sm:min-w-[240px] md:min-w-[260px] ${doctor.bg}
-          p-3 rounded-xl relative flex flex-col shadow-sm hover:shadow-md
-          hover:-translate-y-1 hover:scale-[1.05]
-          transition-all duration-300 cursor-pointer`}
-      >
-        <img
-          src={doctor.img}
-          alt={doctor.name}
-          className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover mb-2 mx-auto"
-        />
-        <div className="text-center">
-          <h3 className="text-sm sm:text-base font-semibold text-gray-800">
-            {doctor.name}
-          </h3>
-          <p className="text-xs sm:text-sm text-gray-500">{doctor.specialty}</p>
-          <p className="text-xs text-gray-400">{doctor.location}</p>
-          <div className="mt-1 text-yellow-500 text-xs sm:text-sm flex justify-center items-center gap-1">
-            <span>⭐ {doctor.rating}</span>
-            <span className="text-gray-400">({doctor.reviews})</span>
+      <div className="relative">
+        <div className="overflow-x-auto scrollbar-hide pt-2 pb-5" ref={scrollRef}>
+          <div className="flex space-x-4 w-max">
+            {top.map((doc) => (
+              <DoctorCard
+                key={doc.id}
+                doc={doc}
+                onClick={() =>
+                  navigate(`/doctor/${doc.id}/${slugify(`${doc.name}-${doc.specialty}`)}`)
+                }
+              />
+            ))}
           </div>
         </div>
-      </a>
-    ))}
-  </div>
-</div>
-<div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
-</section>
+      </div>
+
+      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
+    </section>
   );
 };
+
+/* ----------------- keep the rest (with tiny polish) ----------------- */
 
 // components/HealthArticles.jsx
 export const HealthArticles = () => {
@@ -149,19 +141,19 @@ export const HealthArticles = () => {
       link: "/articles/hpv-vaccine",
     },
     {
-    title: "Managing Hypertension: Diet, Lifestyle & Medication",
-    img: "/images/hyper.png",
-    link: "/articles/hypertension-management",
+      title: "Managing Hypertension: Diet, Lifestyle & Medication",
+      img: "/images/hyper.png",
+      link: "/articles/hypertension-management",
     },
     {
-    title: "Understanding Type 2 Diabetes: Causes & Daily Tips",
-    img: "/images/diab.png",
-    link: "/articles/type2-diabetes-guide",
+      title: "Understanding Type 2 Diabetes: Causes & Daily Tips",
+      img: "/images/diab.png",
+      link: "/articles/type2-diabetes-guide",
     },
     {
-    title: "Mental Health: Recognizing Signs of Anxiety & Stress",
-    img: "/images/mental.png",
-    link: "/articles/mental-health-awareness",
+      title: "Mental Health: Recognizing Signs of Anxiety & Stress",
+      img: "/images/mental.png",
+      link: "/articles/mental-health-awareness",
     },
   ];
 
@@ -252,18 +244,17 @@ export const WhyChooseUs = () => {
 
       {/* Desktop Horizontal Layout */}
       <div className="hidden lg:flex justify-start gap-4">
-  {stats.map((item, idx) => (
-    <div
-      key={idx}
-      className="w-1/4 bg-white p-4 rounded-xl shadow flex flex-col items-center text-center"
-    >
-      {item.icon}
-      <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
-      <p className="text-sm text-gray-600">{item.desc}</p>
-    </div>
-  ))}
-</div>
-
+        {stats.map((item, idx) => (
+          <div
+            key={idx}
+            className="w-1/4 bg-white p-4 rounded-xl shadow flex flex-col items-center text-center"
+          >
+            {item.icon}
+            <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
+            <p className="text-sm text-gray-600">{item.desc}</p>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

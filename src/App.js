@@ -24,6 +24,8 @@ import AdminRoute from './routes/AdminRoute';
 import RewardWalletPage from './pages/RewardWalletPage';
 import ProductProfile from "./pages/ProductProfile";
 import Cart from "./pages/Cart";
+import ScrollToTop from "./components/ScrollToTop";
+import DoctorProfile from './pages/DoctorProfile';
 
 import './App.css';
 
@@ -40,6 +42,7 @@ function App() {
   return (
     <div className="App">
       {!hideLayout && <Header />}
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"
@@ -75,6 +78,7 @@ function App() {
         <Route path="/wallet" element={<RewardWalletPage />} />
         <Route path="/product/:slug" element={<ProductProfile />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/doctor/:id/:slug" element={<DoctorProfile />} />
         <Route
           path="/admin"
           element={

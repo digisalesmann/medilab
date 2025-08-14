@@ -1,14 +1,15 @@
+// src/data/mockData.js
 // Central mock data for the whole app
 
 export const mockPharmacies = [
   {
     id: "1",
-    name: 'HealthPlus Pharmacy',
-    license: 'PHX-3289-2025',
-    location: 'Owerri Imo-State',
-    owner: 'Dr. Ada Okeke',
+    name: "HealthPlus Pharmacy",
+    license: "PHX-3289-2025",
+    location: "Owerri Imo-State",
+    owner: "Dr. Ada Okeke",
     verified: true,
-    phone: '+2348001234567',
+    phone: "+2348001234567",
     reviews: 128,
     rating: 4.6,
     inventory: {
@@ -16,714 +17,1027 @@ export const mockPharmacies = [
         { name: "Amoxicillin 500mg", stock: 12, price: 1200 },
         { name: "Ciprofloxacin 500mg", stock: 15, price: 1800 },
         { name: "Azithromycin 250mg", stock: 10, price: 2500 },
-        { name: "Augmentin 625mg", stock: 5, price: 3200 }
+        { name: "Augmentin 625mg", stock: 5, price: 3200 },
       ],
       "Pain Relievers / Anti-inflammatory": [
         { name: "Paracetamol", stock: 34, price: 1600 },
-        { name: "Ibuprofen 400mg", stock: 20, price: 1000 }
+        { name: "Ibuprofen 400mg", stock: 20, price: 1000 },
       ],
-      Respiratory: [
-        { name: "Ventolin Inhaler", stock: 0, price: 1200 }
-      ],
-      Diabetes: [
-        { name: "Metformin 1000mg", stock: 25, price: 2000 }
-      ],
-      Cardiovascular: [
-        { name: "Lisinopril 10mg", stock: 18, price: 1500 }
-      ],
+      Respiratory: [{ name: "Ventolin Inhaler", stock: 0, price: 1200 }],
+      Diabetes: [{ name: "Metformin 1000mg", stock: 25, price: 2000 }],
+      Cardiovascular: [{ name: "Lisinopril 10mg", stock: 18, price: 1500 }],
       "Antihistamines / Allergy": [
         { name: "Cetirizine 10mg", stock: 40, price: 900 },
-        { name: "Chlorpheniramine Maleate", stock: 22, price: 800 }
+        { name: "Chlorpheniramine Maleate", stock: 22, price: 800 },
       ],
-      "Antacids / Stomach": [
-        { name: "Omeprazole 20mg", stock: 50, price: 1100 }
-      ],
+      "Antacids / Stomach": [{ name: "Omeprazole 20mg", stock: 50, price: 1100 }],
       Antimalarials: [
         { name: "Artemether/Lumefantrine", stock: 8, price: 2800 },
-        { name: "Coartem 80/480mg", stock: 6, price: 3000 }
+        { name: "Coartem 80/480mg", stock: 6, price: 3000 },
       ],
-      "Vitamins & Supplements": [
-        { name: "Folic Acid 5mg", stock: 60, price: 700 }
-      ]
-    }
+      "Vitamins & Supplements": [{ name: "Folic Acid 5mg", stock: 60, price: 700 }],
+    },
   },
   {
     id: "2",
-    name: 'MediStore',
-    license: 'PHX-2210-2025',
-    location: 'Owerri Imo-State',
-    owner: 'Dr. John Ibrahim',
+    name: "MediStore",
+    license: "PHX-2210-2025",
+    location: "Owerri Imo-State",
+    owner: "Dr. John Ibrahim",
     verified: true,
-    phone: '+2348009876543',
+    phone: "+2348009876543",
     reviews: 75,
     rating: 4.2,
     inventory: {
       "Neurology / Psychiatry": [
         { name: "Lorazepam 2mg", stock: 7, price: 2900 },
-        { name: "Diazepam 5mg", stock: 12, price: 2200 }
+        { name: "Diazepam 5mg", stock: 12, price: 2200 },
       ],
-      Steroids: [
-        { name: "Prednisone 20mg", stock: 10, price: 2100 }
-      ],
+      Steroids: [{ name: "Prednisone 20mg", stock: 10, price: 2100 }],
       Cardiovascular: [
         { name: "Losartan 50mg", stock: 14, price: 1700 },
-        { name: "Simvastatin 40mg", stock: 9, price: 1900 }
+        { name: "Simvastatin 40mg", stock: 9, price: 1900 },
       ],
-      Antimalarials: [
-        { name: "Hydroxychloroquine 200mg", stock: 6, price: 2600 }
-      ],
-      Respiratory: [
-        { name: "Salbutamol Syrup", stock: 11, price: 1300 }
-      ],
+      Antimalarials: [{ name: "Hydroxychloroquine 200mg", stock: 6, price: 2600 }],
+      Respiratory: [{ name: "Salbutamol Syrup", stock: 11, price: 1300 }],
       "Pain Relievers / Anti-inflammatory": [
-        { name: "Diclofenac Sodium 100mg", stock: 30, price: 1000 }
+        { name: "Diclofenac Sodium 100mg", stock: 30, price: 1000 },
       ],
-      Antibiotics: [
-        { name: "Erythromycin 500mg", stock: 8, price: 2400 }
-      ],
-      "Vitamins & Supplements": [
-        { name: "Multivitamin Complex", stock: 35, price: 1500 }
-      ]
-    }
+      Antibiotics: [{ name: "Erythromycin 500mg", stock: 8, price: 2400 }],
+      "Vitamins & Supplements": [{ name: "Multivitamin Complex", stock: 35, price: 1500 }],
+    },
   },
   {
     id: "3",
-    name: 'CityMed Pharmacy',
-    license: 'PHX-3301-2025',
-    location: 'Yaba, Lagos, Nigeria',
-    owner: 'Dr. Tolu Adebayo',
+    name: "CityMed Pharmacy",
+    license: "PHX-3301-2025",
+    location: "Yaba, Lagos, Nigeria",
+    owner: "Dr. Tolu Adebayo",
     verified: true,
-    phone: '+2347012345678',
+    phone: "+2347012345678",
     reviews: 102,
     rating: 4.5,
     inventory: {
       "Antihistamines / Allergy": [
         { name: "Cetirizine", stock: 10, price: 2200 },
-        { name: "Chlorpheniramine Maleate", stock: 22, price: 800 }
+        { name: "Chlorpheniramine Maleate", stock: 22, price: 800 },
       ],
-      Diabetes: [
-        { name: "Metformin", stock: 7, price: 1950 }
-      ],
-      Cardiovascular: [
-        { name: "Simvastatin 40mg", stock: 9, price: 1900 }
-      ],
+      Diabetes: [{ name: "Metformin", stock: 7, price: 1950 }],
+      Cardiovascular: [{ name: "Simvastatin 40mg", stock: 9, price: 1900 }],
       Antimalarials: [
         { name: "Hydroxychloroquine 200mg", stock: 6, price: 2600 },
         { name: "Artemether/Lumefantrine", stock: 8, price: 2800 },
-        { name: "Coartem 80/480mg", stock: 6, price: 3000 }
+        { name: "Coartem 80/480mg", stock: 6, price: 3000 },
       ],
       Respiratory: [
         { name: "Salbutamol Syrup", stock: 11, price: 1300 },
-        { name: "Levosalbutamol", stock: 28, price: 900 }
+        { name: "Levosalbutamol", stock: 28, price: 900 },
       ],
       "Pain Relievers / Anti-inflammatory": [
-        { name: "Diclofenac Sodium 100mg", stock: 30, price: 1000 }
+        { name: "Diclofenac Sodium 100mg", stock: 30, price: 1000 },
       ],
       Antibiotics: [
         { name: "Erythromycin 500mg", stock: 8, price: 2400 },
         { name: "Azithromycin 250mg", stock: 10, price: 2500 },
-        { name: "Augmentin 625mg", stock: 5, price: 3200 }
+        { name: "Augmentin 625mg", stock: 5, price: 3200 },
       ],
-      "Antacids / Stomach": [
-        { name: "Omeprazole 20mg", stock: 50, price: 1100 }
-      ],
+      "Antacids / Stomach": [{ name: "Omeprazole 20mg", stock: 50, price: 1100 }],
       "Vitamins & Supplements": [
         { name: "Folic Acid 5mg", stock: 60, price: 700 },
-        { name: "Multivitamin Complex", stock: 35, price: 1500 }
-      ]
-    }
+        { name: "Multivitamin Complex", stock: 35, price: 1500 },
+      ],
+    },
   },
   {
     id: "4",
-    name: 'LifeCare Drugs',
-    license: 'PHX-3388-2025',
-    location: 'Victoria Island, Lagos, Nigeria',
-    owner: 'Dr. Ifeoma Umeh',
+    name: "LifeCare Drugs",
+    license: "PHX-3388-2025",
+    location: "Victoria Island, Lagos, Nigeria",
+    owner: "Dr. Ifeoma Umeh",
     verified: true,
-    phone: '+2347034567890',
+    phone: "+2347034567890",
     reviews: 89,
     rating: 4.4,
     inventory: {
       "Antihistamines / Allergy": [
         { name: "Loratadine", stock: 8, price: 1900 },
-        { name: "Cetirizine", stock: 10, price: 3400 }
+        { name: "Cetirizine", stock: 10, price: 3400 },
       ],
       "Vitamins & Supplements": [
         { name: "Vitamin C", stock: 21, price: 2800 },
-        { name: "Multivitamin Complex", stock: 35, price: 1500 }
+        { name: "Multivitamin Complex", stock: 35, price: 1500 },
       ],
       Cardiovascular: [
         { name: "Simvastatin 40mg", stock: 9, price: 1900 },
-        { name: "Lisinopril 10mg", stock: 18, price: 1500 }
+        { name: "Lisinopril 10mg", stock: 18, price: 1500 },
       ],
-      Antimalarials: [
-        { name: "Hydroxychloroquine 200mg", stock: 6, price: 2600 }
-      ],
+      Antimalarials: [{ name: "Hydroxychloroquine 200mg", stock: 6, price: 2600 }],
       Respiratory: [
         { name: "Salbutamol Syrup", stock: 11, price: 1300 },
-        { name: "Ventolin Inhaler", stock: 0, price: 1200 }
+        { name: "Ventolin Inhaler", stock: 0, price: 1200 },
       ],
       "Pain Relievers / Anti-inflammatory": [
         { name: "Diclofenac Sodium 100mg", stock: 30, price: 1000 },
         { name: "Paracetamol", stock: 34, price: 1600 },
-        { name: "Ibuprofen 400mg", stock: 20, price: 1000 }
+        { name: "Ibuprofen 400mg", stock: 20, price: 1000 },
       ],
       Antibiotics: [
         { name: "Erythromycin 500mg", stock: 8, price: 2400 },
         { name: "Azithromycin 250mg", stock: 10, price: 2500 },
         { name: "Amoxicillin 500mg", stock: 12, price: 1200 },
-        { name: "Ciprofloxacin 500mg", stock: 15, price: 1800 }
+        { name: "Ciprofloxacin 500mg", stock: 15, price: 1800 },
       ],
-      Diabetes: [
-        { name: "Metformin 1000mg", stock: 25, price: 2000 }
-      ]
-    }
+      Diabetes: [{ name: "Metformin 1000mg", stock: 25, price: 2000 }],
+    },
   },
   {
     id: "5",
-    name: 'GreenMed Pharmacy',
-    license: 'PHX-3402-2025',
-    location: 'Maitama, Abuja, Nigeria',
-    owner: 'Dr. Musa Danjuma',
+    name: "GreenMed Pharmacy",
+    license: "PHX-3402-2025",
+    location: "Maitama, Abuja, Nigeria",
+    owner: "Dr. Musa Danjuma",
     verified: false,
-    phone: '+2347067890123',
+    phone: "+2347067890123",
     reviews: 6,
     rating: 2.3,
     inventory: [],
   },
   {
     id: "6",
-    name: 'PrimeCare Pharmacy',
-    license: 'PHX-3415-2025',
-    location: 'Wuse Zone 2, Abuja, Nigeria',
-    owner: 'Dr. Grace Nwankwo',
+    name: "PrimeCare Pharmacy",
+    license: "PHX-3415-2025",
+    location: "Wuse Zone 2, Abuja, Nigeria",
+    owner: "Dr. Grace Nwankwo",
     verified: true,
-    phone: '+2347087654321',
+    phone: "+2347087654321",
     reviews: 116,
     rating: 4.7,
     inventory: {
       Antibiotics: [
         { name: "Erythromycin 500mg", stock: 8, price: 2400 },
         { name: "Azithromycin 250mg", stock: 10, price: 2500 },
-        { name: "Amoxicillin 500mg", stock: 12, price: 1200 }
+        { name: "Amoxicillin 500mg", stock: 12, price: 1200 },
       ],
-      "Vitamins & Supplements": [
-        { name: "Multivitamin Complex", stock: 35, price: 1500 }
-      ],
+      "Vitamins & Supplements": [{ name: "Multivitamin Complex", stock: 35, price: 1500 }],
       "Pain Relievers / Anti-inflammatory": [
         { name: "Paracetamol", stock: 34, price: 1600 },
-        { name: "Ibuprofen 400mg", stock: 20, price: 1000 }
+        { name: "Ibuprofen 400mg", stock: 20, price: 1000 },
       ],
-      Respiratory: [
-        { name: "Ventolin Inhaler", stock: 10, price: 1200 }
-      ]
-    }
+      Respiratory: [{ name: "Ventolin Inhaler", stock: 10, price: 1200 }],
+    },
   },
   {
     id: "7",
-    name: 'Silverline Pharmacy',
-    license: 'PHX-3492-2025',
-    location: 'Ikeja, Lagos, Nigeria',
-    owner: 'Dr. Emeka Obi',
+    name: "Silverline Pharmacy",
+    license: "PHX-3492-2025",
+    location: "Ikeja, Lagos, Nigeria",
+    owner: "Dr. Emeka Obi",
     verified: true,
-    phone: '+2347011122233',
+    phone: "+2347011122233",
     reviews: 59,
     rating: 4.1,
     inventory: {
-      Antibiotics: [
-        { name: "Amoxicillin 250mg", stock: 6, price: 3200 }
-      ],
-      "Neurology / Psychiatry": [
-        { name: "Nitrazepam 5mg", stock: 6, price: 2200 }
-      ],
+      Antibiotics: [{ name: "Amoxicillin 250mg", stock: 6, price: 3200 }],
+      "Neurology / Psychiatry": [{ name: "Nitrazepam 5mg", stock: 6, price: 2200 }],
       Cardiovascular: [
         { name: "Clopidogrel 75mg", stock: 14, price: 2700 },
         { name: "Atorvastatin 20mg", stock: 18, price: 2100 },
-        { name: "Hydralazine 25mg", stock: 5, price: 2400 }
+        { name: "Hydralazine 25mg", stock: 5, price: 2400 },
       ],
       "Antacids / Stomach": [
         { name: "Cimetidine 200mg", stock: 7, price: 1300 },
-        { name: "Domperidone 10mg", stock: 12, price: 1400 }
+        { name: "Domperidone 10mg", stock: 12, price: 1400 },
       ],
-      "Anthelmintics / Antiparasitics": [
-        { name: "Albendazole 400mg", stock: 16, price: 1500 }
-      ],
-      "Men's Health": [
-        { name: "Sildenafil 50mg", stock: 10, price: 2900 }
-      ],
-      "Dermatological / Skin Care": [
-        { name: "Ketoconazole Shampoo", stock: 9, price: 3200 }
-      ],
-      "Vitamins & Supplements": [
-        { name: "Vitamin B-Complex Injection", stock: 3, price: 3500 }
-      ]
-    }
+      "Anthelmintics / Antiparasitics": [{ name: "Albendazole 400mg", stock: 16, price: 1500 }],
+      "Men's Health": [{ name: "Sildenafil 50mg", stock: 10, price: 2900 }],
+      "Dermatological / Skin Care": [{ name: "Ketoconazole Shampoo", stock: 9, price: 3200 }],
+      "Vitamins & Supplements": [{ name: "Vitamin B-Complex Injection", stock: 3, price: 3500 }],
+    },
   },
   {
     id: "8",
-    name: 'Wellcare Pharmacy',
-    license: 'PHX-3524-2025',
-    location: 'Asaba, Delta State, Nigeria',
-    owner: 'Dr. Kemi Bassey',
+    name: "Wellcare Pharmacy",
+    license: "PHX-3524-2025",
+    location: "Asaba, Delta State, Nigeria",
+    owner: "Dr. Kemi Bassey",
     verified: true,
-    phone: '+2347098765432',
+    phone: "+2347098765432",
     reviews: 71,
     rating: 4.3,
     inventory: {
-    Antibiotics: [
-      { name: "Amoxicillin 500mg", stock: 12, price: 1200 },
-      { name: "Azithromycin 250mg", stock: 10, price: 2500 },
-      { name: "Erythromycin 500mg", stock: 8, price: 2400 },
-    ],
-    Antihistamines: [
-      { name: "Cetirizine", stock: 10, price: 2360 },
-      { name: "Loratadine", stock: 8, price: 6700 },
-    ],
-    PainRelief: [
-      { name: "Ibuprofen", stock: 18, price: 4600 },
-      { name: "Diclofenac Sodium 100mg", stock: 30, price: 1000 },
-    ],
-    Antimalarials: [],
-    Diabetes: [
-      { name: "Metformin", stock: 7, price: 1150 },
-    ],
-    Cholesterol: [
-      { name: "Simvastatin 40mg", stock: 9, price: 1900 },
-    ],
-    Respiratory: [
-      { name: "Salbutamol Syrup", stock: 11, price: 1300 },
-    ],
-    Supplements: [
-      { name: "Multivitamin Complex", stock: 35, price: 1500 },
-    ],
-  }
+      Antibiotics: [
+        { name: "Amoxicillin 500mg", stock: 12, price: 1200 },
+        { name: "Azithromycin 250mg", stock: 10, price: 2500 },
+        { name: "Erythromycin 500mg", stock: 8, price: 2400 },
+      ],
+      Antihistamines: [
+        { name: "Cetirizine", stock: 10, price: 2360 },
+        { name: "Loratadine", stock: 8, price: 6700 },
+      ],
+      PainRelief: [
+        { name: "Ibuprofen", stock: 18, price: 4600 },
+        { name: "Diclofenac Sodium 100mg", stock: 30, price: 1000 },
+      ],
+      Antimalarials: [],
+      Diabetes: [{ name: "Metformin", stock: 7, price: 1150 }],
+      Cholesterol: [{ name: "Simvastatin 40mg", stock: 9, price: 1900 }],
+      Respiratory: [{ name: "Salbutamol Syrup", stock: 11, price: 1300 }],
+      Supplements: [{ name: "Multivitamin Complex", stock: 35, price: 1500 }],
+    },
   },
   {
     id: "9",
-    name: 'MedEase',
-    license: 'PHX-3570-2025',
-    location: 'Enugu, Enugu State, Nigeria',
-    owner: 'Dr. Chuka Eze',
+    name: "MedEase",
+    license: "PHX-3570-2025",
+    location: "Enugu, Enugu State, Nigeria",
+    owner: "Dr. Chuka Eze",
     verified: false,
-    phone: '+2347044433221',
+    phone: "+2347044433221",
     reviews: 8,
     rating: 1.7,
     inventory: [],
   },
   {
     id: "10",
-    name: 'Access Pharma',
-    license: 'PHX-3613-2025',
-    location: 'Abeokuta, Ogun State, Nigeria',
-    owner: 'Dr. Aisha Bello',
+    name: "Access Pharma",
+    license: "PHX-3613-2025",
+    location: "Abeokuta, Ogun State, Nigeria",
+    owner: "Dr. Aisha Bello",
     verified: true,
-    phone: '+2347055556677',
+    phone: "+2347055556677",
     reviews: 47,
     rating: 4.0,
     inventory: {
-    Antacids: [
-      { name: "Antacid", stock: 6, price: 2870 },
-      { name: "Ranitidine 150mg", stock: 9, price: 1200 },
-    ],
-    Hormonal: [
-      { name: "Insulin Glargine", stock: 4, price: 5500 },
-    ],
-    BloodPressure: [
-      { name: "Amlodipine 10mg", stock: 16, price: 1400 },
-    ],
-    SkinCare: [
-      { name: "Clotrimazole Cream", stock: 13, price: 1600 },
-      { name: "Betamethasone Cream", stock: 10, price: 1700 },
-    ],
-    Injections: [
-      { name: "Gentamicin Injection", stock: 6, price: 2500 },
-    ],
-    Electrolytes: [
-      { name: "Magnesium Sulfate", stock: 5, price: 2000 },
-      { name: "Zinc Sulphate Syrup", stock: 28, price: 1000 },
-      { name: "ORS Sachet", stock: 100, price: 300 },
-    ],
-    Cough: [
-      { name: "Cough Syrup (Expectorant)", stock: 21, price: 1800 },
-    ],
-  }
+      Antacids: [
+        { name: "Antacid", stock: 6, price: 2870 },
+        { name: "Ranitidine 150mg", stock: 9, price: 1200 },
+      ],
+      Hormonal: [{ name: "Insulin Glargine", stock: 4, price: 5500 }],
+      BloodPressure: [{ name: "Amlodipine 10mg", stock: 16, price: 1400 }],
+      SkinCare: [
+        { name: "Clotrimazole Cream", stock: 13, price: 1600 },
+        { name: "Betamethasone Cream", stock: 10, price: 1700 },
+      ],
+      Injections: [{ name: "Gentamicin Injection", stock: 6, price: 2500 }],
+      Electrolytes: [
+        { name: "Magnesium Sulfate", stock: 5, price: 2000 },
+        { name: "Zinc Sulphate Syrup", stock: 28, price: 1000 },
+        { name: "ORS Sachet", stock: 100, price: 300 },
+      ],
+      Cough: [{ name: "Cough Syrup (Expectorant)", stock: 21, price: 1800 }],
+    },
   },
   {
     id: "11",
-    name: 'VitalMed',
-    license: 'PHX-3688-2025',
-    location: 'Port Harcourt, Rivers, Nigeria',
-    owner: 'Dr. Oluchi Nnaji',
+    name: "VitalMed",
+    license: "PHX-3688-2025",
+    location: "Port Harcourt, Rivers, Nigeria",
+    owner: "Dr. Oluchi Nnaji",
     verified: true,
-    phone: '+2347061239876',
+    phone: "+2347061239876",
     reviews: 95,
     rating: 4.6,
     inventory: {
-    Antibiotics: [
-      { name: "Doxycycline 100mg", stock: 11, price: 1900 },
-      { name: "Metronidazole 400mg", stock: 20, price: 1100 },
-    ],
-    Antihistamines: [
-      { name: "Chlorphenamine", stock: 4, price: 7650 },
-    ],
-    Antifungals: [
-      { name: "Fluconazole 150mg", stock: 7, price: 2100 },
-      { name: "Miconazole Oral Gel", stock: 9, price: 2300 },
-    ],
-    BloodPressure: [
-      { name: "Nifedipine 20mg", stock: 18, price: 1600 },
-    ],
-    BloodThinners: [
-      { name: "Warfarin 5mg", stock: 5, price: 2800 },
-    ],
-    Hormonal: [
-      { name: "Levothyroxine 50mcg", stock: 13, price: 2000 },
-    ],
-    Vitamins: [
-      { name: "Multivitamins", stock: 15, price: 5500 },
-      { name: "Calcium + Vitamin D3", stock: 30, price: 1700 },
-    ],
-    Minerals: [
-      { name: "Iron Supplement (Ferrous Sulfate)", stock: 25, price: 1000 },
-    ],
-    Antacids: [
-      { name: "Antacid Suspension", stock: 22, price: 900 },
-    ],
-  }
+      Antibiotics: [
+        { name: "Doxycycline 100mg", stock: 11, price: 1900 },
+        { name: "Metronidazole 400mg", stock: 20, price: 1100 },
+      ],
+      Antihistamines: [{ name: "Chlorphenamine", stock: 4, price: 7650 }],
+      Antifungals: [
+        { name: "Fluconazole 150mg", stock: 7, price: 2100 },
+        { name: "Miconazole Oral Gel", stock: 9, price: 2300 },
+      ],
+      BloodPressure: [{ name: "Nifedipine 20mg", stock: 18, price: 1600 }],
+      BloodThinners: [{ name: "Warfarin 5mg", stock: 5, price: 2800 }],
+      Hormonal: [{ name: "Levothyroxine 50mcg", stock: 13, price: 2000 }],
+      Vitamins: [
+        { name: "Multivitamins", stock: 15, price: 5500 },
+        { name: "Calcium + Vitamin D3", stock: 30, price: 1700 },
+      ],
+      Minerals: [{ name: "Iron Supplement (Ferrous Sulfate)", stock: 25, price: 1000 }],
+      Antacids: [{ name: "Antacid Suspension", stock: 22, price: 900 }],
+    },
   },
   {
     id: "12",
-    name: 'CareFirst Pharmacy',
-    license: 'PHX-3715-2025',
-    location: 'Owerri Imo-State, Nigeria',
-    owner: 'Dr. Henry Ezeh',
+    name: "CareFirst Pharmacy",
+    license: "PHX-3715-2025",
+    location: "Owerri Imo-State, Nigeria",
+    owner: "Dr. Henry Ezeh",
     verified: true,
-    phone: '+2347033338888',
+    phone: "+2347033338888",
     reviews: 82,
     rating: 4.2,
     inventory: {
-    Antibiotics: [
-      { name: "Penicillin V 250mg", stock: 6, price: 2400 },
-      { name: "Chloroquine Phosphate", stock: 12, price: 1800 },
-    ],
-    PainRelief: [
-      { name: "Paracetamol", stock: 20, price: 3200 },
-      { name: "Cough Suppressant (Dextromethorphan)", stock: 14, price: 1500 },
-      { name: "Codeine Phosphate Syrup", stock: 8, price: 2500 },
-    ],
-    Vitamins: [
-      { name: "Vitamin C Tablets", stock: 50, price: 700 },
-      { name: "Neurovite Forte", stock: 19, price: 1600 },
-    ],
-    Digestive: [
-      { name: "Loperamide 2mg", stock: 40, price: 800 },
-    ],
-    Neurological: [
-      { name: "Sodium Valproate 200mg", stock: 9, price: 2600 },
-      { name: "Melatonin 3mg", stock: 10, price: 2700 },
-    ],
-    Hormonal: [
-      { name: "Oral Contraceptive Pill", stock: 15, price: 1900 },
-    ],
-  }
-  }
+      Antibiotics: [
+        { name: "Penicillin V 250mg", stock: 6, price: 2400 },
+        { name: "Chloroquine Phosphate", stock: 12, price: 1800 },
+      ],
+      PainRelief: [
+        { name: "Paracetamol", stock: 20, price: 3200 },
+        { name: "Cough Suppressant (Dextromethorphan)", stock: 14, price: 1500 },
+        { name: "Codeine Phosphate Syrup", stock: 8, price: 2500 },
+      ],
+      Vitamins: [
+        { name: "Vitamin C Tablets", stock: 50, price: 700 },
+        { name: "Neurovite Forte", stock: 19, price: 1600 },
+      ],
+      Digestive: [{ name: "Loperamide 2mg", stock: 40, price: 800 }],
+      Neurological: [
+        { name: "Sodium Valproate 200mg", stock: 9, price: 2600 },
+        { name: "Melatonin 3mg", stock: 10, price: 2700 },
+      ],
+      Hormonal: [{ name: "Oral Contraceptive Pill", stock: 15, price: 1900 }],
+    },
+  },
 ];
 
-// Home page / sections data (recommend adding pharmacyId for perfect linking)
+// Home page / sections data
 export const categories = [
-  {
-    label: "Must haves",
-    image: "/images/must.webp",
-    bgGradient: "bg-gradient-to-b from-yellow-100 to-yellow-50",
-  },
-  {
-    label: "Sports nutrition",
-    image: "/images/sports.webp",
-    bgGradient: "bg-gradient-to-b from-blue-100 to-blue-50",
-  },
-  {
-    label: "Vitamins & supplements",
-    image: "/images/vit.webp",
-    bgGradient: "bg-gradient-to-b from-pink-100 to-pink-50",
-  },
-  {
-    label: "Skin care",
-    image: "/images/skin.webp",
-    bgGradient: "bg-gradient-to-b from-purple-100 to-purple-50",
-  },
-  {
-    label: "Diabetes essentials",
-    image: "/images/dis.webp",
-    bgGradient: "bg-gradient-to-b from-green-100 to-green-50",
-  },
-  {
-    label: "Heart health",
-    image: "/images/heartt.webp",
-    bgGradient: "bg-gradient-to-b from-red-100 to-red-50",
-  },
-  {
-    label: "Ayurvedic care",
-    image: "/images/ay.webp",
-    bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50",
-  },
-  {
-    label: "Heart health",
-    image: "/images/heartt.webp",
-    bgGradient: "bg-gradient-to-b from-red-100 to-red-50",
-  },
-  {
-    label: "Ayurvedic care",
-    image: "/images/ay.webp",
-    bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50",
-  },
+  { label: "Must haves", image: "/images/must.webp", bgGradient: "bg-gradient-to-b from-yellow-100 to-yellow-50" },
+  { label: "Sports nutrition", image: "/images/sports.webp", bgGradient: "bg-gradient-to-b from-blue-100 to-blue-50" },
+  { label: "Vitamins & supplements", image: "/images/vit.webp", bgGradient: "bg-gradient-to-b from-pink-100 to-pink-50" },
+  { label: "Skin care", image: "/images/skin.webp", bgGradient: "bg-gradient-to-b from-purple-100 to-purple-50" },
+  { label: "Diabetes essentials", image: "/images/dis.webp", bgGradient: "bg-gradient-to-b from-green-100 to-green-50" },
+  { label: "Heart health", image: "/images/heartt.webp", bgGradient: "bg-gradient-to-b from-red-100 to-red-50" },
+  { label: "Ayurvedic care", image: "/images/ay.webp", bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50" },
+  { label: "Heart health", image: "/images/heartt.webp", bgGradient: "bg-gradient-to-b from-red-100 to-red-50" },
+  { label: "Ayurvedic care", image: "/images/ay.webp", bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50" },
 ];
 
+// ---------- Products (New Launches) ----------
 export const products = [
   {
     title: "Shelcal Total Supplement With You...",
     image: "/images/shell.png",
+    images: ["/images/shell.png", "/images/shell_alt1.png", "/images/shell_alt2.png"],
     mrp: 820,
     price: 713.4,
     discount: 13,
+    brand: "Shelcal",
+    rating: 4.4,
+    reviews: 132,
+    highlights: ["Supports bone health", "With Vitamin D3", "Once daily"],
     bgGradient: "bg-gradient-to-b from-yellow-100 to-white",
   },
   {
     title: "Kofol Lozenge 60 No'S",
     image: "/images/koff.png",
+    images: ["/images/koff.png", "/images/koff_alt1.png", "/images/koff_alt2.png"],
     mrp: 50,
     price: 43.5,
     discount: 13,
+    brand: "Kofol",
+    rating: 4.2,
+    reviews: 88,
+    highlights: ["Soothes sore throat", "Herbal blend", "Sugar-free"],
     bgGradient: "bg-gradient-to-b from-green-100 to-white",
   },
   {
     title: "Tedibar Atogla Baby Lotion 200ml",
     image: "/images/tedd.png",
+    images: ["/images/tedd.png", "/images/tedd_alt1.png", "/images/tedd_alt2.png"],
     mrp: 635,
     price: 520.7,
     discount: 18,
+    brand: "Tedibar",
+    rating: 4.6,
+    reviews: 210,
+    highlights: ["Gentle on skin", "Dermatologically tested", "Paraben-free"],
     bgGradient: "bg-gradient-to-b from-pink-100 to-white",
   },
   {
     title: "Pilgrim 3% Redensyl & 4% Anagain Advance",
     image: "/images/pill.png",
+    images: ["/images/pill.png", "/images/pill_alt1.png", "/images/pill_alt2.png"],
     mrp: 545,
     price: 392.4,
     discount: 28,
+    brand: "Pilgrim",
+    rating: 4.3,
+    reviews: 156,
+    highlights: ["Hair fall control", "Clinically tested actives", "Non-sticky"],
     bgGradient: "bg-gradient-to-b from-orange-100 to-white",
   },
   {
     title: "Combiflam Ms Tube Of 30gm Cream",
     image: "/images/comm.png",
+    images: ["/images/comm.png", "/images/comm_alt1.png", "/images/comm_alt2.png"],
     mrp: 140,
     price: 121.8,
     discount: 13,
+    brand: "Combiflam",
+    rating: 4.1,
+    reviews: 98,
+    highlights: ["Topical pain relief", "Fast absorbing", "Cooling effect"],
     bgGradient: "bg-gradient-to-b from-blue-100 to-white",
   },
   {
     title: "Baidyanath Nagpur Chyawanprash Special",
     image: "/images/baid.png",
+    images: ["/images/baid.png", "/images/baid_alt1.png", "/images/baid_alt2.png"],
     mrp: 460,
     price: 299,
     discount: 35,
+    brand: "Baidyanath",
+    rating: 4.5,
+    reviews: 187,
+    highlights: ["Immunity booster", "Ayurvedic formula", "Rich in amla"],
     bgGradient: "bg-gradient-to-b from-red-100 to-white",
   },
 ];
 
+// ---------- Trending ----------
 export const trendingProducts = [
   {
     title: "Shelcal 500mg Strip Of 15 Tablets",
     image: "/images/shel.png",
+    images: ["/images/shel.png", "/images/shell_alt1.png", "/images/shell_alt2.png"],
     mrp: 1580,
     price: 1221.2,
     discount: 23,
+    brand: "Shelcal",
+    rating: 4.4,
+    reviews: 265,
     bgGradient: "bg-gradient-to-b from-yellow-100 to-white-50",
   },
   {
     title: "Abzorb Total Skin Relief Dusting Powder",
     image: "/images/abz.webp",
+    images: ["/images/abz.webp", "/images/abz_alt1.webp", "/images/abz_alt2.webp"],
     mrp: 750,
     price: 600,
     discount: 20,
+    brand: "Abzorb",
+    rating: 4.3,
+    reviews: 140,
     bgGradient: "bg-gradient-to-b from-blue-100 to-white-50",
   },
   {
     title: "Liveasy Wellness Calcium Magnesium",
     image: "/images/liv.png",
+    images: ["/images/liv.png", "/images/liv_alt1.png", "/images/liv_alt2.png"],
     mrp: 480,
     price: 384,
     discount: 20,
+    brand: "Liveasy",
+    rating: 4.2,
+    reviews: 101,
     bgGradient: "bg-gradient-to-b from-orange-100 to-white-50",
   },
   {
     title: "Evion 400mg Strip Of 20 Capsules",
     image: "/images/evionn.png",
+    images: ["/images/evionn.png", "/images/evion_alt1.png", "/images/evion_alt2.png"],
     mrp: 350,
     price: 298,
     discount: 15,
+    brand: "Evion",
+    rating: 4.4,
+    reviews: 190,
     bgGradient: "bg-gradient-to-b from-green-100 to-white-50",
   },
   {
     title: "Revital H Men Multivitamin",
     image: "/images/rev.png",
+    images: ["/images/rev.png", "/images/rev_alt1.png", "/images/rev_alt2.png"],
     mrp: 650,
     price: 520,
     discount: 20,
+    brand: "Revital",
+    rating: 4.3,
+    reviews: 164,
     bgGradient: "bg-gradient-to-b from-orange-100 to-white-50",
   },
   {
     title: "Dr. Morepen Gluco One Bg 03 Glucometer",
     image: "/images/morr.png",
+    images: ["/images/morr.png", "/images/morr_alt1.png", "/images/morr_alt2.png"],
     mrp: 900,
     price: 765,
     discount: 15,
+    brand: "Dr. Morepen",
+    rating: 4.2,
+    reviews: 122,
     bgGradient: "bg-gradient-to-b from-pink-100 to-white-50",
   },
 ];
 
-// Optional: deals/featured/wellness buckets — shape same as newLaunchesProducts
+// ---------- Deals (uses name/img keys; we also add images[] so gallery works) ----------
 export const deals = [
-    {
+  {
     name: "Depura Vitamin D3 60k Sugar Free Oral...",
     img: "/images/depura.png",
+    images: ["/images/depura.png", "/images/depura_alt1.png", "/images/depura_alt2.png"],
     mrp: 114.93,
     price: 108.03,
     discount: 6,
     link: "#",
+    brand: "Depura",
     bgGradient: "bg-gradient-to-br from-yellow-100 to-yellow-50",
   },
   {
     name: "Evion 400mg Strip Of 20 Capsule",
     img: "/images/evionn.png",
+    images: ["/images/evionn.png", "/images/evion_alt1.png", "/images/evion_alt2.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
     link: "#",
+    brand: "Evion",
     bgGradient: "bg-gradient-to-br from-green-100 to-green-50",
   },
   {
     name: "Sevenseas Original Capsule 100`S",
     img: "/images/sevenseas.png",
+    images: ["/images/sevenseas.png", "/images/sevenseas_alt1.png", "/images/sevenseas_alt2.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
     link: "#",
+    brand: "Sevenseas",
     bgGradient: "bg-gradient-to-br from-orange-100 to-yellow-50",
   },
   {
     name: "Cetaphil Gentle Skin Cleanser - 125ml",
     img: "/images/cetaphil.png",
+    images: ["/images/cetaphil.png", "/images/cetaphil_alt1.png", "/images/cetaphil_alt2.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
     link: "#",
+    brand: "Cetaphil",
     bgGradient: "bg-gradient-to-br from-blue-100 to-white-50",
   },
   {
     name: "Saliac Foaming Face Wash Foaming Bottle Salicylic Acid Of 60 Ml",
     img: "/images/saliac.webp",
+    images: ["/images/saliac.webp", "/images/saliac_alt1.webp", "/images/saliac_alt2.webp"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
     link: "#",
+    brand: "Saliac",
     bgGradient: "bg-gradient-to-br from-red-100 to-white-50",
   },
   {
     name: "Grd Smart Vanilla Whey Protein Jar Of 200 G",
     img: "/images/grd.png",
+    images: ["/images/grd.png", "/images/grd_alt1.png", "/images/grd_alt2.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
     link: "#",
+    brand: "GRD",
     bgGradient: "bg-gradient-to-br from-green-100 to-white-50",
   },
 ];
+
+// ---------- Brands ----------
 export const brands = [
-    {
-    name: 'Evion',
-    img: '/images/evion.png', // Replace with your actual paths
-    link: '#',
-    bg: 'bg-green-50',
-  },
-  {
-    name: 'Nasoclear',
-    img: '/images/nasoclear.png',
-    link: '#',
-    bg: 'bg-blue-50',
-  },
-  {
-    name: 'Pharmeasy',
-    img: '/images/Pharmeasy.jpg',
-    link: '#',
-    bg: 'bg-yellow-50',
-  },
-  {
-    name: 'Diatall',
-    img: '/images/Diataal.png',
-    link: '#',
-    bg: 'bg-yellow-100',
-  },
-  {
-    name: 'Dulcoflex',
-    img: '/images/Dulcoflex.png',
-    link: '#',
-    bg: 'bg-green-100',
-  },
-  {
-    name: 'Neurobion',
-    img: '/images/Neurobionn.png',
-    link: '#',
-    bg: 'bg-red-50',
-  },
+  { name: "Evion", img: "/images/evion.png", link: "#", bg: "bg-green-50" },
+  { name: "Nasoclear", img: "/images/nasoclear.png", link: "#", bg: "bg-blue-50" },
+  { name: "Pharmeasy", img: "/images/Pharmeasy.jpg", link: "#", bg: "bg-yellow-50" },
+  { name: "Diatall", img: "/images/Diataal.png", link: "#", bg: "bg-yellow-100" },
+  { name: "Dulcoflex", img: "/images/Dulcoflex.png", link: "#", bg: "bg-green-100" },
+  { name: "Neurobion", img: "/images/Neurobionn.png", link: "#", bg: "bg-red-50" },
 ];
+
+// ---------- Wellness Essentials ----------
 export const wellnessEssentials = [
-    {
+  {
     title: "Depura Vitamin D3 60k Sugar Free Oral Solution",
     image: "/images/depura.png",
+    images: ["/images/depura.png", "/images/depura_alt1.png", "/images/depura_alt2.png"],
     oldPrice: 114.93,
     newPrice: 94.24,
     discount: 18,
+    brand: "Depura",
+    rating: 4.4,
+    reviews: 98,
     bgGradient: "bg-gradient-to-br from-orange-100 to-white-50",
   },
   {
     title: "Sugar Free Gold Plus Packet Of 500 Pellets",
     image: "/images/sugar.png",
+    images: ["/images/sugar.png", "/images/sugar_alt1.png", "/images/sugar_alt2.png"],
     oldPrice: 320.0,
     newPrice: 281.6,
     discount: 12,
+    brand: "Sugar Free",
+    rating: 4.1,
+    reviews: 76,
     bgGradient: "bg-gradient-to-br from-yellow-100 to-white-50",
   },
   {
     title: "Enterogermina Suspension 10 X 5 Ml",
     image: "/images/enterogermina.png",
+    images: ["/images/enterogermina.png", "/images/enter_alt1.png", "/images/enter_alt2.png"],
     oldPrice: 732.0,
     newPrice: 563.64,
     discount: 23,
+    brand: "Enterogermina",
+    rating: 4.3,
+    reviews: 144,
     bgGradient: "bg-gradient-to-br from-blue-100 to-purple-50",
   },
   {
     title: "Neurobion Forte Strip Of 30 Tablets",
     image: "/images/neurobion.png",
+    images: ["/images/neurobion.png", "/images/neurobion_alt1.png", "/images/neurobion_alt2.png"],
     oldPrice: 46.1,
     newPrice: 46.1,
     discount: 0,
+    brand: "Neurobion",
+    rating: 4.2,
+    reviews: 201,
     bgGradient: "bg-gradient-to-br from-red-100 to-white-50",
   },
   {
     title: "Sebamed Clear Face Cleansing Foam - 150ml",
     image: "/images/sebamed.png",
+    images: ["/images/sebamed.png", "/images/sebamed_alt1.png", "/images/sebamed_alt2.png"],
     oldPrice: 680.0,
     newPrice: 564.4,
     discount: 17,
+    brand: "Sebamed",
+    rating: 4.5,
+    reviews: 175,
     bgGradient: "bg-gradient-to-br from-pink-100 to-red-50",
   },
   {
     title: "Lite Glo Face Wash Tube Of 100 Ml",
     image: "/images/lite.png",
+    images: ["/images/lite.png", "/images/lite_alt1.png", "/images/lite_alt2.png"],
     oldPrice: 499.0,
     newPrice: 429.14,
     discount: 14,
+    brand: "Lite Glo",
+    rating: 4.0,
+    reviews: 66,
     bgGradient: "bg-gradient-to-br from-blue-100 to-purple-50",
   },
 ];
 
-export { products as newLaunchesProducts };
+// mockData.js
+
+export const labTests = [
+  {
+    discount: "60% OFF",
+    title: "Healthy 2025 Full Body Checkup",
+    desc: "Diagnostic tool for screening and monitoring of your health",
+    oldPrice: 3599,
+    newPrice: 1449,
+    image: "/images/body.png",
+    bg: "bg-blue-50",
+    link: "#"
+  },
+  {
+    discount: "43% OFF",
+    title: "Diabetes Care",
+    desc: "Specially designed package to cover the preventive care aspects...",
+    oldPrice: 1399,
+    newPrice: 799,
+    image: "/images/care.png",
+    bg: "bg-amber-50",
+    link: "#"
+  },
+  {
+    discount: "53% OFF",
+    title: "Basic Health Checkup",
+    desc: "Assesses health of 47 essential body parameters",
+    oldPrice: 2249,
+    newPrice: 1049,
+    image: "/images/bsic.png",
+    bg: "bg-blue-50",
+    link: "#"
+  },
+  {
+    discount: "46% OFF",
+    title: "Aarogyam Full Body Checkup with Vitamins",
+    desc: "",
+    oldPrice: 4599,
+    newPrice: 2499,
+    image: "/images/checkup.png",
+    bg: "bg-amber-50",
+    link: "#"
+  }
+];
+
+export const topDoctors = [
+  {
+    id: "d-aisha-bello",
+    name: "Dr. Aisha Bello",
+    specialty: "Cardiologist",
+    location: "Lagos, Nigeria",
+    rating: 4.9,
+    reviews: 132,
+    fee: 15000, // NGN
+    experienceYears: 12,
+    hospital: "Lagos Heart Centre",
+    languages: ["English", "Yoruba", "Hausa"],
+    img: "/images/aisha.png",
+    images: ["/images/aisha.png", "/images/doctor-steth-1.jpg", "/images/doctor-steth-2.jpg"],
+    about:
+      "Consultant Cardiologist with special interest in preventive cardiology, hypertension, and heart failure management.",
+    services: [
+      "Cardiac consultation",
+      "ECG & Echocardiography review",
+      "Hypertension management",
+      "Cholesterol & lifestyle counseling",
+    ],
+    education: [
+      { degree: "MBBS", school: "University of Lagos", year: 2010 },
+      { degree: "FWACP (Cardiology)", school: "West African College of Physicians", year: 2016 },
+    ],
+    awards: ["Best Young Cardiologist (2018)", "Community Heart Health Award (2021)"],
+    availability: {
+      days: ["Mon", "Wed", "Fri"],
+      slots: ["09:00", "10:30", "12:00", "15:30"],
+      online: true,
+      inPerson: true,
+    },
+    contact: { phone: "+234 700 100 2222", email: "a.bello@medilab.example" },
+    geo: { lat: 6.5244, lng: 3.3792 },
+    bg: "bg-blue-50",
+  },
+
+  {
+    id: "d-john-okeke",
+    name: "Dr. John Okeke",
+    specialty: "Pediatrician",
+    location: "Abuja, Nigeria",
+    rating: 4.8,
+    reviews: 98,
+    fee: 12000,
+    experienceYears: 10,
+    hospital: "Abuja Children’s Hospital",
+    languages: ["English", "Igbo"],
+    img: "/images/john.png",
+    images: ["/images/john.png", "/images/doctor-peds-1.jpg", "/images/doctor-peds-2.jpg"],
+    about:
+      "Friendly pediatrician focused on child wellness, immunization schedules, and common childhood conditions.",
+    services: [
+      "Newborn & child wellness checks",
+      "Immunization counseling",
+      "Nutrition guidance",
+      "Fever, cough & common illnesses",
+    ],
+    education: [
+      { degree: "MBBS", school: "University of Nigeria, Nsukka", year: 2012 },
+      { degree: "FMC Paediatrics", school: "National Postgraduate Medical College", year: 2018 },
+    ],
+    awards: ["Outstanding Pediatric Care Award (2020)"],
+    availability: {
+      days: ["Tue", "Thu", "Sat"],
+      slots: ["08:30", "10:00", "11:30", "14:00"],
+      online: true,
+      inPerson: true,
+    },
+    contact: { phone: "+234 700 333 4444", email: "j.okeke@medilab.example" },
+    geo: { lat: 9.0579, lng: 7.4951 },
+    bg: "bg-green-50",
+  },
+
+  {
+    id: "d-mary-uduak",
+    name: "Dr. Mary Uduak",
+    specialty: "Dermatologist",
+    location: "Port Harcourt, Nigeria",
+    rating: 4.7,
+    reviews: 110,
+    fee: 13000,
+    experienceYears: 11,
+    hospital: "Skin & Aesthetics Clinic PH",
+    languages: ["English", "Ibibio"],
+    img: "/images/mary.png",
+    images: ["/images/mary.png", "/images/derm-1.jpg", "/images/derm-2.jpg"],
+    about:
+      "Dermatologist with expertise in acne, eczema, pigmentation, and cosmetic dermatology procedures.",
+    services: [
+      "Acne & eczema treatment",
+      "Skin allergy testing",
+      "Chemical peels",
+      "Hyperpigmentation therapy",
+    ],
+    education: [
+      { degree: "MBBS", school: "University of Uyo", year: 2011 },
+      { degree: "FWACP (Dermatology)", school: "WACP", year: 2017 },
+    ],
+    awards: ["Dermatology Service Excellence (2019)"],
+    availability: {
+      days: ["Mon", "Thu", "Fri"],
+      slots: ["09:30", "11:00", "12:30", "16:00"],
+      online: true,
+      inPerson: true,
+    },
+    contact: { phone: "+234 701 222 7788", email: "m.uduak@medilab.example" },
+    geo: { lat: 4.8156, lng: 7.0498 },
+    bg: "bg-yellow-50",
+  },
+
+  {
+    id: "d-ibrahim-sule",
+    name: "Dr. Ibrahim Sule",
+    specialty: "Neurologist",
+    location: "Kano, Nigeria",
+    rating: 4.9,
+    reviews: 85,
+    fee: 17000,
+    experienceYears: 13,
+    hospital: "Kano Neuro Centre",
+    languages: ["English", "Hausa"],
+    img: "/images/ibrahim.png",
+    images: ["/images/ibrahim.png", "/images/neuro-1.jpg", "/images/neuro-2.jpg"],
+    about:
+      "Neurologist specializing in stroke care, headaches, seizures, and neurodegenerative disorders.",
+    services: [
+      "Stroke risk assessment",
+      "Headache & migraine management",
+      "Seizure disorders",
+      "Movement disorders",
+    ],
+    education: [
+      { degree: "MBBS", school: "Bayero University Kano", year: 2009 },
+      { degree: "FWACP (Neurology)", school: "WACP", year: 2016 },
+    ],
+    awards: ["NeuroCare Leadership Award (2022)"],
+    availability: {
+      days: ["Wed", "Fri", "Sat"],
+      slots: ["10:00", "11:30", "13:00", "15:00"],
+      online: true,
+      inPerson: true,
+    },
+    contact: { phone: "+234 809 123 9999", email: "i.sule@medilab.example" },
+    geo: { lat: 12.0022, lng: 8.5920 },
+    bg: "bg-indigo-50",
+  },
+
+  {
+    id: "d-fatima-oladipo",
+    name: "Dr. Fatima Oladipo",
+    specialty: "Endocrinologist",
+    location: "Ibadan, Nigeria",
+    rating: 4.8,
+    reviews: 121,
+    fee: 16000,
+    experienceYears: 12,
+    hospital: "Endocrine & Diabetes Centre",
+    languages: ["English", "Yoruba"],
+    img: "/images/fatima.png",
+    images: ["/images/fatima.png", "/images/endo-1.jpg", "/images/endo-2.jpg"],
+    about:
+      "Endocrinologist focusing on diabetes, thyroid disorders, and metabolic syndrome management.",
+    services: [
+      "Diabetes care plans",
+      "Thyroid evaluation",
+      "Obesity & metabolism counseling",
+      "Hormonal assessments",
+    ],
+    education: [
+      { degree: "MBBS", school: "University of Ibadan", year: 2011 },
+      { degree: "FMC Endocrinology", school: "NPMCN", year: 2018 },
+    ],
+    awards: ["Diabetes Care Impact Award (2020)"],
+    availability: {
+      days: ["Tue", "Thu", "Sat"],
+      slots: ["09:00", "10:30", "12:00", "14:30"],
+      online: true,
+      inPerson: true,
+    },
+    contact: { phone: "+234 816 666 2233", email: "f.oladipo@medilab.example" },
+    geo: { lat: 7.3775, lng: 3.9470 },
+    bg: "bg-pink-50",
+  },
+
+  {
+    id: "d-emeka-uche",
+    name: "Dr. Emeka Uche",
+    specialty: "Orthopedic Surgeon",
+    location: "Enugu, Nigeria",
+    rating: 4.7,
+    reviews: 102,
+    fee: 18000,
+    experienceYears: 14,
+    hospital: "Eastern OrthoCare",
+    languages: ["English", "Igbo"],
+    img: "/images/emeka.png",
+    images: ["/images/emeka.png", "/images/ortho-1.jpg", "/images/ortho-2.jpg"],
+    about:
+      "Orthopedic surgeon handling fractures, sports injuries, joint problems, and minimally invasive procedures.",
+    services: [
+      "Fracture & trauma care",
+      "Sports injury management",
+      "Knee & hip pain",
+      "Arthroscopic procedures",
+    ],
+    education: [
+      { degree: "MBBS", school: "UNN", year: 2008 },
+      { degree: "FMC Orthopedics", school: "NPMCN", year: 2016 },
+    ],
+    awards: ["Ortho Innovation Award (2021)"],
+    availability: {
+      days: ["Mon", "Wed", "Fri"],
+      slots: ["08:30", "10:00", "12:00", "15:00"],
+      online: false,
+      inPerson: true,
+    },
+    contact: { phone: "+234 705 111 9090", email: "e.uche@medilab.example" },
+    geo: { lat: 6.459964, lng: 7.548949 },
+    bg: "bg-orange-50",
+  },
+
+  {
+    id: "d-grace-nwosu",
+    name: "Dr. Grace Nwosu",
+    specialty: "General Practitioner",
+    location: "Benin City, Nigeria",
+    rating: 4.9,
+    reviews: 143,
+    fee: 8000,
+    experienceYears: 9,
+    hospital: "CityCare Clinic",
+    languages: ["English"],
+    img: "/images/grace.png",
+    images: ["/images/grace.png", "/images/gp-1.jpg", "/images/gp-2.jpg"],
+    about:
+      "GP providing holistic primary care, routine checkups, and chronic disease follow-up for families.",
+    services: [
+      "General consultation",
+      "Chronic disease follow-up",
+      "Minor procedures",
+      "Preventive health checks",
+    ],
+    education: [
+      { degree: "MBBS", school: "University of Benin", year: 2014 },
+      { degree: "Family Medicine Residency", school: "UBTH", year: 2019 },
+    ],
+    awards: ["Community Family Care Award (2022)"],
+    availability: {
+      days: ["Mon", "Tue", "Thu", "Sat"],
+      slots: ["09:00", "10:15", "11:30", "13:30", "16:00"],
+      online: true,
+      inPerson: true,
+    },
+    contact: { phone: "+234 809 555 7788", email: "g.nwosu@medilab.example" },
+    geo: { lat: 6.3350, lng: 5.6037 },
+    bg: "bg-purple-50",
+  },
+
+  // (Optional) A few more doctors to flesh out /doctors page
+  {
+    id: "d-samuel-adeoye",
+    name: "Dr. Samuel Adeoye",
+    specialty: "ENT Surgeon",
+    location: "Ilorin, Nigeria",
+    rating: 4.6,
+    reviews: 73,
+    fee: 14000,
+    experienceYears: 11,
+    hospital: "Ilorin ENT Institute",
+    languages: ["English", "Yoruba"],
+    img: "/images/doctor-ent.png",
+    images: ["/images/doctor-ent.png", "/images/ent-1.jpg", "/images/ent-2.jpg"],
+    about: "ENT surgeon with focus on sinus disease, ear infections, and voice disorders.",
+    services: ["Sinusitis care", "Ear microsuction", "Allergy & voice clinics"],
+    education: [
+      { degree: "MBBS", school: "University of Ilorin", year: 2011 },
+      { degree: "FMCS (ENT)", school: "NPMCN", year: 2017 },
+    ],
+    awards: [],
+    availability: { days: ["Tue", "Fri"], slots: ["10:00", "12:00", "14:00"], online: false, inPerson: true },
+    contact: { phone: "+234 701 123 4444", email: "s.adeoye@medilab.example" },
+    geo: { lat: 8.4966, lng: 4.5421 },
+    bg: "bg-cyan-50",
+  },
+  {
+    id: "d-ngozi-okafor",
+    name: "Dr. Ngozi Okafor",
+    specialty: "Obstetrician/Gynecologist",
+    location: "Awka, Nigeria",
+    rating: 4.8,
+    reviews: 92,
+    fee: 15000,
+    experienceYears: 12,
+    hospital: "Women’s Health Centre",
+    languages: ["English", "Igbo"],
+    img: "/images/doctor-obgyn.png",
+    images: ["/images/doctor-obgyn.png", "/images/obgyn-1.jpg", "/images/obgyn-2.jpg"],
+    about:
+      "OB/GYN providing antenatal care, fertility counseling, and minimally invasive gynecological procedures.",
+    services: ["Antenatal & postnatal", "Fertility counseling", "Gynecologic scans"],
+    education: [
+      { degree: "MBBS", school: "UNIZIK", year: 2010 },
+      { degree: "FMCOG", school: "NPMCN", year: 2017 },
+    ],
+    awards: ["Maternal Care Excellence (2021)"],
+    availability: { days: ["Mon", "Wed", "Sat"], slots: ["09:00", "11:00", "13:00"], online: true, inPerson: true },
+    contact: { phone: "+234 815 222 8899", email: "n.okafor@medilab.example" },
+    geo: { lat: 6.2100, lng: 7.0741 },
+    bg: "bg-rose-50",
+  },
+];
+
+
+// Re-export to match your imports elsewhere
+export { products as newLaunchesProducts, topDoctors as doctors };
