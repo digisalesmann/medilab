@@ -163,8 +163,8 @@ export default function Home() {
               grid grid-flow-col auto-cols-[minmax(128px,1fr)]
               sm:grid-flow-row sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7
               gap-3 sm:gap-6
-              overflow-x-auto sm:overflow-x-visible
-              pl-1 pr-1 scrollbar-hide pb-2
+              overflow-x-auto overflow-y-visible sm:overflow-x-visible
+              pl-1 pr-1 scrollbar-hide py-3
             "
             role="region"
             aria-label="Primary healthcare services"
@@ -180,7 +180,7 @@ export default function Home() {
                     bg-white/95 border border-gray-100 rounded-xl
                     shadow-sm hover:shadow-md hover:-translate-y-0.5
                     transition-all duration-200
-                    py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
+                    pt-6 pb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
                   "
                   aria-label={`${item.title}${item.subtitle ? ` – ${item.subtitle}` : ""}`}
                 >
@@ -193,11 +193,12 @@ export default function Home() {
                     `}
                   />
                   {/* Icon chip */}
-                  <div className="absolute -top-3 right-3 bg-white border border-gray-200 rounded-full p-1 shadow-sm">
+                  <div className="absolute -top-2.5 sm:-top-3 right-2 sm:right-3 bg-white border border-gray-200 rounded-full p-1 shadow-sm z-10">
                     <Icon className="text-emerald-600 w-4 h-4" />
                   </div>
 
-                  <item.icon className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-600 mb-2 relative z-[1]" />
+
+                  <item.icon className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-600 mb-2 mt-1 relative z-[1]" />
 
 
                   {/* Texts */}
