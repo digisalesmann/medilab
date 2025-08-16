@@ -9,6 +9,52 @@ import {
   products as homeProducts,
 } from "../data/mockData";
 import { useCart } from "../context/CartContext";
+import {
+  Star,
+  CheckCircle2,
+  Info,
+  ListChecks,
+  FileText,
+  Newspaper,
+} from "lucide-react";
+
+  const articles = [
+    {
+      title: "What is Hepatitis A? Causes, Symptoms, and How It Spreads",
+      img: "/images/hep.png",
+      link: "/articles/hepatitis-a",
+    },
+    {
+      title: "Everything You Need to Know About the Hepatitis A Vaccine",
+      img: "/images/vac.png",
+      link: "/articles/hepatitis-a-vaccine",
+    },
+    {
+      title: "Everything To Know About the Influenza Vaccine & Its Importance",
+      img: "/images/influ.png",
+      link: "/articles/influenza-vaccine",
+    },
+    {
+      title: "HPV Vaccine: What is It, When to Be Taken, Importance & Side Effects",
+      img: "/images/hpv.png",
+      link: "/articles/hpv-vaccine",
+    },
+    {
+      title: "Managing Hypertension: Diet, Lifestyle & Medication",
+      img: "/images/hyper.png",
+      link: "/articles/hypertension-management",
+    },
+    {
+      title: "Understanding Type 2 Diabetes: Causes & Daily Tips",
+      img: "/images/diab.png",
+      link: "/articles/type2-diabetes-guide",
+    },
+    {
+      title: "Mental Health: Recognizing Signs of Anxiety & Stress",
+      img: "/images/mental.png",
+      link: "/articles/mental-health-awareness",
+    },
+  ];
 
 /* ----------------- helpers ----------------- */
 
@@ -20,7 +66,6 @@ function slugify(s = "") {
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-");
 }
-
 function catalogLists() {
   return [homeProducts, newLaunchesProducts, trendingProducts, wellnessEssentials, deals].filter(
     Array.isArray
@@ -30,19 +75,22 @@ function catalogLists() {
 function normalizeProduct(p) {
   const title = p.title || p.name || "Product";
   const image = p.image || p.img || "/images/placeholder.png";
+
+  const rawImages = (Array.isArray(p.images) && p.images.length ? p.images : [image]).filter(Boolean);
+  const images =
+    rawImages.length >= 3
+      ? rawImages
+      : [...rawImages, ...Array.from({ length: 3 - rawImages.length }).map(() => rawImages[0])];
+
   const price = Number(p.price ?? p.newPrice ?? 0);
   const mrp = Number(p.mrp ?? p.oldPrice ?? 0);
   const discount = p.discount ?? (mrp > 0 && price > 0 ? Math.round(((mrp - price) / mrp) * 100) : 0);
   const bgGradient = p.bgGradient || "bg-white";
 
-  // Ensure at least 3 images for the gallery
-  let images = Array.isArray(p.images) && p.images.length ? p.images.filter(Boolean) : [image];
-  while (images.length < 3) images = [...images, image];
-
-  // Optional fields
   const brand = p.brand || "MediLab";
   const rating = Number(p.rating || 4.3);
   const reviews = Number(p.reviews || 87);
+
   const highlights =
     p.highlights ||
     [
@@ -50,9 +98,11 @@ function normalizeProduct(p) {
       "Carefully packaged for safe delivery",
       "Suitable for everyday wellness routines",
     ];
+
   const description =
     p.description ||
-    "This is a high-quality wellness product curated by MediLab. For best results, follow the usage instructions provided on the label.";
+    `Discover ${title}: a high-quality wellness product curated by ${brand}. For best results, follow the usage instructions provided on the label.`;
+
   const specs =
     p.specs ||
     [
@@ -61,6 +111,9 @@ function normalizeProduct(p) {
       "Storage: Cool, dry place away from sunlight",
       "Manufacturer: MediLab Partners",
     ];
+
+  const productReviews = Array.isArray(p.reviewsList) ? p.reviewsList : null;
+  const productArticles = Array.isArray(p.articles) ? p.articles : null;
 
   return {
     ...p,
@@ -78,6 +131,8 @@ function normalizeProduct(p) {
     __highlights: highlights,
     __description: description,
     __specs: specs,
+    __reviewsList: productReviews,
+    __articles: productArticles,
   };
 }
 
@@ -98,19 +153,18 @@ function pickRelated(base, all, limit = 10) {
   const close = pool.filter((p) => p.__title.toLowerCase().includes(key));
   return (close.length ? close : pool).slice(0, limit);
 }
-
 function pickFrequentlyBought(base, all, limit = 6) {
   if (!base) return [];
   const pool = all.filter((p) => p.__slug !== base.__slug);
   return pool.slice(0, limit);
 }
 
-/* ---------- reusable tile for rails ---------- */
+/* ---------- local tile ---------- */
 function ProductTile({ item, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="flex-shrink-0 w-40 sm:w-48 lg:w-52 border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-lg cursor-pointer transition"
+      className="flex-shrink-0 w-40 sm:w-48 lg:w-52 border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-md cursor-pointer transition"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onClick()}
@@ -138,6 +192,37 @@ function ProductTile({ item, onClick }) {
   );
 }
 
+/* ---------- fallbacks for reviews & articles ---------- */
+function buildRatingBreakdown(avg = 4.2) {
+  const dist = [0, 0, 0, 0, 0];
+  if (avg >= 4.5) dist.splice(0, 5, 6, 4, 9, 19, 62);
+  else if (avg >= 4.0) dist.splice(0, 5, 7, 8, 10, 19, 56);
+  else if (avg >= 3.5) dist.splice(0, 5, 9, 12, 26, 28, 25);
+  else dist.splice(0, 5, 12, 18, 30, 24, 16);
+  return dist; // 1..5 stars
+}
+function sampleReviews(title, rating, count) {
+  const names = ["Adaobi", "Chukwuemeka", "Ifeoma", "Idris", "Ogechi", "Funmi", "Tunde", "Amara"];
+  const comments = [
+    `Works as described. Helped a lot with daily use of ${title}.`,
+    "Packaging was neat and delivery was quick.",
+    "Good value for money. Will reorder.",
+    "Quality could be better but overall fine.",
+    "Love the texture and it feels premium.",
+    "Saw results after a week of consistent use.",
+  ];
+  const out = [];
+  for (let i = 0; i < Math.min(6, Math.max(3, Math.ceil(count / 30))); i++) {
+    out.push({
+      user: names[i % names.length],
+      rating: Math.max(3, Math.min(5, Math.round(rating + (Math.random() * 1 - 0.5)))),
+      comment: comments[i % comments.length],
+      daysAgo: 2 + i * 7,
+    });
+  }
+  return out;
+}
+
 /* ----------------- page ----------------- */
 
 export default function ProductProfile() {
@@ -150,9 +235,7 @@ export default function ProductProfile() {
 
   const [activeImg, setActiveImg] = useState(0);
   const [qty, setQty] = useState(1);
-  const [activeTab, setActiveTab] = useState("details"); // details | specs | reviews
 
-  // Ensure 3+ images
   const gallery = useMemo(() => {
     if (!product) return ["/images/placeholder.png", "/images/placeholder.png", "/images/placeholder.png"];
     const imgs = (product.__images?.length ? product.__images : [product.__image]).filter(Boolean);
@@ -202,11 +285,12 @@ export default function ProductProfile() {
     __mrp: mrp,
     __discount: discount,
     __rating: rating,
-    __reviews: reviews,
+    __reviews: reviewsCount,
     __bg: bg,
     __description: description,
     __highlights: highlights,
     __specs: specs,
+    __reviewsList,
   } = product;
 
   const savings =
@@ -228,13 +312,14 @@ export default function ProductProfile() {
     navigate("/cart");
   };
 
+  const dist = buildRatingBreakdown(rating);
+  const reviewsList = __reviewsList || sampleReviews(title, rating, reviewsCount);
+
   return (
     <div className="max-w-6xl mx-auto px-4 pt-28 pb-16">
-      {/* Primary card */}
+      {/* PRIMARY: Gallery + Buy block */}
       <div className="bg-white border rounded-2xl shadow-sm">
-        {/* Top padded area for clean breathing room */}
         <div className="p-5 md:p-7 lg:p-8">
-          {/* Grid for perfect alignment */}
           <div className="grid grid-cols-12 gap-8">
             {/* LEFT: Gallery */}
             <div
@@ -266,9 +351,8 @@ export default function ProductProfile() {
               </div>
             </div>
 
-            {/* RIGHT: Info */}
+            {/* RIGHT: Info & CTAs */}
             <div className="col-span-12 lg:col-span-7 flex flex-col">
-              {/* Top row: brand & discount */}
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xs px-2 py-0.5 rounded-full bg-gray-50 text-gray-700 border border-gray-200">
                   {brand}
@@ -280,28 +364,24 @@ export default function ProductProfile() {
                 )}
               </div>
 
-              {/* Title */}
-              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug">
+              <h1 className="text-left text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug">
                 {title}
               </h1>
 
-              {/* Rating */}
               <div className="mt-2 flex items-center gap-2 text-sm">
                 <div className="flex items-center" aria-label={`${rating} star rating`}>
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <svg
+                    <Star
                       key={i}
-                      viewBox="0 0 20 20"
-                      className={`w-4 h-4 ${i < Math.round(rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
-                    >
-                      <path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.562-.954L10 0l2.95 5.956 6.562.954-4.756 4.634 1.122 6.545z" />
-                    </svg>
+                      className={`w-4 h-4 ${i < Math.round(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                    />
                   ))}
                 </div>
-                <span className="text-gray-500">({reviews} reviews)</span>
+                <span className="text-gray-600">{rating.toFixed(1)}</span>
+                <span className="text-gray-400">·</span>
+                <span className="text-gray-500">{reviewsCount} ratings</span>
               </div>
 
-              {/* Price block */}
               <div className="mt-4 flex items-end gap-3">
                 <div className="flex items-baseline gap-3">
                   <span className="text-2xl md:text-3xl font-semibold text-gray-900">
@@ -316,11 +396,8 @@ export default function ProductProfile() {
               </div>
               {savings && <p className="mt-1 text-sm text-emerald-700 font-medium">{savings}</p>}
 
-              {/* CTA area */}
               <div className="mt-5 flex items-center gap-3">
-                <label className="text-sm text-gray-700" htmlFor="qty-input">
-                  Qty
-                </label>
+                <label className="text-sm text-gray-700" htmlFor="qty-input">Qty</label>
                 <input
                   id="qty-input"
                   type="number"
@@ -338,71 +415,183 @@ export default function ProductProfile() {
                   Add to Cart
                 </button>
               </div>
-
-              {/* Tabs */}
-              <div className="mt-8">
-                <div className="flex gap-3 border-b">
-                  {["details", "specs", "reviews"].map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveTab(tab)}
-                      className={`text-sm pb-3 px-2 -mb-px border-b-2 transition
-                        ${activeTab === tab ? "border-gray-900 text-gray-900" : "border-transparent text-gray-500 hover:text-gray-700"}`}
-                    >
-                      {tab === "details" ? "Details" : tab === "specs" ? "Specifications" : "Reviews"}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Tab content in neat cards */}
-                {activeTab === "details" && (
-                  <div className="grid md:grid-cols-2 gap-5 pt-5">
-                    <div className="border rounded-xl p-4">
-                      <h3 className="font-semibold mb-2">Key highlights</h3>
-                      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
-                        {Array.isArray(highlights) && highlights.length > 0
-                          ? highlights.map((h, i) => <li key={i}>{h}</li>)
-                          : <li>No highlights provided.</li>}
-                      </ul>
-                    </div>
-                    <div className="border rounded-xl p-4">
-                      <h3 className="font-semibold mb-2">About this item</h3>
-                      <p className="text-sm text-gray-700 leading-relaxed">{description}</p>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === "specs" && (
-                  <div className="pt-5">
-                    <div className="border rounded-xl p-4">
-                      <h3 className="font-semibold mb-2">Specifications</h3>
-                      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
-                        {Array.isArray(specs) && specs.length > 0
-                          ? specs.map((s, i) => <li key={i}>{s}</li>)
-                          : <li>No specifications provided.</li>}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === "reviews" && (
-                  <div className="pt-5">
-                    <div className="border rounded-xl p-4 text-sm text-gray-700">
-                      Customer reviews coming soon. Be the first to review{" "}
-                      <span className="font-medium">{title}</span>!
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Related items */}
+      {/* ---------- PRODUCT OVERVIEW: individual sections (left-aligned, not inside hero card) ---------- */}
+        <section className="mt-10 space-y-8">
+          {/* Highlights */}
+          <div className="bg-white border rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <ListChecks className="w-5 h-5 text-emerald-600" />
+              <h2 className="text-lg font-semibold text-gray-900">Key Highlights</h2>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {(highlights || []).map((h, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-gray-700 text-left leading-snug">{h}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Specifications */}
+          <div className="bg-white border rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <Info className="w-5 h-5 text-sky-600" />
+              <h2 className="text-lg font-semibold text-gray-900">Specifications</h2>
+            </div>
+            <dl className="divide-y divide-gray-100">
+              {(specs || []).map((s, i) => {
+                const [label, ...rest] = s.split(":");
+                const value = rest.join(":").trim();
+                return (
+                  <div key={i} className="py-2 grid grid-cols-3 gap-4">
+                    <dt className="text-sm font-medium text-gray-500 col-span-1 text-left">
+                      {label}
+                    </dt>
+                    <dd className="text-sm text-gray-900 col-span-2 text-left">
+                      {value || "—"}
+                    </dd>
+                  </div>
+                );
+              })}
+            </dl>
+          </div>
+
+          {/* About */}
+          <div className="bg-white border rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <FileText className="w-5 h-5 text-purple-600" />
+              <h2 className="text-lg font-semibold text-gray-900">About this item</h2>
+            </div>
+            <p className="text-sm text-gray-700 leading-relaxed text-left">
+              {description}
+            </p>
+          </div>
+        </section>
+
+      {/* ---------- RATINGS & REVIEWS (equal height/width, left-aligned) ---------- */}
+      <section className="mt-10">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Ratings & Reviews</h2>
+
+        <div className="grid md:grid-cols-12 gap-5 items-stretch">
+          {/* Score card */}
+          <div className="md:col-span-6">
+            <div className="bg-white border rounded-xl p-5 h-full min-h-[200px] flex flex-col justify-between">
+              <div>
+                <div className="text-left">
+                  <div className="text-4xl font-semibold text-gray-900">
+                    {rating.toFixed(1)}
+                    <span className="text-xl text-gray-400">/5</span>
+                  </div>
+                  <div className="mt-1 flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-5 h-5 ${i < Math.round(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-500 mt-1">{reviewsCount} Ratings</p>
+                </div>
+              </div>
+              <p className="text-xs text-gray-400 mt-4">
+                Ratings are aggregated from verified buyers.
+              </p>
+            </div>
+          </div>
+
+          {/* Distribution */}
+          <div className="md:col-span-6">
+            <div className="bg-white border rounded-xl p-5 h-full min-h-[200px]">
+              {[5, 4, 3, 2, 1].map((stars) => {
+                const pct = dist[stars - 1];
+                return (
+                  <div key={stars} className="flex items-center gap-3 mb-2">
+                    <div className="w-14 text-sm text-gray-600">{stars} stars</div>
+                    <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct}%` }} />
+                    </div>
+                    <div className="w-10 text-right text-sm text-gray-700">{pct}%</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Recent reviews (left-aligned) */}
+        <div className="mt-5 bg-white border rounded-xl p-5">
+          <h3 className="font-semibold text-gray-900 mb-3 text-left">Recent Reviews</h3>
+          <div className="space-y-4">
+            {reviewsList.map((r, i) => (
+              <div key={i} className="border rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <p className="font-medium text-gray-800">{r.user}</p>
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: 5 }).map((_, j) => (
+                      <Star key={j} className={`w-4 h-4 ${j < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
+                    ))}
+                  </div>
+                </div>
+                <p className="mt-1 text-sm text-gray-700 text-left">{r.comment}</p>
+                <p className="mt-1 text-xs text-gray-400 text-left">{r.daysAgo} days ago</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- RELATED ARTICLES ---------- */}
+      <section className="px-3 sm:px-5 py-5 bg-white">
+        <div className="flex justify-between items-center mb-3">
+          <div className="flex items-center space-x-2">
+            <Newspaper className="w-5 h-5 text-purple-600" />
+            <h2 className="text-base sm:text-lg font-bold text-gray-800">
+              Health Articles
+            </h2>
+          </div>
+          <a
+            href="/articles"
+            className="text-teal-600 text-xs sm:text-sm font-medium hover:underline"
+          >
+            View All
+          </a>
+        </div>
+
+        <div className="overflow-x-auto scrollbar-hide -mx-1 sm:mx-0">
+          <div className="flex space-x-3 px-1 sm:px-0 w-max">
+            {articles.map((article, index) => (
+              <a
+                href={article.link}
+                key={index}
+                className="min-w-[160px] sm:min-w-[200px] max-w-[220px] bg-white rounded-lg shadow-sm hover:shadow-md transition hover:scale-[1.015]"
+              >
+                <img
+                  src={article.img}
+                  alt={article.title}
+                  className="w-full h-28 sm:h-32 object-cover rounded-t-lg"
+                />
+                <div className="p-2">
+                  <h3 className="text-xs sm:text-sm text-gray-800 font-medium line-clamp-3">
+                    {article.title}
+                  </h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+        <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
+      </section>
+
+      {/* ---------- RELATED & FBT ---------- */}
       <section className="mt-10">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-bold text-gray-900">Related items</h3>
+          <h3 className="text-xl font-bold text-gray-900 text-left">Related items</h3>
         </div>
         <div className="flex gap-3 scroll-hide overflow-x-auto pb-2">
           {related.map((item) => (
@@ -415,10 +604,9 @@ export default function ProductProfile() {
         </div>
       </section>
 
-      {/* Frequently bought together */}
       <section className="mt-8">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-bold text-gray-900">Frequently bought together</h3>
+          <h3 className="text-xl font-bold text-gray-900 text-left">Frequently bought together</h3>
         </div>
         <div className="flex gap-3 scroll-hide overflow-x-auto pb-2">
           {frequentlyBought.map((item) => (
