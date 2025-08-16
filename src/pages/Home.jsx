@@ -55,13 +55,53 @@ export default function Home() {
   // Services (memoized)
   const services = useMemo(
     () => [
-      { title: "Medicine", subtitle: "SAVE 25%", icon: RiFirstAidKitLine, link: "/medicine", accent: "from-emerald-500/20" },
-      { title: "Lab Tests", subtitle: "UP TO 70% OFF", icon: RiCalendarEventLine, link: "/lab-tests", accent: "from-violet-500/20" },
-      { title: "Doctor Consult", icon: RiFileList2Line, link: "/doctor-consult", accent: "from-sky-500/20" },
-      { title: "Healthcare", subtitle: "UP TO 60% OFF", icon: RiFirstAidKitLine, link: "/healthcare", accent: "from-teal-500/20" },
-      { title: "Health Blogs", icon: RiFileList2Line, link: "/health-blogs", accent: "from-rose-500/20" },
-      { title: "PLUS", subtitle: "SAVE 5% EXTRA", icon: RiFlashlightLine, link: "/plus", accent: "from-amber-500/20" },
-      { title: "Fitness & Wellness", subtitle: "SHOP NOW", icon: RiPulseLine, link: "/fitness-wellness", accent: "from-lime-500/20" },
+      {
+        title: "Medicine",
+        subtitle: "SAVE 25%",
+        icon: RiFirstAidKitLine,
+        link: "/services/medicine",
+        accent: "from-emerald-500/20",
+      },
+      {
+        title: "Lab Tests",
+        subtitle: "UP TO 70% OFF",
+        icon: RiCalendarEventLine,
+        link: "/services/lab-tests",
+        accent: "from-violet-500/20",
+      },
+      {
+        title: "Doctor Consult",
+        icon: RiFileList2Line,
+        link: "/services/doctor-consult",
+        accent: "from-sky-500/20",
+      },
+      {
+        title: "Healthcare",
+        subtitle: "UP TO 60% OFF",
+        icon: RiFirstAidKitLine,
+        link: "/services/healthcare",
+        accent: "from-teal-500/20",
+      },
+      {
+        title: "Health Blogs",
+        icon: RiFileList2Line,
+        link: "/services/health-blogs",
+        accent: "from-rose-500/20",
+      },
+      {
+        title: "PLUS",
+        subtitle: "SAVE 5% EXTRA",
+        icon: RiFlashlightLine,
+        link: "/services/plus",
+        accent: "from-amber-500/20",
+      },
+      {
+        title: "Fitness & Wellness",
+        subtitle: "SHOP NOW",
+        icon: RiPulseLine,
+        link: "/services/fitness-wellness",
+        accent: "from-lime-500/20",
+      },
     ],
     []
   );

@@ -32,6 +32,7 @@ import CategoryListing from "./pages/CategoryListing";
 import BrandStore from "./pages/BrandStore";
 import CategoriesPage from './pages/CategoriesPage';
 import SearchPage from './search/SearchPage';
+import ServiceHub from './pages/ServiceHub';
 
 import './App.css';
 
@@ -91,6 +92,7 @@ function App() {
         <Route path="/brand/:slug" element={<BrandStore />} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/services/:slug" element={<ServiceHub />} />
 
         {/* Admin Routes */}
 

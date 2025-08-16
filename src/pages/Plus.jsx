@@ -130,7 +130,8 @@ export default function Plus() {
   const currentPlan = useMemo(() => PLANS.find((p) => p.id === plan), [plan]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-white pt-6">
+    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-white pt-[72px] lg:pt-6">
+
       {/* ---------- Hero ---------- */}
       {/* PLUS — Hero */}
 <section className="relative overflow-hidden rounded-2xl md:rounded-3xl px-5 sm:px-8 md:px-10 py-8 md:py-12 border shadow-sm bg-gradient-to-br from-emerald-700 via-emerald-600 to-emerald-500">

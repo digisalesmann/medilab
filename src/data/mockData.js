@@ -1616,5 +1616,45 @@ export const wellnessEssentials = [
   }
 ];
 
+// inside mockData.js
+export const articles = [
+    {
+      title: "What is Hepatitis A? Causes, Symptoms, and How It Spreads",
+      img: "/images/hep.png",
+      link: "/articles/hepatitis-a",
+    },
+    {
+      title: "Everything You Need to Know About the Hepatitis A Vaccine",
+      img: "/images/vac.png",
+      link: "/articles/hepatitis-a-vaccine",
+    },
+    {
+      title: "Everything To Know About the Influenza Vaccine & Its Importance",
+      img: "/images/influ.png",
+      link: "/articles/influenza-vaccine",
+    },
+    {
+      title: "HPV Vaccine: What is It, When to Be Taken, Importance & Side Effects",
+      img: "/images/hpv.png",
+      link: "/articles/hpv-vaccine",
+    },
+    {
+      title: "Managing Hypertension: Diet, Lifestyle & Medication",
+      img: "/images/hyper.png",
+      link: "/articles/hypertension-management",
+    },
+    {
+      title: "Understanding Type 2 Diabetes: Causes & Daily Tips",
+      img: "/images/diab.png",
+      link: "/articles/type2-diabetes-guide",
+    },
+    {
+      title: "Mental Health: Recognizing Signs of Anxiety & Stress",
+      img: "/images/mental.png",
+      link: "/articles/mental-health-awareness",
+    },
+  ];
+
+
 // Re-export to match your imports elsewhere
 export { products as newLaunchesProducts, topDoctors as doctors };

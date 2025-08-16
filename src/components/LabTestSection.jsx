@@ -263,10 +263,8 @@ export const DealsOfTheDay = () => {
       </div>
 
       {/* Compact, scrollable deals rail with reduced height */}
-      <div
-        ref={scrollRef}
-        className="flex overflow-x-auto space-x-4 scrollbar-hide pb-2 pt-1"
-      >
+      {/* Deals rail */}
+      <div ref={scrollRef} className="flex overflow-x-auto space-x-4 scrollbar-hide pb-2 pt-1">
         {deals.map((deal, idx) => {
           const name = deal.name || deal.title || `deal-${idx}`;
           const slug = slugify(name);
@@ -275,25 +273,31 @@ export const DealsOfTheDay = () => {
               type="button"
               key={idx}
               onClick={() => navigate(`/product/${slug}`)}
-              className={`flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-xl shadow hover:shadow-lg ${deal.bgGradient || "bg-white"} border border-gray-200 flex flex-col items-center justify-between p-2 sm:p-3 transition-all duration-200 cursor-pointer text-left`}
+              className={`flex-none w-36 sm:w-40 md:w-44 lg:w-48 
+                          rounded-xl overflow-hidden shadow hover:shadow-lg
+                          ${deal.bgGradient || "bg-white"} border border-gray-200
+                          p-3 text-left transition-all duration-200`}
             >
               {deal.img && (
                 <img
                   src={deal.img}
                   alt={name}
-                  className="w-full h-16 sm:h-24 object-contain rounded-xl mb-2"
+                  className="w-full h-20 sm:h-24 object-contain rounded-lg"
                   draggable={false}
                 />
               )}
-              <div className="w-full min-w-0 flex-1 flex flex-col justify-between">
-                <p className="text-xs sm:text-sm font-medium text-gray-800 mb-1 truncate">
+
+              <div className="mt-2 space-y-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-800 line-clamp-2">
                   {name}
                 </p>
+
                 {deal.mrp != null && (
-                  <div className="text-[11px] sm:text-xs text-gray-400 mb-1">
+                  <div className="text-[11px] sm:text-xs text-gray-400">
                     MRP <span className="line-through">{formatCurrency2(deal.mrp)}</span>
                   </div>
                 )}
+
                 <div className="flex items-baseline gap-2">
                   {deal.price != null && (
                     <span className="text-sm sm:text-base font-semibold text-gray-900">
@@ -312,8 +316,8 @@ export const DealsOfTheDay = () => {
         })}
       </div>
 
-      {/* Progress bar under scroll (mobile only) */}
-      <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4" />
+      {/* Progress bar — avoid accidental horizontal overflow on mobile */}
+      <div className="lg:hidden h-2 bg-[#e9eff6] my-4 rounded w-full" />
     </section>
   );
 }
