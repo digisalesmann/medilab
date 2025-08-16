@@ -1,7 +1,6 @@
 // src/components/LabTestSection.jsx
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // 🧩 bring your data from the central source
 // Make sure these are exported in ../data/mockData.js
@@ -121,10 +120,10 @@ export const WellnessGrid = () => {
 
   return (
     <div className="px-3 py-4 sm:px-4 sm:py-6">
-      <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-1">
+      <h2 className="text-lg text-left sm:text-2xl font-bold text-gray-900 mb-1">
         Wellness Essentials of the Week
       </h2>
-      <p className="text-sm sm:text-base text-gray-500 mb-4 sm:mb-6">
+      <p className="text-sm text-left sm:text-base text-gray-500 mb-4 sm:mb-6">
         Super charge your immunity with us
       </p>
 
@@ -189,18 +188,19 @@ export const WellnessGrid = () => {
 
 export const FeaturedBrands = () => {
   const brands = Array.isArray(mockBrands) ? mockBrands : [];
+  const navigate = useNavigate();
 
   return (
     <div className="py-8 px-4">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Featured Brands</h2>
-      <p className="text-gray-600 mb-6">Pick from our favourite brands</p>
+      <h2 className="text-2xl text-left md:text-3xl font-bold text-gray-900 mb-1">Featured Brands</h2>
+      <p className="text-gray-600 text-left mb-6">Pick from our favourite brands</p>
 
       <div className="flex overflow-x-auto space-x-4 scrollbar-hide pb-2">
         {brands.map((brand, idx) => (
           <div key={idx} className="flex flex-col items-center">
-            <a
-              href={brand.link || "#"}
-              className={`flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-xl shadow hover:shadow-lg ${brand.bg || "bg-white"}`}
+            <div
+              onClick={() => navigate(`/brand/${slugify(brand.name)}`)}
+              className="flex-shrink-0 w-40 sm:w-60 lg:w-56 border border-gray-200 rounded-xl flex flex-col items-center p-3 shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
             >
               {brand.img && (
                 <img
@@ -209,7 +209,7 @@ export const FeaturedBrands = () => {
                   className="w-full h-full object-contain rounded-xl"
                 />
               )}
-            </a>
+            </div>
             <div className="mt-2 text-gray-800 font-medium text-center w-full">
               {brand.name}
             </div>
@@ -224,19 +224,15 @@ export const FeaturedBrands = () => {
 
 export const DealsOfTheDay = () => {
   const navigate = useNavigate();
-  const scrollRef = useRef(null);
   const [timer, setTimer] = useState(15 * 60 + 17); // 15:17
   const deals = Array.isArray(mockDeals) ? mockDeals : [];
+  const scrollRef = React.useRef(null);
 
   useEffect(() => {
     if (timer <= 0) return;
     const id = setInterval(() => setTimer((t) => t - 1), 1000);
     return () => clearInterval(id);
   }, [timer]);
-
-  const scroll = (offset) => {
-    scrollRef.current?.scrollBy({ left: offset, behavior: "smooth" });
-  };
 
   const formatTimer = (seconds) => {
     const m = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -246,6 +242,7 @@ export const DealsOfTheDay = () => {
 
   return (
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 mt-10">
+      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
         <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-900">
@@ -265,76 +262,59 @@ export const DealsOfTheDay = () => {
         </button>
       </div>
 
-      <div className="relative">
-        {/* Left Arrow (desktop) */}
-        <button
-          onClick={() => scroll(-320)}
-          className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
-          aria-label="Scroll left"
-        >
-          <ChevronLeft size={24} strokeWidth={2.5} />
-        </button>
-
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide px-1 sm:px-8 pt-3 pb-4 scroll-smooth"
-        >
-          {deals.map((deal, idx) => {
-            const name = deal.name || deal.title || `deal-${idx}`;
-            const slug = slugify(name);
-            return (
-              <button
-                type="button"
-                key={idx}
-                onClick={() => navigate(`/product/${slug}`)}
-                className={`flex-shrink-0 w-44 sm:w-52 md:w-60 ${deal.bgGradient || "bg-white"} border border-gray-200 rounded-2xl flex flex-col items-center justify-between shadow-sm hover:shadow-lg hover:-translate-y-1 hover:scale-105 transition-all duration-200 cursor-pointer p-3 sm:p-4 text-left`}
-              >
-                {deal.img && (
-                  <img
-                    src={deal.img}
-                    alt={name}
-                    className="w-20 h-20 sm:w-28 sm:h-28 object-contain mb-3"
-                    draggable={false}
-                  />
-                )}
-                <div className="w-full">
-                  <p className="text-sm sm:text-base font-medium text-gray-800 mb-1 truncate">
-                    {name}
-                  </p>
-                  {deal.mrp != null && (
-                    <div className="text-xs sm:text-sm text-gray-400 mb-1">
-                      MRP <span className="line-through">{formatCurrency2(deal.mrp)}</span>
-                    </div>
-                  )}
-                  <div className="flex items-baseline gap-2">
-                    {deal.price != null && (
-                      <span className="text-base sm:text-lg font-semibold text-gray-900">
-                        {formatCurrency2(deal.price)}
-                      </span>
-                    )}
-                    {deal.discount != null && (
-                      <span className="text-xs sm:text-sm text-red-500 font-semibold">
-                        ({deal.discount}%)
-                      </span>
-                    )}
+      {/* Compact, scrollable deals rail with reduced height */}
+      <div
+        ref={scrollRef}
+        className="flex overflow-x-auto space-x-4 scrollbar-hide pb-2 pt-1"
+      >
+        {deals.map((deal, idx) => {
+          const name = deal.name || deal.title || `deal-${idx}`;
+          const slug = slugify(name);
+          return (
+            <button
+              type="button"
+              key={idx}
+              onClick={() => navigate(`/product/${slug}`)}
+              className={`flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-xl shadow hover:shadow-lg ${deal.bgGradient || "bg-white"} border border-gray-200 flex flex-col items-center justify-between p-2 sm:p-3 transition-all duration-200 cursor-pointer text-left`}
+            >
+              {deal.img && (
+                <img
+                  src={deal.img}
+                  alt={name}
+                  className="w-full h-16 sm:h-24 object-contain rounded-xl mb-2"
+                  draggable={false}
+                />
+              )}
+              <div className="w-full min-w-0 flex-1 flex flex-col justify-between">
+                <p className="text-xs sm:text-sm font-medium text-gray-800 mb-1 truncate">
+                  {name}
+                </p>
+                {deal.mrp != null && (
+                  <div className="text-[11px] sm:text-xs text-gray-400 mb-1">
+                    MRP <span className="line-through">{formatCurrency2(deal.mrp)}</span>
                   </div>
+                )}
+                <div className="flex items-baseline gap-2">
+                  {deal.price != null && (
+                    <span className="text-sm sm:text-base font-semibold text-gray-900">
+                      {formatCurrency2(deal.price)}
+                    </span>
+                  )}
+                  {deal.discount != null && (
+                    <span className="text-xs sm:text-sm text-red-500 font-semibold">
+                      ({deal.discount}%)
+                    </span>
+                  )}
                 </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Right Arrow (desktop) */}
-        <button
-          onClick={() => scroll(320)}
-          className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 hover:bg-teal-600 hover:text-white text-gray-700 w-10 h-10 rounded-full items-center justify-center shadow transition-colors duration-300"
-          aria-label="Scroll right"
-        >
-          <ChevronRight size={24} strokeWidth={2.5} />
-        </button>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
+      {/* Progress bar under scroll (mobile only) */}
       <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4" />
     </section>
   );
-};
+}
+

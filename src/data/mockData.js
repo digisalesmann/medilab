@@ -353,72 +353,218 @@ export const mockPharmacies = [
 ];
 
 // Home page / sections data
+// ---------- Categories (with slugs + keywords) ----------
 export const categories = [
-  { label: "Must haves", image: "/images/must.webp", bgGradient: "bg-gradient-to-b from-yellow-100 to-yellow-50" },
-  { label: "Sports nutrition", image: "/images/sports.webp", bgGradient: "bg-gradient-to-b from-blue-100 to-blue-50" },
-  { label: "Vitamins & supplements", image: "/images/vit.webp", bgGradient: "bg-gradient-to-b from-pink-100 to-pink-50" },
-  { label: "Skin care", image: "/images/skin.webp", bgGradient: "bg-gradient-to-b from-purple-100 to-purple-50" },
-  { label: "Diabetes essentials", image: "/images/dis.webp", bgGradient: "bg-gradient-to-b from-green-100 to-green-50" },
-  { label: "Heart health", image: "/images/heartt.webp", bgGradient: "bg-gradient-to-b from-red-100 to-red-50" },
-  { label: "Ayurvedic care", image: "/images/ay.webp", bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50" },
-  { label: "Heart health", image: "/images/heartt.webp", bgGradient: "bg-gradient-to-b from-red-100 to-red-50" },
-  { label: "Ayurvedic care", image: "/images/ay.webp", bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50" },
+  {
+    label: "Must haves",
+    slug: "must-haves",
+    image: "/images/must.webp",
+    bgGradient: "bg-gradient-to-b from-yellow-100 to-yellow-50",
+    keywords: ["must have", "everyday", "daily", "essential", "essentials"],
+  },
+  {
+    label: "Sports nutrition",
+    slug: "sports-nutrition",
+    image: "/images/sports.webp",
+    bgGradient: "bg-gradient-to-b from-blue-100 to-blue-50",
+    keywords: ["sports", "nutrition", "protein", "whey", "bcaa", "creatine", "preworkout"],
+  },
+  {
+    label: "Vitamins & supplements",
+    slug: "vitamins-and-supplements",
+    image: "/images/vit.webp",
+    bgGradient: "bg-gradient-to-b from-pink-100 to-pink-50",
+    keywords: ["vitamin", "supplement", "multivitamin", "omega", "d3", "b-complex", "zinc"],
+  },
+  {
+    label: "Skin care",
+    slug: "skin-care",
+    image: "/images/skin.webp",
+    bgGradient: "bg-gradient-to-b from-purple-100 to-purple-50",
+    keywords: ["skin", "face", "cleanser", "moisturizer", "serum", "acne", "sunscreen"],
+  },
+  {
+    label: "Diabetes essentials",
+    slug: "diabetes-essentials",
+    image: "/images/dis.webp",
+    bgGradient: "bg-gradient-to-b from-green-100 to-green-50",
+    keywords: ["diabetes", "glucose", "glucometer", "test strip", "insulin"],
+  },
+  {
+    label: "Heart health",
+    slug: "heart-health",
+    image: "/images/heartt.webp",
+    bgGradient: "bg-gradient-to-b from-red-100 to-red-50",
+    keywords: ["heart", "cardio", "cholesterol", "omega", "bp", "hypertension"],
+  },
+  {
+    label: "Ayurvedic care",
+    slug: "ayurvedic-care",
+    image: "/images/ay.webp",
+    bgGradient: "bg-gradient-to-b from-amber-100 to-amber-50",
+    keywords: ["ayurveda", "herbal", "chyawanprash", "kadha", "asava", "lozenge"],
+  },
 ];
 
-// ---------- Brands ----------
+// ---------- Brands (with slugs) ----------
 export const brands = [
-  { name: "Evion", img: "/images/evion.png", link: "#", bg: "bg-green-50" },
-  { name: "Nasoclear", img: "/images/nasoclear.png", link: "#", bg: "bg-blue-50" },
-  { name: "Pharmeasy", img: "/images/Pharmeasy.jpg", link: "#", bg: "bg-yellow-50" },
-  { name: "Diatall", img: "/images/Diataal.png", link: "#", bg: "bg-yellow-100" },
-  { name: "Dulcoflex", img: "/images/Dulcoflex.png", link: "#", bg: "bg-green-100" },
-  { name: "Neurobion", img: "/images/Neurobionn.png", link: "#", bg: "bg-red-50" },
+  { name: "Evion", slug: "evion", img: "/images/evion.png", link: "#", bg: "bg-green-50" },
+  { name: "Nasoclear", slug: "nasoclear", img: "/images/nasoclear.png", link: "#", bg: "bg-blue-50" },
+  { name: "Pharmeasy", slug: "pharmeasy", img: "/images/Pharmeasy.jpg", link: "#", bg: "bg-yellow-50" },
+  { name: "Diatall", slug: "diatall", img: "/images/Diataal.png", link: "#", bg: "bg-yellow-100" },
+  { name: "Dulcoflex", slug: "dulcoflex", img: "/images/Dulcoflex.png", link: "#", bg: "bg-green-100" },
+  { name: "Neurobion", slug: "neurobion", img: "/images/Neurobionn.png", link: "#", bg: "bg-red-50" },
 ];
 
 // mockData.js
 
+// --- Lab tests (expanded, dynamic-friendly) ---
 export const labTests = [
   {
+    id: "lt-healthy-2025",
+    slug: "healthy-2025-full-body-checkup",
     discount: "60% OFF",
     title: "Healthy 2025 Full Body Checkup",
-    desc: "Diagnostic tool for screening and monitoring of your health",
+    desc: "Comprehensive preventive screening for overall health.",
     oldPrice: 3599,
     newPrice: 1449,
     image: "/images/body.png",
+    images: ["/images/body.png", "/images/checkup.png", "/images/bsic.png"],
     bg: "bg-blue-50",
-    link: "#"
+    link: "/lab-test/healthy-2025-full-body-checkup",
+
+    // dynamic profile fields
+    rating: 4.6,
+    reviews: 276,
+    sampleType: "Blood + Urine",
+    fastingRequired: "8–10 hours (water allowed)",
+    homeSample: true,
+    reportTime: "24–36 hrs",
+    parametersCount: 82,
+    parameters: [
+      { group: "Complete Blood Count (CBC)", items: ["Hemoglobin", "WBC", "Platelets"] },
+      { group: "Liver Function (LFT)", items: ["SGPT", "SGOT", "Bilirubin (Total/Direct)"] },
+      { group: "Kidney Function (KFT)", items: ["Creatinine", "Urea", "Uric Acid"] },
+      { group: "Lipid Profile", items: ["Total Cholesterol", "HDL", "LDL", "Triglycerides"] },
+      { group: "Diabetes", items: ["Fasting Glucose", "HbA1c"] },
+      { group: "Thyroid", items: ["TSH", "T3", "T4"] },
+    ],
+    preparation: [
+      "Overnight fasting (8–10 hrs) advised.",
+      "Avoid alcohol for 24 hrs before the test.",
+      "Inform the phlebotomist about ongoing medication.",
+    ],
+    whoIsItFor: ["Annual preventive health", "Desk workers", "Age 25+"],
+    partnerLabs: ["MediLab Diagnostics", "PrimePath Labs", "Accurate Path"],
+    faqs: [
+      { q: "Can I drink water during fasting?", a: "Yes, plain water is allowed unless advised otherwise." },
+      { q: "Is a home sample available?", a: "Yes. Trained phlebotomists collect samples at your location." },
+      { q: "When will I get my report?", a: "Within 24–36 hours of sample collection in most cities." },
+    ],
+    articles: [
+      { title: "How to prepare for a full body checkup", link: "/articles/full-body-checkup-prep", img: "/images/healthcare.webp" },
+      { title: "Decoding your blood report: basics", link: "/articles/blood-report-basics", img: "/images/diab.png" },
+    ],
   },
   {
+    id: "lt-diabetes-care",
+    slug: "diabetes-care",
     discount: "43% OFF",
     title: "Diabetes Care",
-    desc: "Specially designed package to cover the preventive care aspects...",
+    desc: "Monitoring & screening bundle for diabetes control.",
     oldPrice: 1399,
     newPrice: 799,
     image: "/images/care.png",
+    images: ["/images/care.png", "/images/depura.png", "/images/evionn.png"],
     bg: "bg-amber-50",
-    link: "#"
+    link: "/lab-test/diabetes-care",
+
+    rating: 4.4,
+    reviews: 188,
+    sampleType: "Blood",
+    fastingRequired: "8–10 hours (for FBS)",
+    homeSample: true,
+    reportTime: "12–24 hrs",
+    parametersCount: 7,
+    parameters: [
+      { group: "Diabetes", items: ["Fasting Glucose (FBS)", "Post‑prandial Glucose (PPBS)", "HbA1c"] },
+      { group: "Kidney", items: ["Creatinine", "Urine Microalbumin"] },
+      { group: "Lipid (optional add‑on)", items: ["LDL", "HDL", "Triglycerides"] },
+    ],
+    preparation: ["Overnight fasting required.", "Carry previous reports for better comparison."],
+    whoIsItFor: ["Known diabetics", "Prediabetes", "Family history"],
+    partnerLabs: ["MediLab Diagnostics", "CarePath Labs"],
+    faqs: [
+      { q: "Is fasting mandatory?", a: "For FBS yes; HbA1c alone does not require fasting." },
+      { q: "Can I continue medicines?", a: "Take medicines as prescribed unless doctor asks otherwise." },
+    ],
+    articles: [{ title: "HbA1c vs FBS: what’s the difference?", link: "/articles/hba1c-vs-fbs", img: "/images/hyper.png" }],
   },
   {
+    id: "lt-basic-health",
+    slug: "basic-health-checkup",
     discount: "53% OFF",
     title: "Basic Health Checkup",
-    desc: "Assesses health of 47 essential body parameters",
+    desc: "Assesses 47 essential parameters to gauge baseline health.",
     oldPrice: 2249,
     newPrice: 1049,
     image: "/images/bsic.png",
+    images: ["/images/bsic.png", "/images/checkup.png", "/images/body.png"],
     bg: "bg-blue-50",
-    link: "#"
+    link: "/lab-test/basic-health-checkup",
+
+    rating: 4.5,
+    reviews: 143,
+    sampleType: "Blood + Urine",
+    fastingRequired: "8 hrs",
+    homeSample: true,
+    reportTime: "24 hrs",
+    parametersCount: 47,
+    parameters: [
+      { group: "CBC", items: ["Hemoglobin", "RBC Count", "PCV", "MCV", "MCHC"] },
+      { group: "LFT", items: ["SGPT", "SGOT", "ALP", "Albumin"] },
+      { group: "KFT", items: ["Creatinine", "Urea", "Sodium", "Potassium"] },
+    ],
+    preparation: ["Fasting recommended.", "Avoid strenuous exercise same morning."],
+    whoIsItFor: ["New employees", "Pre‑insurance", "General screening"],
+    partnerLabs: ["PrimePath Labs"],
+    faqs: [{ q: "Is urine sample required?", a: "Yes, a spot urine sample may be collected." }],
+    articles: [{ title: "What does a CBC tell you?", link: "/articles/cbc-basics", img: "/images/enterogermina.png" }],
   },
   {
+    id: "lt-aarogyam",
+    slug: "aarogyam-full-body-checkup-with-vitamins",
     discount: "46% OFF",
     title: "Aarogyam Full Body Checkup with Vitamins",
-    desc: "",
+    desc: "Advanced panel with thyroid, vitamins, and vital minerals.",
     oldPrice: 4599,
     newPrice: 2499,
     image: "/images/checkup.png",
+    images: ["/images/checkup.png", "/images/body.png", "/images/bsic.png"],
     bg: "bg-amber-50",
-    link: "#"
-  }
+    link: "/lab-test/aarogyam-full-body-checkup-with-vitamins",
+
+    rating: 4.7,
+    reviews: 92,
+    sampleType: "Blood",
+    fastingRequired: "10–12 hrs",
+    homeSample: true,
+    reportTime: "36–48 hrs",
+    parametersCount: 95,
+    parameters: [
+      { group: "CBC + ESR", items: ["Hemoglobin", "ESR"] },
+      { group: "Thyroid", items: ["TSH", "T3", "T4"] },
+      { group: "Vitamins", items: ["Vitamin D (25‑OH)", "Vitamin B12"] },
+      { group: "Iron Studies", items: ["Ferritin", "TIBC"] },
+    ],
+    preparation: ["Fast overnight.", "Stop biotin 48 hrs before test if possible."],
+    whoIsItFor: ["Exhaustion & hair fall", "Thyroid symptoms", "Annual advanced screen"],
+    partnerLabs: ["Accurate Path", "HealthFirst Labs"],
+    faqs: [{ q: "Why avoid biotin?", a: "Biotin can interfere with some immunoassays, giving spurious values." }],
+    articles: [{ title: "Vitamin D: why it matters", link: "/articles/vitamin-d-basics", img: "/images/depura.png" }],
+  },
 ];
+
 
 export const topDoctors = [
   {

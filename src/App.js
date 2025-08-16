@@ -26,6 +26,12 @@ import ProductProfile from "./pages/ProductProfile";
 import Cart from "./pages/Cart";
 import ScrollToTop from "./components/ScrollToTop";
 import DoctorProfile from './pages/DoctorProfile';
+import LabTestProfile from "./pages/LabTestProfile";
+import Plus from './pages/Plus';
+import CategoryListing from "./pages/CategoryListing";
+import BrandStore from "./pages/BrandStore";
+import CategoriesPage from './pages/CategoriesPage';
+import SearchPage from './search/SearchPage';
 
 import './App.css';
 
@@ -79,6 +85,15 @@ function App() {
         <Route path="/product/:slug" element={<ProductProfile />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/doctor/:id/:slug" element={<DoctorProfile />} />
+        <Route path="/lab-tests/:slug" element={<LabTestProfile />} />
+        <Route path="/plus" element={<Plus />} />
+        <Route path="/category/:slug" element={<CategoryListing />} />
+        <Route path="/brand/:slug" element={<BrandStore />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/search" element={<SearchPage />} />
+
+        {/* Admin Routes */}
+
         <Route
           path="/admin"
           element={

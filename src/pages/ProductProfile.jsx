@@ -476,7 +476,7 @@ export default function ProductProfile() {
 
       {/* ---------- RATINGS & REVIEWS (equal height/width, left-aligned) ---------- */}
       <section className="mt-10">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Ratings & Reviews</h2>
+        <h2 className="text-xl font-bold text-left text-gray-900 mb-4">Ratings & Reviews</h2>
 
         <div className="grid md:grid-cols-12 gap-5 items-stretch">
           {/* Score card */}

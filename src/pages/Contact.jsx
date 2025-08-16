@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { FaWhatsapp } from "react-icons/fa";
+
+// WhatsApp Floating Button
+export const WhatsAppFloatButton = () => {
+  const phoneNumber = "2349037884753"; // No plus sign for wa.me link
+
+  return (
+    <a
+      href={`https://wa.me/${phoneNumber}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-20 right-4 z-40 bg-green-700 text-white p-3 sm:p-3.5 md:p-4 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110"
+    >
+      <FaWhatsapp className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+    </a>
+  );
+};
 
 // FAQ Accordion
 const faqs = [
-  {
-    q: "How do I book a lab test?",
-    a: "You can book a lab test online through our website or mobile app. Just select your test, choose a time, and confirm your booking."
-  },
-  {
-    q: "How do I track my order?",
-    a: "Log in to your account and go to 'My Orders' to track your order status in real time."
-  },
-  {
-    q: "How do I contact customer support?",
-    a: "You can use the contact form, call our support line, or use the live chat for instant help."
-  },
-  {
-    q: "Can I get a refund?",
-    a: "Yes, refunds are processed as per our policy. Please contact support for assistance."
-  }
+  { q: "How do I book a lab test?", a: "You can book a lab test online..." },
+  { q: "How do I track my order?", a: "Log in to your account and go to 'My Orders'..." },
+  { q: "How do I contact customer support?", a: "You can use the contact form..." },
+  { q: "Can I get a refund?", a: "Yes, refunds are processed as per policy..." }
 ];
 
 function AccordionItem({ faq, open, onClick }) {
@@ -36,7 +41,7 @@ function AccordionItem({ faq, open, onClick }) {
   );
 }
 
-// User location map component
+// User Location Map
 function UserLocationMap() {
   const [coords, setCoords] = useState(null);
 
@@ -79,14 +84,12 @@ const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [openFaq, setOpenFaq] = useState(null);
 
-  // EmailJS integration placeholder
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Your message has been submitted!");
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
 
-  // Tawk.to Live Chat (loads once)
   useEffect(() => {
     if (!window.Tawk_API) {
       var s1 = document.createElement("script");
@@ -149,11 +152,11 @@ const Contact = () => {
               className="w-full border rounded p-3"
             />
             <button
-  type="submit"
-  className="bg-emerald-600 text-white px-16 py-3 rounded hover:bg-emerald-700 transition block"
->
-  Submit
-</button>
+              type="submit"
+              className="bg-emerald-600 text-white px-16 py-3 rounded hover:bg-emerald-700 transition block"
+            >
+              Submit
+            </button>
           </form>
         </div>
 
@@ -189,15 +192,7 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Chatbot Button Placeholder */}
-      <button
-        className="fixed bottom-6 right-6 z-50 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-4 shadow-lg flex items-center gap-2"
-        title="Chat with us"
-        onClick={() => window.Tawk_API && window.Tawk_API.maximize()}
-      >
-        <span className="text-lg">💬</span>
-        <span className="hidden sm:inline">Chat</span>
-      </button>
+      <WhatsAppFloatButton />
     </div>
   );
 };

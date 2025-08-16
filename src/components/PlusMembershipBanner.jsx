@@ -1,6 +1,8 @@
 import React from 'react';
 import { ArrowRight, Plus } from 'lucide-react';
 import './PlusMembershipBanner.css';
+import { Link } from 'react-router-dom';   // 👈 import Link
+
 
 const PlusMembershipBanner = () => {
   return (
@@ -24,12 +26,12 @@ const PlusMembershipBanner = () => {
       Save 5% on medicines, 50% on 1st lab test &amp; get FREE delivery with PLUS membership&nbsp;
       <a href="/plus-membership-info" className="text-yellow-500 hover:text-yellow-600 transition-colors">Know more</a>
     </p>
-    <a
-      href="/plus-membership"
-      className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-2 rounded-full inline-flex items-center gap-2 transition group-hover:scale-105 w-full md:w-auto justify-center"
-    >
-      Explore Now <ArrowRight size={18} />
-    </a>
+    <Link
+  to="/plus"   // 👈 must match the route path
+  className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-2 rounded-full inline-flex items-center gap-2 transition group-hover:scale-105 w-full md:w-auto justify-center"
+>
+  Explore Now <ArrowRight size={18} />
+</Link>
   </div>
 </div>
   );

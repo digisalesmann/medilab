@@ -1,3 +1,4 @@
+// src/pages/Home.jsx
 import { Link, useNavigate } from "react-router-dom";
 import {
   RiSearchLine,
@@ -11,12 +12,21 @@ import {
   RiPulseLine,
 } from "react-icons/ri";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { suggest } from "../search/engine";
 
 export default function Home() {
   const navigate = useNavigate();
   const [pharmacyDistance, setPharmacyDistance] = useState("1.2km");
   const [userLocation, setUserLocation] = useState(null);
   const servicesScrollRef = useRef(null);
+
+  // Search state
+  const [q, setQ] = useState("");
+  const [focused, setFocused] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const boxRef = useRef(null);
+  const debounceRef = useRef(null);
 
   // Simulate fetching user location
   useEffect(() => {
@@ -42,55 +52,61 @@ export default function Home() {
     []
   );
 
-  const services = [
-  {
-    title: "Medicine",
-    subtitle: "SAVE 25%",
-    icon: RiFirstAidKitLine,
-    link: "/medicine",
-    accent: "from-emerald-500/20",
-  },
-  {
-    title: "Lab Tests",
-    subtitle: "UP TO 70% OFF",
-    icon: RiCalendarEventLine,
-    link: "/lab-tests",
-    accent: "from-violet-500/20",
-  },
-  {
-    title: "Doctor Consult",
-    icon: RiFileList2Line,
-    link: "/doctor-consult",
-    accent: "from-sky-500/20",
-  },
-  {
-    title: "Healthcare",
-    subtitle: "UP TO 60% OFF",
-    icon: RiFirstAidKitLine,
-    link: "/healthcare",
-    accent: "from-teal-500/20",
-  },
-  {
-    title: "Health Blogs",
-    icon: RiFileList2Line,
-    link: "/health-blogs",
-    accent: "from-rose-500/20",
-  },
-  {
-    title: "PLUS",
-    subtitle: "SAVE 5% EXTRA",
-    icon: RiFlashlightLine,
-    link: "/plus",
-    accent: "from-amber-500/20",
-  },
-  {
-    title: "Fitness & Wellness",
-    subtitle: "SHOP NOW",
-    icon: RiPulseLine,
-    link: "/fitness-wellness",
-    accent: "from-lime-500/20",
-  },
-];
+  // Services (memoized)
+  const services = useMemo(
+    () => [
+      { title: "Medicine", subtitle: "SAVE 25%", icon: RiFirstAidKitLine, link: "/medicine", accent: "from-emerald-500/20" },
+      { title: "Lab Tests", subtitle: "UP TO 70% OFF", icon: RiCalendarEventLine, link: "/lab-tests", accent: "from-violet-500/20" },
+      { title: "Doctor Consult", icon: RiFileList2Line, link: "/doctor-consult", accent: "from-sky-500/20" },
+      { title: "Healthcare", subtitle: "UP TO 60% OFF", icon: RiFirstAidKitLine, link: "/healthcare", accent: "from-teal-500/20" },
+      { title: "Health Blogs", icon: RiFileList2Line, link: "/health-blogs", accent: "from-rose-500/20" },
+      { title: "PLUS", subtitle: "SAVE 5% EXTRA", icon: RiFlashlightLine, link: "/plus", accent: "from-amber-500/20" },
+      { title: "Fitness & Wellness", subtitle: "SHOP NOW", icon: RiPulseLine, link: "/fitness-wellness", accent: "from-lime-500/20" },
+    ],
+    []
+  );
+
+  // Close suggestions on outside click
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (!boxRef.current) return;
+      if (!boxRef.current.contains(e.target)) setFocused(false);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  // Debounced suggestions using shared engine
+  useEffect(() => {
+    if (debounceRef.current) window.clearTimeout(debounceRef.current);
+    if (!q.trim()) {
+      setSuggestions([]);
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    debounceRef.current = window.setTimeout(() => {
+      const docs = suggest(q, 8); // returns SearchDoc[]
+      setSuggestions(docs);
+      setLoading(false);
+    }, 220);
+    return () => {
+      if (debounceRef.current) window.clearTimeout(debounceRef.current);
+    };
+  }, [q]);
+
+  const submitSearch = (term) => {
+    const query = (term || q).trim();
+    if (!query) return;
+    setFocused(false);
+    setSuggestions([]);
+    navigate(`/search?q=${encodeURIComponent(query)}`);
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") submitSearch();
+    if (e.key === "Escape") setFocused(false);
+  };
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 px-2 sm:px-4 md:px-16 pt-28 pb-6">
@@ -107,46 +123,100 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Search input */}
-        <label
-          htmlFor="global-search"
-          className="sr-only"
-        >
-          Search products or health queries
-        </label>
-        <div className="max-w-xl mx-auto flex items-center bg-white/95 shadow-sm rounded-full overflow-hidden px-2 sm:px-3 py-1.5 ring-1 ring-gray-200 focus-within:ring-emerald-300 transition">
-          <RiSearchLine className="text-gray-400 text-lg sm:text-xl mr-1 sm:mr-2" />
-          <input
-            id="global-search"
-            type="text"
-            placeholder="Search for Shampoo"
-            className="flex-grow outline-none text-xs sm:text-sm text-gray-700 bg-transparent py-2"
-            autoComplete="off"
-          />
+        {/* Search */}
+        <div ref={boxRef} className="relative mx-auto w-full max-w-full sm:max-w-xl lg:max-w-2xl">
+          <label htmlFor="global-search" className="sr-only">
+            Search products or health queries
+          </label>
 
-          {/* Image search */}
-          <button
-            type="button"
-            className="flex items-center justify-center text-gray-400 hover:text-emerald-600 rounded-full p-1 sm:p-1.5 mr-1 sm:mr-2 transition"
-            title="Search by image"
-            onClick={() => document.getElementById("image-upload-input")?.click()}
-            aria-label="Search by image"
+          <div
+            className={`flex items-center bg-white/95 shadow-sm rounded-full overflow-hidden px-2 sm:px-3 py-1.5 ring-1 ring-gray-200 transition ${
+              focused ? "ring-2 ring-emerald-400" : "focus-within:ring-emerald-300"
+            }`}
           >
-            <RiCameraLine className="text-lg sm:text-xl" />
-          </button>
-          <input
-            id="image-upload-input"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={() => {
-              // TODO: wire image-based search
-            }}
-          />
+            <RiSearchLine className="text-gray-400 text-lg sm:text-xl mr-1 sm:mr-2" />
 
-          <button className="bg-emerald-600 text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-full hover:bg-emerald-700 transition text-xs sm:text-sm">
-            Search
-          </button>
+            <input
+              id="global-search"
+              type="text"
+              placeholder="Search medicines, lab tests, wellness…"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              onFocus={() => setFocused(true)}
+              onKeyDown={onKeyDown}
+              className="flex-grow outline-none text-sm sm:text-base text-gray-700 bg-transparent py-2 min-w-0"
+              autoComplete="off"
+            />
+
+            {/* Clear */}
+            {q && (
+              <button
+                type="button"
+                onClick={() => setQ("")}
+                className="text-gray-400 hover:text-gray-600 px-1 sm:px-1.5"
+                aria-label="Clear search"
+                title="Clear"
+              >
+                ×
+              </button>
+            )}
+
+            {/* Image search (placeholder) */}
+            <button
+              type="button"
+              className="flex items-center justify-center text-gray-400 hover:text-emerald-600 rounded-full p-1 sm:p-1.5 mr-1 sm:mr-2 transition"
+              title="Search by image"
+              onClick={() => document.getElementById("image-upload-input")?.click()}
+              aria-label="Search by image"
+            >
+              <RiCameraLine className="text-lg sm:text-xl" />
+            </button>
+            <input id="image-upload-input" type="file" accept="image/*" className="hidden" />
+
+            <button
+              onClick={() => submitSearch()}
+              className="bg-emerald-600 text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-full hover:bg-emerald-700 transition text-xs sm:text-sm"
+            >
+              {loading ? "…" : "Search"}
+            </button>
+          </div>
+
+          {/* Suggestions dropdown */}
+          {focused && (suggestions.length > 0 || (!!q && !loading)) && (
+            <div
+              className="absolute z-30 mt-2 w-full bg-white rounded-xl shadow-lg border border-gray-200 text-left overflow-hidden"
+              role="listbox"
+              aria-label="Search suggestions"
+            >
+              {loading ? (
+                <div className="px-4 py-3 text-sm text-gray-500">Searching…</div>
+              ) : suggestions.length === 0 ? (
+                <div className="px-4 py-3 text-sm text-gray-500">No matches. Press Enter to search.</div>
+              ) : (
+                <ul className="max-h-72 overflow-auto">
+                  {suggestions.map((it, i) => (
+                    <li key={`${it.id}-${i}`}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFocused(false);
+                          setSuggestions([]);
+                          navigate(it.url);
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-emerald-50 focus:bg-emerald-50 flex items-center gap-2"
+                      >
+                        <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">
+                          {it.type}
+                        </span>
+                        <span className="text-gray-900">{it.title}</span>
+                        {it.subtitle && <span className="text-gray-500 ml-1">— {it.subtitle}</span>}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -169,7 +239,7 @@ export default function Home() {
             role="region"
             aria-label="Primary healthcare services"
           >
-            {services.map((item, index) => {
+            {services.map((item) => {
               const Icon = serviceIcons[item.icon] || RiFirstAidKitLine;
               return (
                 <Link
@@ -184,27 +254,18 @@ export default function Home() {
                   "
                   aria-label={`${item.title}${item.subtitle ? ` – ${item.subtitle}` : ""}`}
                 >
-                  {/* Glow ring on hover */}
                   <div
-                    className={`
-                      pointer-events-none absolute inset-0 rounded-xl
-                      bg-gradient-to-br ${item.accent || "from-emerald-500/20"} to-transparent
-                      opacity-0 group-hover:opacity-100 transition
-                    `}
+                    className={`pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br ${
+                      item.accent || "from-emerald-500/20"
+                    } to-transparent opacity-0 group-hover:opacity-100 transition`}
                   />
-                  {/* Icon chip */}
                   <div className="absolute -top-2.5 sm:-top-3 right-2 sm:right-3 bg-white border border-gray-200 rounded-full p-1 shadow-sm z-10">
                     <Icon className="text-emerald-600 w-4 h-4" />
                   </div>
 
-
                   <item.icon className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-600 mb-2 mt-1 relative z-[1]" />
 
-
-                  {/* Texts */}
-                  <p className="text-xs sm:text-sm font-semibold text-gray-900 relative z-[1]">
-                    {item.title}
-                  </p>
+                  <p className="text-xs sm:text-sm font-semibold text-gray-900 relative z-[1]">{item.title}</p>
                   {item.subtitle ? (
                     <span className="mt-1 text-[10px] sm:text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full relative z-[1]">
                       {item.subtitle}
@@ -219,9 +280,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ▼ Mobile‑Only Quick Actions & Nearby */}
+      {/* Mobile‑Only Quick Actions & Nearby */}
       <section className="md:hidden space-y-3 px-2 mt-6">
-        {/* Quick Actions */}
         <div className="grid grid-flow-col auto-cols-[minmax(110px,1fr)] gap-3">
           <QuickAction
             label="Emergency"
@@ -243,31 +303,17 @@ export default function Home() {
           />
         </div>
 
-        {/* Pharmacy Location Widget */}
         <button
           onClick={() => navigate("/nearby-pharmacies")}
-          className="
-            flex items-center justify-between 
-            w-full bg-white/95 px-4 py-3
-            rounded-lg border border-gray-200
-            shadow-xs hover:shadow-sm
-            active:bg-gray-50 transition
-            text-left
-          "
+          className="flex items-center justify-between w-full bg-white/95 px-4 py-3 rounded-lg border border-gray-200 shadow-xs hover:shadow-sm active:bg-gray-50 transition text-left"
           aria-label="Nearest pharmacy"
         >
           <div className="flex items-center gap-2">
-            <RiMapPinLine
-              className={`
-                text-lg
-                ${userLocation ? "text-emerald-600" : "text-gray-400"}
-              `}
-            />
+            <RiMapPinLine className={`${userLocation ? "text-emerald-600" : "text-gray-400"} text-lg`} />
             <span className="text-xs font-medium">
               {userLocation ? (
                 <>
-                  Nearest pharmacy:{" "}
-                  <strong className="text-emerald-700">{pharmacyDistance}</strong>
+                  Nearest pharmacy: <strong className="text-emerald-700">{pharmacyDistance}</strong>
                 </>
               ) : (
                 <span className="inline-flex items-center gap-2">
@@ -281,18 +327,14 @@ export default function Home() {
         </button>
       </section>
 
-      {/* Mobile weekly activity (kept, with subtle polish) */}
+      {/* Mobile weekly activity */}
       <div className="md:hidden bg-white/95 p-3 mx-2 mt-4 rounded-xl shadow-sm border border-gray-100">
         <p className="text-xs font-medium text-gray-800 mb-2 flex items-center">
           <RiPulseLine className="text-rose-500 mr-1" /> Weekly Activity
         </p>
         <div className="h-16 flex items-end gap-1">
           {[3, 5, 7, 4, 6, 8, 5].map((v, i) => (
-            <div
-              key={i}
-              className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-200 rounded-t-sm"
-              style={{ height: `${v * 10}%` }}
-            />
+            <div key={i} className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-200 rounded-t-sm" style={{ height: `${v * 10}%` }} />
           ))}
         </div>
       </div>
@@ -301,26 +343,11 @@ export default function Home() {
 }
 
 /* ---------- Small components ---------- */
-
 function QuickAction({ label, icon, color, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`
-        bg-white/95 backdrop-blur-sm
-        ${color}
-        py-3 px-1
-        rounded-xl
-        border border-gray-100
-        shadow-sm hover:shadow-md
-        text-xs font-medium
-        flex flex-col items-center
-        min-h-[100px]
-        justify-between
-        transition-all
-        hover:-translate-y-0.5
-        active:scale-95
-      `}
+      className={`bg-white/95 backdrop-blur-sm ${color} py-3 px-1 rounded-xl border border-gray-100 shadow-sm hover:shadow-md text-xs font-medium flex flex-col items-center min-h-[100px] justify-between transition-all hover:-translate-y-0.5 active:scale-95`}
       type="button"
       aria-label={label}
     >

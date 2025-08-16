@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 import { UploadCloud, FilePlus, MapPin, PhoneCall, PackageCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // IMPORTANT: we alias `products` -> `newLaunchesProducts` to match your file’s export.
 import { categories, newLaunchesProducts, trendingProducts } from "../data/mockData";
@@ -85,7 +86,7 @@ function ShopByCategories() {
             <div
               key={idx}
               className={`flex flex-col items-center justify-center rounded-lg p-4 min-w-[110px] sm:min-w-[130px] md:min-w-[150px] lg:min-w-[160px] shadow-md hover:shadow-lg transition duration-300 cursor-pointer ${cat.bgGradient || "bg-white"}`}
-              onClick={() => navigate(`/search?category=${encodeURIComponent(cat.label)}`)}
+              onClick={() => navigate(`/category/${slugify(cat.label)}`)}
               title={`Browse ${cat.label}`}
             >
               <img
@@ -109,9 +110,12 @@ function ShopByCategories() {
       </div>
 
       <div className="mt-6 flex justify-center lg:hidden">
-        <button className="w-[85%] sm:w-[65%] md:w-[50%] text-teal-600 border border-teal-600 px-6 py-2.5 rounded-md text-base font-medium hover:bg-teal-50 transition">
+        <Link
+          to="/categories"
+          className="w-[85%] sm:w-[65%] md:w-[50%] text-teal-600 border border-teal-600 px-6 py-2.5 rounded-md text-base font-medium hover:bg-teal-50 transition text-center"
+        >
           View All Categories
-        </button>
+        </Link>
       </div>
 
       <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4" />
