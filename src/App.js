@@ -14,6 +14,7 @@ import TestimonialsSection from './components/TestimonialsSection';
 import Pharmacies from "./pages/Pharmacies";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from './pages/ForgotPassword';
@@ -33,6 +34,8 @@ import BrandStore from "./pages/BrandStore";
 import CategoriesPage from './pages/CategoriesPage';
 import SearchPage from './search/SearchPage';
 import ServiceHub from './pages/ServiceHub';
+import Profile from 'pages/Profile';
+import AccountSettings from "./pages/AccountSettings";
 
 import './App.css';
 
@@ -43,7 +46,10 @@ function App() {
   location.pathname === '/pharmacies' ||
   location.pathname.startsWith('/pharmacy/') ||
   location.pathname.startsWith('/admin') ||
-  location.pathname.startsWith('/wallet');
+  location.pathname.startsWith('/wallet') ||
+  location.pathname.startsWith('/profile') ||
+  location.pathname.startsWith('/account-settings');
+
 
 
   return (
@@ -75,16 +81,23 @@ function App() {
             </>
           }
         />
-        <Route path="/pharmacies" element={<Pharmacies />} />
+       <Route path="/pharmacies" element={<Pharmacies />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
-        <Route path="/wallet" element={<RewardWalletPage />} />
-        <Route path="/product/:slug" element={<ProductProfile />} />
-        <Route path="/cart" element={<Cart />} />
+
+        {/* Protected routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/wallet" element={<RewardWalletPage />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
+          <Route path="/product/:slug" element={<ProductProfile />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/account-settings" element={<AccountSettings />} />
+        </Route>
+
         <Route path="/doctor/:id/:slug" element={<DoctorProfile />} />
         <Route path="/lab-tests/:slug" element={<LabTestProfile />} />
         <Route path="/plus" element={<Plus />} />
@@ -95,24 +108,11 @@ function App() {
         <Route path="/services/:slug" element={<ServiceHub />} />
 
         {/* Admin Routes */}
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          </Route>
 
-        <Route
-          path="/admin"
-          element={
-            <AdminRoute>
-              <AdminPanel />
-            </AdminRoute>
-          }
-        />
-
-        <Route
-          path="/admin/dashboard"
-          element={
-            <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          }
-        />
       </Routes>
       {!hideLayout && !hideFooter && <Footer />}
     </div>
