@@ -1075,14 +1075,14 @@ export const trendingProducts = [
   {
     title: "Shelcal 500mg Strip Of 15 Tablets",
     image: "/images/shel.png",
-    images: ["/images/shel.png", "/images/shell_alt1.png", "/images/shell_alt2.png"],
+    images: ["/images/shel.png", "/images/cal.png", "/images/call.png"],
     mrp: 1580,
     price: 1221.2,
     discount: 23,
     brand: "Shelcal",
     rating: 4.4,
     reviews: 265,
-    bgGradient: "bg-gradient-to-b from-yellow-100 to-white-50",
+    bgGradient: "bg-gradient-to-b from-blue-100 to-white-50",
     description:
       "Shelcal 500 mg tablets provide elemental calcium to maintain bone strength and reduce risk of deficiency in adults.",
     specs: [
@@ -1105,7 +1105,7 @@ export const trendingProducts = [
   {
     title: "Abzorb Total Skin Relief Dusting Powder",
     image: "/images/abz.webp",
-    images: ["/images/abz.webp", "/images/abz_alt1.webp", "/images/abz_alt2.webp"],
+    images: ["/images/abz.webp", "/images/fun.png", "/images/fung.png"],
     mrp: 750,
     price: 600,
     discount: 20,
@@ -1135,7 +1135,7 @@ export const trendingProducts = [
   {
     title: "Liveasy Wellness Calcium Magnesium",
     image: "/images/liv.png",
-    images: ["/images/liv.png", "/images/liv_alt1.png", "/images/liv_alt2.png"],
+    images: ["/images/liv.png", "/images/livee.png", "/images/liveea.png"],
     mrp: 480,
     price: 384,
     discount: 20,
@@ -1165,7 +1165,7 @@ export const trendingProducts = [
   {
     title: "Evion 400mg Strip Of 20 Capsules",
     image: "/images/evionn.png",
-    images: ["/images/evionn.png", "/images/evion_alt1.png", "/images/evion_alt2.png"],
+    images: ["/images/evionn.png", "/images/ev.png", "/images/evv.png"],
     mrp: 350,
     price: 298,
     discount: 15,
@@ -1195,7 +1195,7 @@ export const trendingProducts = [
   {
     title: "Revital H Men Multivitamin",
     image: "/images/rev.png",
-    images: ["/images/rev.png", "/images/rev_alt1.png", "/images/rev_alt2.png"],
+    images: ["/images/rev.png", "/images/revv.png", "/images/reeev.jpg"],
     mrp: 650,
     price: 520,
     discount: 20,
@@ -1225,14 +1225,14 @@ export const trendingProducts = [
   {
     title: "Dr. Morepen Gluco One Bg 03 Glucometer",
     image: "/images/morr.png",
-    images: ["/images/morr.png", "/images/morr_alt1.png", "/images/morr_alt2.png"],
+    images: ["/images/morr.png", "/images/DrM.png", "/images/Dr.jpg"],
     mrp: 900,
     price: 765,
     discount: 15,
     brand: "Dr. Morepen",
     rating: 4.2,
     reviews: 122,
-    bgGradient: "bg-gradient-to-b from-pink-100 to-white-50",
+    bgGradient: "bg-gradient-to-b from-blue-100 to-white-50",
     description:
       "Compact glucometer with quick readings and easy strip loading. Designed for reliable home blood glucose monitoring.",
     specs: [
@@ -1259,13 +1259,13 @@ export const deals = [
   {
     name: "Depura Vitamin D3 60k Sugar Free Oral...",
     img: "/images/depura.png",
-    images: ["/images/depura.png", "/images/depura_alt1.png", "/images/depura_alt2.png"],
+    images: ["/images/depura.png", "/images/dep.webp", "/images/depp.webp"],
     mrp: 114.93,
     price: 108.03,
     discount: 6,
     link: "#",
     brand: "Depura",
-    bgGradient: "bg-gradient-to-br from-yellow-100 to-yellow-50",
+    bgGradient: "bg-gradient-to-br from-orange-200 to-yellow-50",
     description:
       "High‑strength Vitamin D3 to support calcium absorption and immune function. Sugar‑free formulation.",
     specs: [
@@ -1287,8 +1287,8 @@ export const deals = [
   },
   {
     name: "Evion 400mg Strip Of 20 Capsule",
-    img: "/images/evionn.png",
-    images: ["/images/evionn.png", "/images/evion_alt1.png", "/images/evion_alt2.png"],
+    img: "/images/ev.png",
+    images: ["/images/ev.png", "/images/evv.png", "/images/evion.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
@@ -1317,7 +1317,7 @@ export const deals = [
   {
     name: "Sevenseas Original Capsule 100`S",
     img: "/images/sevenseas.png",
-    images: ["/images/sevenseas.png", "/images/sevenseas_alt1.png", "/images/sevenseas_alt2.png"],
+    images: ["/images/sevenseas.png", "/images/sea.png", "/images/sae.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
@@ -1345,8 +1345,8 @@ export const deals = [
   },
   {
     name: "Cetaphil Gentle Skin Cleanser - 125ml",
-    img: "/images/cetaphil.png",
-    images: ["/images/cetaphil.png", "/images/cetaphil_alt1.png", "/images/cetaphil_alt2.png"],
+    img: "/images/ceta.png",
+    images: ["/images/ceta.png", "/images/cet.png", "/images/ce.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
@@ -1375,7 +1375,7 @@ export const deals = [
   {
     name: "Saliac Foaming Face Wash Foaming Bottle Salicylic Acid Of 60 Ml",
     img: "/images/saliac.webp",
-    images: ["/images/saliac.webp", "/images/saliac_alt1.webp", "/images/saliac_alt2.webp"],
+    images: ["/images/saliac.webp", "/images/sal.png", "/images/sall.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
@@ -1403,14 +1403,14 @@ export const deals = [
   },
   {
     name: "Grd Smart Vanilla Whey Protein Jar Of 200 G",
-    img: "/images/grd.png",
-    images: ["/images/grd.png", "/images/grd_alt1.png", "/images/grd_alt2.png"],
+    img: "/images/grrd.png",
+    images: ["/images/grrd.png", "/images/grdd.png", "/images/grd.png"],
     mrp: 86.87,
     price: 79.92,
     discount: 8,
     link: "#",
     brand: "GRD",
-    bgGradient: "bg-gradient-to-br from-green-100 to-white-50",
+    bgGradient: "bg-gradient-to-br from-orange-100 to-white-50",
     description:
       "Whey protein powder with vanilla flavor to support recovery and daily protein goals. Mixes smoothly in milk or water.",
     specs: [
@@ -1437,7 +1437,7 @@ export const wellnessEssentials = [
   {
     title: "Depura Vitamin D3 60k Sugar Free Oral Solution",
     image: "/images/depura.png",
-    images: ["/images/depura.png", "/images/depura_alt1.png", "/images/depura_alt2.png"],
+    images: ["/images/depura.png", "/images/dep.avif", "/images/depp.avif"],
     oldPrice: 114.93,
     newPrice: 94.24,
     discount: 18,
@@ -1467,7 +1467,7 @@ export const wellnessEssentials = [
   {
     title: "Sugar Free Gold Plus Packet Of 500 Pellets",
     image: "/images/sugar.png",
-    images: ["/images/sugar.png", "/images/sugar_alt1.png", "/images/sugar_alt2.png"],
+    images: ["/images/sugar.png", "/images/sug.png", "/images/sugg.png"],
     oldPrice: 320.0,
     newPrice: 281.6,
     discount: 12,
@@ -1497,7 +1497,7 @@ export const wellnessEssentials = [
   {
     title: "Enterogermina Suspension 10 X 5 Ml",
     image: "/images/enterogermina.png",
-    images: ["/images/enterogermina.png", "/images/enter_alt1.png", "/images/enter_alt2.png"],
+    images: ["/images/enterogermina.png", "/images/ent.png", "/images/entt.jpg"],
     oldPrice: 732.0,
     newPrice: 563.64,
     discount: 23,
@@ -1527,7 +1527,7 @@ export const wellnessEssentials = [
   {
     title: "Neurobion Forte Strip Of 30 Tablets",
     image: "/images/neurobion.png",
-    images: ["/images/neurobion.png", "/images/neurobion_alt1.png", "/images/neurobion_alt2.png"],
+    images: ["/images/neurobion.png", "/images/neu.png", "/images/nue.png"],
     oldPrice: 46.1,
     newPrice: 46.1,
     discount: 0,
@@ -1557,7 +1557,7 @@ export const wellnessEssentials = [
   {
     title: "Sebamed Clear Face Cleansing Foam - 150ml",
     image: "/images/sebamed.png",
-    images: ["/images/sebamed.png", "/images/sebamed_alt1.png", "/images/sebamed_alt2.png"],
+    images: ["/images/sebamed.png", "/images/seb.png", "/images/seba.png"],
     oldPrice: 680.0,
     newPrice: 564.4,
     discount: 17,
@@ -1587,7 +1587,7 @@ export const wellnessEssentials = [
   {
     title: "Lite Glo Face Wash Tube Of 100 Ml",
     image: "/images/lite.png",
-    images: ["/images/lite.png", "/images/lite_alt1.png", "/images/lite_alt2.png"],
+    images: ["/images/lite.png", "/images/lit.png", "/images/litt.jpg"],
     oldPrice: 499.0,
     newPrice: 429.14,
     discount: 14,

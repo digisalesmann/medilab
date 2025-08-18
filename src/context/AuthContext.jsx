@@ -51,16 +51,58 @@ export function AuthProvider({ children }) {
 
   // ---- Phone OTP ----
   // Returns Firebase ConfirmationResult
-  const sendPhoneOTP = async (phoneE164) => {
-    // ensure <div id="recaptcha-container" /> exists in the page
-    const verifier = initRecaptcha("recaptcha-container", "invisible");
-    return signInWithPhoneNumber(auth, phoneE164, verifier);
-  };
+ // AuthContext.jsx (inside the component scope)
 
-  // Returns Firebase UserCredential (so caller can read .user)
-  const confirmPhoneOTP = (confirmationResult, code) => {
-    return confirmationResult.confirm(code);
-  };
+const sendPhoneOTP = async (phoneE164) => {
+  // Always make sure the container exists globally (index.html) and is visible enough (not display:none)
+  // Our initRecaptcha creates/reuses a single invisible verifier tied to #recaptcha-container
+  const verifier = initRecaptcha("recaptcha-container"); // size handled inside as "invisible"
+  if (!verifier) throw new Error("reCAPTCHA is not available.");
+
+  // Render if not rendered yet (some SDK versions require explicit render())
+  if (!verifier.rendered) {
+    try {
+      await verifier.render();
+    } catch (e) {
+      // If the instance got into a bad state, nuke and recreate once
+      try { window.recaptchaVerifier?.clear?.(); } catch {}
+      window.recaptchaVerifier = null;
+      const v2 = initRecaptcha("recaptcha-container");
+      await v2.render();
+    }
+  }
+
+  // E.164 very light sanity check (optional)
+  if (!/^\+[\d]{7,15}$/.test(phoneE164)) {
+    throw new Error("Enter a valid phone number in international format (e.g. +2348012345678).");
+  }
+
+  // Return the confirmationResult; store it in a ref on the calling component
+  return signInWithPhoneNumber(auth, phoneE164, window.recaptchaVerifier);
+};
+
+const confirmPhoneOTP = async (confirmationResult, code) => {
+  if (!confirmationResult) {
+    throw new Error("No pending verification. Please send the OTP again.");
+  }
+  const pin = String(code || "").trim();
+  if (pin.length < 6) {
+    throw new Error("Enter the 6‑digit verification code.");
+  }
+
+  try {
+    // Returns a full UserCredential (use .user)
+    return await confirmationResult.confirm(pin);
+  } catch (e) {
+    // If the verifier expired, clear it so the next send recreates it
+    const msg = (e && e.message) || "";
+    if (/expired|timeout|recaptcha/i.test(msg)) {
+      try { window.recaptchaVerifier?.clear?.(); } catch {}
+      window.recaptchaVerifier = null;
+    }
+    throw e;
+  }
+};
 
   const logout = () => fbSignOut(auth);
 
