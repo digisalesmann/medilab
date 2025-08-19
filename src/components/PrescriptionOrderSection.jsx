@@ -1,12 +1,16 @@
 // src/components/PrescriptionOrderSection.jsx
-import React, { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
-import { UploadCloud, FilePlus, MapPin, PhoneCall, PackageCheck } from "lucide-react";
-import { Link } from "react-router-dom";
+import { UploadCloud, FilePlus, MapPin, PhoneCall, PackageCheck, X } from "lucide-react";
 
-// IMPORTANT: we alias `products` -> `newLaunchesProducts` to match your file’s export.
+// IMPORTANT: we alias products -> newLaunchesProducts to match your file’s export.
 import { categories, newLaunchesProducts, trendingProducts } from "../data/mockData";
+
+const API_BASE =
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_BASE) ||
+  process.env.REACT_APP_API_BASE ||
+  "http://localhost:5000";
 
 function slugify(s = "") {
   return String(s)
@@ -21,40 +25,217 @@ export default function PrescriptionOrderSection() {
   return (
     <>
       {/* Top prescription CTA */}
-      <div className="w-full flex justify-center px-2 mt-6">
-        <div className="flex flex-col md:flex-row bg-[#f3f8fe] border border-[#e3eefd] rounded-2xl w-full max-w-6xl p-5 md:p-6 gap-6 items-center md:items-stretch">
-          {/* Left */}
-          <div className="flex flex-col md:w-1/2 items-center md:items-start justify-center gap-4">
-            <UploadCloud size={48} strokeWidth={1.5} className="text-[#008375]" />
-            <div className="text-center md:text-left">
-              <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-1">Order with Prescription</h2>
-              <p className="text-gray-600 text-sm md:text-base mb-2">
-                Upload your prescription and get your medicines delivered.
-              </p>
-            </div>
-            <button className="flex items-center gap-2 bg-[#008375] hover:bg-[#00695c] text-white font-medium px-6 py-2.5 rounded-lg shadow transition text-sm md:text-base">
-              <FilePlus size={20} />
-              Upload Prescription
-            </button>
-          </div>
-
-          {/* Right */}
-          <div className="flex-1 w-full flex flex-col justify-center">
-            <h3 className="text-base md:text-lg font-medium text-gray-800 mb-3">How it works</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Step icon={<FilePlus size={20} className="text-[#3b82f6]" />} text="Upload your prescription photo" />
-              <Step icon={<MapPin size={20} className="text-[#3b82f6]" />} text="Enter your delivery address" />
-              <Step icon={<PhoneCall size={20} className="text-[#3b82f6]" />} text="We'll call to confirm medicines" />
-              <Step icon={<PackageCheck size={20} className="text-[#3b82f6]" />} text="Sit back! Delivery is on the way" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <UploadPrescriptionCTA />
 
       <NewLaunches />
       <ShopByCategories />
       <TrendingNearYou />
     </>
+  );
+}
+
+function UploadPrescriptionCTA() {
+  const inputRef = useRef(null);
+  const navigate = useNavigate();
+
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const acceptTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+  const maxSizeMB = 10;
+
+  function validate(f) {
+    if (!acceptTypes.includes(f.type)) return "Only JPG, PNG, WEBP, or PDF are allowed.";
+    if (f.size > maxSizeMB * 1024 * 1024) return `File is too large. Max ${maxSizeMB} MB.`;
+    return "";
+  }
+
+  function handlePick(e) {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    const err = validate(f);
+    if (err) {
+      setError(err);
+      setFile(null);
+      setPreview("");
+      return;
+    }
+    setError("");
+    setFile(f);
+    if (f.type.startsWith("image/")) {
+      setPreview(URL.createObjectURL(f));
+    } else {
+      setPreview("");
+    }
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    const f = e.dataTransfer.files?.[0];
+    if (!f) return;
+    const err = validate(f);
+    if (err) {
+      setError(err);
+      setFile(null);
+      setPreview("");
+      return;
+    }
+    setError("");
+    setFile(f);
+    if (f.type.startsWith("image/")) {
+      setPreview(URL.createObjectURL(f));
+    } else {
+      setPreview("");
+    }
+  }
+
+  async function handleUpload() {
+    try {
+      setError("");
+      if (!file) return setError("Please select a prescription file first.");
+      if (!address.trim()) return setError("Please enter your delivery address.");
+      if (!phone.trim()) return setError("Please enter your phone number.");
+
+      const form = new FormData();
+      form.append("prescription", file);
+      form.append("address", address);
+      form.append("phone", phone);
+
+      setUploading(true);
+      const res = await fetch(`${API_BASE}/api/prescriptions`, {
+        method: "POST",
+        body: form,
+      });
+
+      if (!res.ok) throw new Error((await res.text()) || "Upload failed");
+      const data = await res.json(); // { id, filename, url? }
+      navigate(`/prescriptions/success?id=${encodeURIComponent(data.id)}`);
+    } catch (e) {
+      setError(e.message || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  return (
+    <div className="w-full flex justify-center px-2 mt-6">
+      <div className="flex flex-col md:flex-row bg-[#f3f8fe] border border-[#e3eefd] rounded-2xl w-full max-w-6xl p-5 md:p-6 gap-6 items-center md:items-stretch">
+        {/* Left */}
+        <div className="flex flex-col md:w-1/2 items-center md:items-start justify-center gap-4">
+          <UploadCloud size={48} strokeWidth={1.5} className="text-[#008375]" />
+          <div className="text-center md:text-left">
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-1">Order with Prescription</h2>
+            <p className="text-gray-600 text-sm md:text-base mb-2">
+              Upload your prescription and get your medicines delivered.
+            </p>
+          </div>
+
+          {/* Dropzone */}
+          <div
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={handleDrop}
+            className="w-full border-2 border-dashed border-[#e3eefd] hover:border-[#c6d9ff] bg-white rounded-xl p-4 transition"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="bg-[#e3eefd] p-2 rounded-lg">
+                  <FilePlus size={20} className="text-[#3b82f6]" />
+                </div>
+                <div className="text-sm">
+                  <div className="font-medium text-gray-800">Drag & drop here</div>
+                  <div className="text-gray-500">
+                    or click to browse (JPG/PNG/WEBP/PDF, ≤ {maxSizeMB}MB)
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => inputRef.current?.click()}
+                type="button"
+                className="px-4 py-2 bg-[#008375] hover:bg-[#00695c] text-white rounded-lg text-sm"
+              >
+                Choose File
+              </button>
+            </div>
+
+            <input
+              ref={inputRef}
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp,.pdf"
+              onChange={handlePick}
+              className="hidden"
+            />
+
+            {file && (
+              <div className="mt-4 flex items-center gap-3">
+                {preview ? (
+                  <img src={preview} alt="preview" className="w-16 h-16 object-cover rounded-md border" />
+                ) : (
+                  <div className="w-16 h-16 flex items-center justify-center border rounded-md text-xs text-gray-500">
+                    PDF
+                  </div>
+                )}
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-gray-800 truncate">{file.name}</div>
+                  <div className="text-xs text-gray-500">{(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                </div>
+                <button
+                  onClick={() => {
+                    setFile(null);
+                    setPreview("");
+                  }}
+                  className="p-2 rounded-md hover:bg-gray-100 text-gray-600"
+                  title="Remove"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Address & Phone */}
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="Delivery address"
+              className="w-full border border-[#e3eefd] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c6d9ff] bg-white"
+            />
+            <input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Phone number"
+              className="w-full border border-[#e3eefd] rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c6d9ff] bg-white"
+            />
+          </div>
+
+          {error && <div className="text-red-600 text-sm">{error}</div>}
+
+          <button
+            onClick={handleUpload}
+            disabled={uploading}
+            className="flex items-center gap-2 bg-[#008375] hover:bg-[#00695c] disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium px-6 py-2.5 rounded-lg shadow transition text-sm md:text-base"
+          >
+            <FilePlus size={20} />
+            {uploading ? "Uploading..." : "Upload Prescription"}
+          </button>
+        </div>
+
+        {/* Right */}
+        <div className="flex-1 w-full flex flex-col justify-center">
+          <h3 className="text-base md:text-lg font-medium text-gray-800 mb-3">How it works</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Step icon={<FilePlus size={20} className="text-[#3b82f6]" />} text="Upload your prescription photo/PDF" />
+            <Step icon={<MapPin size={20} className="text-[#3b82f6]" />} text="Enter your delivery address" />
+            <Step icon={<PhoneCall size={20} className="text-[#3b82f6]" />} text="We’ll call to confirm medicines" />
+            <Step icon={<PackageCheck size={20} className="text-[#3b82f6]" />} text="Sit back! Delivery is on the way" />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

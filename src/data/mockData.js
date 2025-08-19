@@ -429,7 +429,7 @@ export const labTests = [
     oldPrice: 3599,
     newPrice: 1449,
     image: "/images/body.png",
-    images: ["/images/body.png", "/images/checkup.png", "/images/bsic.png"],
+    images: ["/images/health.png", "/images/healthh.png", "/images/healthhh.png"],
     bg: "bg-blue-50",
     link: "/lab-test/healthy-2025-full-body-checkup",
 
@@ -475,7 +475,7 @@ export const labTests = [
     oldPrice: 1399,
     newPrice: 799,
     image: "/images/care.png",
-    images: ["/images/care.png", "/images/depura.png", "/images/evionn.png"],
+    images: ["/images/diet.png", "/images/diett.png", "/images/diettt.png"],
     bg: "bg-amber-50",
     link: "/lab-test/diabetes-care",
 
@@ -509,7 +509,7 @@ export const labTests = [
     oldPrice: 2249,
     newPrice: 1049,
     image: "/images/bsic.png",
-    images: ["/images/bsic.png", "/images/checkup.png", "/images/body.png"],
+    images: ["/images/basic.png", "/images/basicc.png", "/images/basiccc.png"],
     bg: "bg-blue-50",
     link: "/lab-test/basic-health-checkup",
 
@@ -540,7 +540,7 @@ export const labTests = [
     oldPrice: 4599,
     newPrice: 2499,
     image: "/images/checkup.png",
-    images: ["/images/checkup.png", "/images/body.png", "/images/bsic.png"],
+    images: ["/images/vit.png", "/images/vitt.png", "/images/vittt.png"],
     bg: "bg-amber-50",
     link: "/lab-test/aarogyam-full-body-checkup-with-vitamins",
 
@@ -838,8 +838,8 @@ export const topDoctors = [
     experienceYears: 11,
     hospital: "Ilorin ENT Institute",
     languages: ["English", "Yoruba"],
-    img: "/images/doctor-ent.png",
-    images: ["/images/doctor-ent.png", "/images/doctor-ent.png", "/images/doctor-ent.png"],
+    img: "/images/samuel.png",
+    images: ["/images/samuel.png", "/images/samuel.png", "/images/samuel.png"],
     about: "ENT surgeon with focus on sinus disease, ear infections, and voice disorders.",
     services: ["Sinusitis care", "Ear microsuction", "Allergy & voice clinics"],
     education: [
@@ -850,7 +850,7 @@ export const topDoctors = [
     availability: { days: ["Tue", "Fri"], slots: ["10:00", "12:00", "14:00"], online: false, inPerson: true },
     contact: { phone: "+234 701 123 4444", email: "s.adeoye@medilab.example" },
     geo: { lat: 8.4966, lng: 4.5421 },
-    bg: "bg-cyan-50",
+    bg: "bg-blue-50",
   },
   {
     id: "d-ngozi-okafor",
@@ -863,8 +863,8 @@ export const topDoctors = [
     experienceYears: 12,
     hospital: "Women’s Health Centre",
     languages: ["English", "Igbo"],
-    img: "/images/doctor-obgyn.png",
-    images: ["/images/doctor-obgyn.png", "/images/doctor-obgyn.png", "/images/doctor-obgyn.png"],
+    img: "/images/ngozi.jpeg",
+    images: ["/images/ngozi.jpeg", "/images/ngozi.jpeg", "/images/ngozi.jpeg"],
     about:
       "OB/GYN providing antenatal care, fertility counseling, and minimally invasive gynecological procedures.",
     services: ["Antenatal & postnatal", "Fertility counseling", "Gynecologic scans"],

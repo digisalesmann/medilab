@@ -35,8 +35,9 @@ import BrandStore from "./pages/BrandStore";
 import CategoriesPage from './pages/CategoriesPage';
 import SearchPage from './search/SearchPage';
 import ServiceHub from './pages/ServiceHub';
-import Profile from './pages/Profile';           // ✅ fix bad import
+import Profile from './pages/Profile';          
 import AccountSettings from "./pages/AccountSettings";
+import PrescriptionSuccess from 'pages/PrescriptionSuccess';
 
 import './App.css';
 
@@ -113,6 +114,7 @@ function App() {
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/services/:slug" element={<ServiceHub />} />
+        <Route path="/prescription-success" element={<PrescriptionSuccess />} />
 
         {/* Protected */}
         <Route element={<ProtectedRoute />}>

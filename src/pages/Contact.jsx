@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { FaWhatsapp } from "react-icons/fa";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../lib/firebase";
+import emailjs from "emailjs-com";
 
 // WhatsApp Floating Button
 export const WhatsAppFloatButton = () => {
-  const phoneNumber = "2349037884753"; // No plus sign for wa.me link
-
+  const phoneNumber = "2349037884753";
   return (
     <a
       href={`https://wa.me/${phoneNumber}`}
@@ -18,7 +20,7 @@ export const WhatsAppFloatButton = () => {
   );
 };
 
-// FAQ Accordion
+// FAQ
 const faqs = [
   { q: "How do I book a lab test?", a: "You can book a lab test online..." },
   { q: "How do I track my order?", a: "Log in to your account and go to 'My Orders'..." },
@@ -29,14 +31,11 @@ const faqs = [
 function AccordionItem({ faq, open, onClick }) {
   return (
     <div className="border-b">
-      <button
-        className="w-full flex justify-between items-center py-3 text-left font-semibold"
-        onClick={onClick}
-      >
+      <button className="w-full flex justify-between items-center py-3 text-left font-semibold" onClick={onClick}>
         {faq.q}
         <span>{open ? '-' : '+'}</span>
       </button>
-      {open && <div className="pb-3 text-sm text-gray-600">{faq.a}</div>}
+      {open && <div className="pb-3 text-left text-sm text-gray-600">{faq.a}</div>}
     </div>
   );
 }
@@ -44,7 +43,6 @@ function AccordionItem({ faq, open, onClick }) {
 // User Location Map
 function UserLocationMap() {
   const [coords, setCoords] = useState(null);
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -53,7 +51,6 @@ function UserLocationMap() {
       );
     }
   }, []);
-
   if (!coords) {
     return (
       <div className="rounded-xl overflow-hidden shadow h-64 bg-gray-200 flex items-center justify-center">
@@ -61,9 +58,7 @@ function UserLocationMap() {
       </div>
     );
   }
-
   const mapSrc = `https://www.google.com/maps?q=${coords.latitude},${coords.longitude}&z=15&output=embed`;
-
   return (
     <div className="rounded-xl overflow-hidden shadow h-64 bg-gray-200">
       <iframe
@@ -75,24 +70,22 @@ function UserLocationMap() {
         allowFullScreen=""
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
+      />
     </div>
   );
 }
 
-const Contact = () => {
+export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [openFaq, setOpenFaq] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState("");
+  const [errorDetail, setErrorDetail] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Your message has been submitted!");
-    setFormData({ name: '', email: '', phone: '', message: '' });
-  };
-
+  // Tawk.to (optional – replace with your real widget ID)
   useEffect(() => {
     if (!window.Tawk_API) {
-      var s1 = document.createElement("script");
+      const s1 = document.createElement("script");
       s1.async = true;
       s1.src = 'https://embed.tawk.to/your-tawk-id/1hxxxxxxx';
       s1.charset = 'UTF-8';
@@ -101,8 +94,81 @@ const Contact = () => {
     }
   }, []);
 
+  // EmailJS (optional — only runs if env vars exist)
+  const sendEmailIfConfigured = async (payload) => {
+    const serviceId  = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+    const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+    const publicKey  = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+    const toEmail    = process.env.REACT_APP_EMAILJS_TO_EMAIL;
+
+    if (!serviceId || !templateId || !publicKey || !toEmail) return;
+
+    const templateParams = {
+      to_email: toEmail,
+      from_name: payload.name || "MediLab Visitor",
+      from_email: payload.email || "",
+      phone: payload.phone || "",
+      message: payload.message || "",
+      sent_at: new Date().toLocaleString(),
+    };
+
+    await emailjs.send(serviceId, templateId, templateParams, publicKey);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setToast("");
+    setErrorDetail("");
+
+    try {
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        message: formData.message.trim(),
+        createdAt: serverTimestamp(),
+        source: "contact_page",
+      };
+
+      const ref = await addDoc(collection(db, "messages"), payload);
+
+      try {
+        await sendEmailIfConfigured(payload);
+      } catch (emailErr) {
+        console.warn("Email notification failed:", emailErr);
+      }
+
+      setToast("✅ Your message has been sent. We’ll get back to you shortly.");
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      console.log("Message stored with id:", ref.id);
+    } catch (err) {
+      console.error(err);
+      setToast("❌ Failed to send message. Please try again.");
+      setErrorDetail(err?.code ? `${err.code}: ${err.message}` : String(err));
+    } finally {
+      setSubmitting(false);
+      setTimeout(() => setToast(""), 5000);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-white px-2 sm:px-4 md:px-8 pt-24 pb-16">
+      {(toast || errorDetail) && (
+        <div className="max-w-3xl mx-auto mb-4 space-y-2">
+          {toast && (
+            <div className="rounded-lg border px-4 py-3 text-sm shadow bg-white">
+              {toast}
+            </div>
+          )}
+          {errorDetail && (
+            <pre className="rounded-lg border px-4 py-3 text-xs shadow bg-red-50 text-red-700 overflow-auto">
+{errorDetail}
+            </pre>
+          )}
+        </div>
+      )}
+
       {/* Emergency Contact Banner */}
       <div className="bg-emerald-100 border-l-4 border-emerald-500 p-4 rounded-lg shadow mb-10">
         <h2 className="text-lg font-semibold text-emerald-800">Emergency?</h2>
@@ -153,16 +219,19 @@ const Contact = () => {
             />
             <button
               type="submit"
-              className="bg-emerald-600 text-white px-16 py-3 rounded hover:bg-emerald-700 transition block"
+              disabled={submitting}
+              className="bg-emerald-600 text-white px-16 py-3 rounded hover:bg-emerald-700 transition block disabled:opacity-60"
             >
-              Submit
+              {submitting ? "Sending…" : "Submit"}
             </button>
+            <p className="text-xs text-gray-500 mt-2">
+              By submitting, you consent to us storing this message to respond to your request.
+            </p>
           </form>
         </div>
 
         {/* Help & Info */}
         <div className="space-y-6">
-          {/* FAQ Accordion */}
           <div className="bg-white p-6 rounded-xl shadow">
             <h3 className="text-xl font-semibold mb-2 text-emerald-700">FAQs</h3>
             <div>
@@ -177,7 +246,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Support Channels */}
           <div className="bg-white p-6 rounded-xl shadow">
             <h3 className="text-xl font-semibold mb-2 text-emerald-700">Other ways to reach us</h3>
             <div className="space-y-2 text-gray-800">
@@ -187,7 +255,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Google Maps Embed (User Location) */}
           <UserLocationMap />
         </div>
       </div>
@@ -195,6 +262,4 @@ const Contact = () => {
       <WhatsAppFloatButton />
     </div>
   );
-};
-
-export default Contact;
+}

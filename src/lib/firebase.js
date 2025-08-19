@@ -1,5 +1,6 @@
 // src/lib/firebase.js
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import {
   getAuth,
   RecaptchaVerifier,
@@ -22,18 +23,20 @@ const cfg = {
 if (!cfg.apiKey) {
   throw new Error(
     "[firebase] Missing REACT_APP_FIREBASE_API_KEY. " +
-    "Create .env.local with REACT_APP_* vars and restart npm start."
+      "Create .env.local with REACT_APP_* vars and restart dev server."
   );
 }
 
 export const app = initializeApp(cfg);
+export const db = getFirestore(app);
+
 export const auth = getAuth(app);
 auth.useDeviceLanguage?.();
 
 export const googleProvider = new GoogleAuthProvider();
 export const appleProvider = new OAuthProvider("apple.com");
 
-// Ensure a hidden recaptcha container exists
+// --- reCAPTCHA (phone auth) ---
 function ensureRecaptchaContainer(id = "recaptcha-container") {
   if (typeof document === "undefined") return id;
   let el = document.getElementById(id);
@@ -75,7 +78,6 @@ export async function sendPhoneOtp(phoneE164) {
   }
   return signInWithPhoneNumber(auth, phoneE164, window.recaptchaVerifier);
 }
-
 export function confirmPhoneOtp(confirmationResult, code) {
   return confirmationResult.confirm(code);
 }

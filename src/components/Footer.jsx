@@ -63,7 +63,7 @@ const Footer = () => {
 
         {/* Contact */}
         <div>
-          <h4 className="font-semibold text-lg mb-4 text-green-700">Contact Us</h4>
+          <h4 className="font-semibold pr-28 text-lg mb-4 text-green-700">Contact Us</h4>
           <ul className="space-y-3 text-sm text-gray-600">
             <li className="flex items-center gap-2"><FaPhoneAlt className="text-green-500" /> +234 800 123 4567</li>
             <li className="flex items-center gap-2"><FaEnvelope className="text-green-500" /> support@medilab.com</li>
