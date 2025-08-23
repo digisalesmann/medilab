@@ -1,18 +1,32 @@
 {
   "compilerOptions": {
+    /* Language & module support */
     "target": "ES2020",
     "module": "ESNext",
-    "jsx": "react-jsx", // ✅ allow JSX in .tsx
-    "allowJs": true, // ✅ you have JS + TS mixed
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+
+    /* JSX for React 17+ (CRA v5 uses the new JSX transform) */
+    "jsx": "react-jsx",
+
+    /* JS/TS interoperability */
+    "allowJs": true,
     "checkJs": false,
-    "strict": true,
-    "moduleResolution": "Node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
+
+    /* Type-checking */
+    "strict": true,
+    "skipLibCheck": true, // ✅ prevent errors from mismatched @types versions
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "src" // optional, nice for absolute imports
+
+    /* Module resolution */
+    "moduleResolution": "Node",
+    "isolatedModules": true, // ✅ needed for CRA builds
+    "noEmit": true,          // ✅ CRA doesn’t emit .js files from TS
+
+    /* Absolute imports (optional, nice DX) */
+    "baseUrl": "src"
   },
   "include": ["src"]
 }
