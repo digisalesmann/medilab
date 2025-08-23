@@ -148,7 +148,7 @@ function UploadPrescriptionCTA() {
                 <div className="text-sm">
                   <div className="font-medium text-gray-800">Drag & drop here</div>
                   <div className="text-gray-500">
-                    or click to browse (JPG/PNG/WEBP/PDF, ≤ {maxSizeMB}MB)
+                    or click to <span className="text-[#3b82f6]">choose a file</span>
                   </div>
                 </div>
               </div>

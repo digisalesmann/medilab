@@ -32,12 +32,14 @@ import LabTestProfile from "./pages/LabTestProfile";
 import Plus from './pages/Plus';
 import CategoryListing from "./pages/CategoryListing";
 import BrandStore from "./pages/BrandStore";
-import CategoriesPage from './pages/CategoriesPage';
+import CategoriesPage from './pages/CategoryHub';
 import SearchPage from './search/SearchPage';
 import ServiceHub from './pages/ServiceHub';
 import Profile from './pages/Profile';          
 import AccountSettings from "./pages/AccountSettings";
 import PrescriptionSuccess from 'pages/PrescriptionSuccess';
+import CategoryHub from "./pages/CategoryHub";
+
 
 import './App.css';
 
@@ -115,6 +117,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/services/:slug" element={<ServiceHub />} />
         <Route path="/prescription-success" element={<PrescriptionSuccess />} />
+        <Route path="/hub/:slug" element={<CategoryHub />} />
 
         {/* Protected */}
         <Route element={<ProtectedRoute />}>

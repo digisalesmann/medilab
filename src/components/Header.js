@@ -28,6 +28,18 @@ import { useAuth } from "../context/AuthContext";
 
 const ADMIN_EMAIL = "admin@medilab.com";
 
+/** ---- Category model used in both desktop dropdown & mobile drawer ---- */
+const CATEGORIES = [
+  { label: "Medicine", slug: "medicine", Icon: Stethoscope, tone: "text-emerald-600" },
+  { label: "Health Info", slug: "health-info", Icon: FileText, tone: "text-emerald-700" },
+  { label: "Fitness", slug: "fitness", Icon: Dumbbell, tone: "text-emerald-600" },
+  { label: "Mom & Baby", slug: "mom-and-baby", Icon: Baby, tone: "text-emerald-600" },
+  { label: "Devices", slug: "devices", Icon: Cpu, tone: "text-emerald-700" },
+  { label: "Wellness", slug: "wellness", Icon: Leaf, tone: "text-emerald-600" },
+  { label: "Pet Supplies", slug: "pet-supplies", Icon: Dog, tone: "text-emerald-600" },
+  { label: "Skin Care/Beauty", slug: "skin-care-beauty", Icon: Sparkles, tone: "text-emerald-600" },
+];
+
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(true);
@@ -58,6 +70,12 @@ export default function Header() {
     }
   };
 
+  const goToCategory = (slug) => {
+    setShowDropdown(false);
+    setIsOpen(false);
+    navigate(`/hub/${slug}`);
+  };
+
   const toggleMenu = () => setIsOpen((s) => !s);
 
   return (
@@ -67,13 +85,41 @@ export default function Header() {
         <Logo />
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex flex-1 justify-center space-x-10 text-gray-700 text-base font-medium">
+        <nav className="hidden md:flex flex-1 justify-center space-x-6 text-gray-700 text-base font-medium">
           <button
             onClick={handleHomeClick}
             className="hover:text-green-600 transition-colors"
           >
             Home
           </button>
+
+          {/* Desktop Categories dropdown */}
+          <div className="relative group">
+            <button
+              className="inline-flex items-center gap-2 hover:text-green-600 transition-colors"
+              aria-haspopup="menu"
+            >
+              Categories
+            </button>
+
+            {/* Dropdown menu */}
+            <div
+              role="menu"
+              className="absolute left-1/2 -translate-x-1/2 mt-3 w-[520px] max-w-[90vw] bg-white border border-gray-200 rounded-2xl shadow-xl p-3 grid grid-cols-2 gap-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+            >
+              {CATEGORIES.map(({ label, slug, Icon, tone }) => (
+                <button
+                  key={slug}
+                  onClick={() => goToCategory(slug)}
+                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 text-left"
+                >
+                  <Icon className={`w-5 h-5 ${tone}`} />
+                  <span className="font-medium">{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <Link to="/pharmacies" className="hover:text-green-600 transition-colors">
             Pharmacies
           </Link>
@@ -199,15 +245,13 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Drawer */}
+      {/* Drawer (mobile) */}
       {isOpen && (
         <>
-          {/* Overlay */}
           <div
             className="fixed inset-0 bg-black bg-opacity-30 z-40"
             onClick={() => setIsOpen(false)}
           />
-          {/* Sidebar */}
           <div className="fixed right-0 top-0 h-screen w-[24rem] max-w-full bg-white shadow-2xl z-50 px-8 py-6 overflow-y-auto border-l border-b border-gray-200">
             {/* Header */}
             <div className="flex justify-between items-start mb-5">
@@ -221,61 +265,16 @@ export default function Header() {
             {initializing ? (
               <div className="w-full h-24 rounded-xl bg-gray-100 animate-pulse mb-6" />
             ) : user ? (
-              <div className="mb-6 p-4 border rounded-xl bg-gray-50">
-                <div className="flex items-center gap-3">
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-600 text-white text-sm">
-                    {avatarLetter}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">{displayName}</div>
-                    <div className="text-xs text-gray-500">
-                      {user.email || user.phoneNumber}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-3 grid grid-cols-2 gap-2">
-                  <button
-                    className="w-full border rounded-md py-2 text-sm hover:bg-gray-50"
-                    onClick={() => {
-                      setIsOpen(false);
-                      navigate("/profile");
-                    }}
-                  >
-                    Profile
-                  </button>
-                  <button
-                    className="w-full border rounded-md py-2 text-sm hover:bg-gray-50"
-                    onClick={() => {
-                      setIsOpen(false);
-                      navigate("/orders");
-                    }}
-                  >
-                    Orders
-                  </button>
-                  {isAdmin && (
-                    <button
-                      className="col-span-2 w-full border rounded-md py-2 text-sm hover:bg-gray-50 text-rose-600"
-                      onClick={() => {
-                        setIsOpen(false);
-                        navigate("/admin");
-                      }}
-                    >
-                      Admin Panel
-                    </button>
-                  )}
-                  <button
-                    className="col-span-2 w-full bg-emerald-600 text-white rounded-md py-2 text-sm hover:bg-emerald-700"
-                    onClick={async () => {
-                      await logout();
-                      localStorage.removeItem("currentUser");
-                      setIsOpen(false);
-                      navigate("/login");
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
+              <UserPanel
+                displayName={displayName}
+                email={user.email}
+                phone={user.phoneNumber}
+                avatarLetter={avatarLetter}
+                isAdmin={isAdmin}
+                onClose={() => setIsOpen(false)}
+                onLogout={logout}
+                navigate={navigate}
+              />
             ) : (
               <div className="flex gap-4 mb-6">
                 <Link to="/register" onClick={() => setIsOpen(false)} className="flex-1">
@@ -339,62 +338,16 @@ export default function Header() {
 
             {/* Categories / Shortcuts (Lucide for rich pictograms) */}
             <div className="space-y-1 text-gray-800 text-base">
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <Stethoscope className="w-5 h-5 text-emerald-600" />
-                Medicine
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <FileText className="w-5 h-5 text-emerald-700" />
-                Health Info
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <Dumbbell className="w-5 h-5 text-emerald-600" />
-                Fitness
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <Baby className="w-5 h-5 text-emerald-600" />
-                Mom & Baby
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <Cpu className="w-5 h-5 text-emerald-700" />
-                Devices
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <Leaf className="w-5 h-5 text-emerald-600" />
-                Wellness
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <Dog className="w-5 h-5 text-emerald-600" />
-                Pet Supplies
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
-              >
-                <Sparkles className="w-5 h-5 text-emerald-600" />
-                Skin Care/Beauty
-              </button>
+              {CATEGORIES.map(({ label, slug, Icon, tone }) => (
+                <button
+                  key={slug}
+                  onClick={() => goToCategory(slug)}
+                  className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
+                >
+                  <Icon className={`w-5 h-5 ${tone}`} />
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
         </>
@@ -403,7 +356,57 @@ export default function Header() {
   );
 }
 
-/** Small profile menu component (desktop) */
+/** User panel for mobile drawer */
+function UserPanel({ displayName, email, phone, avatarLetter, isAdmin, onClose, onLogout, navigate }) {
+  return (
+    <div className="mb-6 p-4 border rounded-xl bg-gray-50">
+      <div className="flex items-center gap-3">
+        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-600 text-white text-sm">
+          {avatarLetter}
+        </div>
+        <div>
+          <div className="font-semibold text-gray-900">{displayName}</div>
+          <div className="text-xs text-gray-500">{email || phone}</div>
+        </div>
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-2">
+        <button
+          className="w-full border rounded-md py-2 text-sm hover:bg-gray-50"
+          onClick={() => { onClose(); navigate("/profile"); }}
+        >
+          Profile
+        </button>
+        <button
+          className="w-full border rounded-md py-2 text-sm hover:bg-gray-50"
+          onClick={() => { onClose(); navigate("/orders"); }}
+        >
+          Orders
+        </button>
+        {isAdmin && (
+          <button
+            className="col-span-2 w-full border rounded-md py-2 text-sm hover:bg-gray-50 text-rose-600"
+            onClick={() => { onClose(); navigate("/admin"); }}
+          >
+            Admin Panel
+          </button>
+        )}
+        <button
+          className="col-span-2 w-full bg-emerald-600 text-white rounded-md py-2 text-sm hover:bg-emerald-700"
+          onClick={async () => {
+            await onLogout();
+            localStorage.removeItem("currentUser");
+            onClose();
+            navigate("/login");
+          }}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** Desktop profile menu */
 function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout }) {
   const [open, setOpen] = useState(false);
   return (
@@ -434,38 +437,26 @@ function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout }) {
           <nav className="py-1">
             <button
               className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50"
-              onClick={() => {
-                setOpen(false);
-                onNavigate("/profile");
-              }}
+              onClick={() => { setOpen(false); onNavigate("/profile"); }}
             >
               My Profile
             </button>
             <button
               className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50"
-              onClick={() => {
-                setOpen(false);
-                onNavigate("/orders");
-              }}
+              onClick={() => { setOpen(false); onNavigate("/orders"); }}
             >
               Orders
             </button>
             <button
               className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50"
-              onClick={() => {
-                setOpen(false);
-                onNavigate("/plus");
-              }}
+              onClick={() => { setOpen(false); onNavigate("/plus"); }}
             >
               PLUS Membership
             </button>
             {isAdmin && (
               <button
                 className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50 text-rose-600"
-                onClick={() => {
-                  setOpen(false);
-                  onNavigate("/admin");
-                }}
+                onClick={() => { setOpen(false); onNavigate("/admin"); }}
               >
                 Admin Panel
               </button>
@@ -474,10 +465,7 @@ function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout }) {
           <hr />
           <button
             className="w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50"
-            onClick={async () => {
-              setOpen(false);
-              await onLogout();
-            }}
+            onClick={async () => { setOpen(false); await onLogout(); }}
           >
             Logout
           </button>

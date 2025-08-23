@@ -7,17 +7,14 @@ import {
   RiFlashlightLine,
   RiFirstAidKitLine,
   RiCalendarEventLine,
-  RiMapPinLine,
-  RiArrowRightSLine,
   RiPulseLine,
 } from "react-icons/ri";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { suggest } from "../search/engine";
+import MobileQuickAndActivity from "../components/MobileQuickAndActivity";
 
 export default function Home() {
   const navigate = useNavigate();
-  const [pharmacyDistance, setPharmacyDistance] = useState("1.2km");
-  const [userLocation, setUserLocation] = useState(null);
   const servicesScrollRef = useRef(null);
 
   // Search state
@@ -27,15 +24,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const boxRef = useRef(null);
   const debounceRef = useRef(null);
-
-  // Simulate fetching user location
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setUserLocation({ lat: 28.6139, lng: 77.209 });
-      setPharmacyDistance("0.8km");
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Icon map for services
   const serviceIcons = useMemo(
@@ -147,6 +135,12 @@ export default function Home() {
     if (e.key === "Enter") submitSearch();
     if (e.key === "Escape") setFocused(false);
   };
+
+   const pharmacies = [
+    { id: "p1", name: "Green Cross", lat: 5.380, lng: 7.020 },
+    { id: "p2", name: "Medix Hub",   lat: 5.401, lng: 7.050 },
+    // ...
+  ];
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-br from-blue-100 via-green-100 to-blue-200 px-2 sm:px-4 md:px-16 pt-28 pb-6">
@@ -319,80 +313,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Mobile‑Only Quick Actions & Nearby */}
-      <section className="md:hidden space-y-3 px-2 mt-6">
-        <div className="grid grid-flow-col auto-cols-[minmax(110px,1fr)] gap-3">
-          <QuickAction
-            label="Emergency"
-            icon={<RiFlashlightLine className="text-xl mb-2 animate-pulse" />}
-            color="text-emerald-600"
-            onClick={() => navigate("/emergency")}
-          />
-          <QuickAction
-            label="First Aid"
-            icon={<RiFirstAidKitLine className="text-xl mb-2" />}
-            color="text-blue-600"
-            onClick={() => navigate("/first-aid")}
-          />
-          <QuickAction
-            label="Book Lab"
-            icon={<RiCalendarEventLine className="text-xl mb-2" />}
-            color="text-purple-600"
-            onClick={() => navigate("/lab-booking")}
-          />
-        </div>
-
-        <button
-          onClick={() => navigate("/nearby-pharmacies")}
-          className="flex items-center justify-between w-full bg-white/95 px-4 py-3 rounded-lg border border-gray-200 shadow-xs hover:shadow-sm active:bg-gray-50 transition text-left"
-          aria-label="Nearest pharmacy"
-        >
-          <div className="flex items-center gap-2">
-            <RiMapPinLine className={`${userLocation ? "text-emerald-600" : "text-gray-400"} text-lg`} />
-            <span className="text-xs font-medium">
-              {userLocation ? (
-                <>
-                  Nearest pharmacy: <strong className="text-emerald-700">{pharmacyDistance}</strong>
-                </>
-              ) : (
-                <span className="inline-flex items-center gap-2">
-                  Locating...
-                  <span className="inline-block w-16 h-2 rounded bg-gray-200 animate-pulse" />
-                </span>
-              )}
-            </span>
-          </div>
-          <RiArrowRightSLine className="text-gray-500" />
-        </button>
-      </section>
-
-      {/* Mobile weekly activity */}
-      <div className="md:hidden bg-white/95 p-3 mx-2 mt-4 rounded-xl shadow-sm border border-gray-100">
-        <p className="text-xs font-medium text-gray-800 mb-2 flex items-center">
-          <RiPulseLine className="text-rose-500 mr-1" /> Weekly Activity
-        </p>
-        <div className="h-16 flex items-end gap-1">
-          {[3, 5, 7, 4, 6, 8, 5].map((v, i) => (
-            <div key={i} className="flex-1 bg-gradient-to-t from-emerald-400 to-emerald-200 rounded-t-sm" style={{ height: `${v * 10}%` }} />
-          ))}
-        </div>
-      </div>
+      <MobileQuickAndActivity pharmacies={pharmacies} />
     </main>
-  );
-}
-
-/* ---------- Small components ---------- */
-function QuickAction({ label, icon, color, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`bg-white/95 backdrop-blur-sm ${color} py-3 px-1 rounded-xl border border-gray-100 shadow-sm hover:shadow-md text-xs font-medium flex flex-col items-center min-h-[100px] justify-between transition-all hover:-translate-y-0.5 active:scale-95`}
-      type="button"
-      aria-label={label}
-    >
-      {icon}
-      <span>{label}</span>
-    </button>
   );
 }

@@ -2,11 +2,9 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "ESNext",
-
-    "jsx": "react-jsx",               // ✅ allow JSX in .tsx
-    "allowJs": true,                  // ✅ you have JS + TS mixed
+    "jsx": "react-jsx", // ✅ allow JSX in .tsx
+    "allowJs": true, // ✅ you have JS + TS mixed
     "checkJs": false,
-
     "strict": true,
     "moduleResolution": "Node",
     "esModuleInterop": true,
@@ -14,8 +12,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
-    "baseUrl": "src"                  // optional, nice for absolute imports
+    "baseUrl": "src" // optional, nice for absolute imports
   },
   "include": ["src"]
 }
