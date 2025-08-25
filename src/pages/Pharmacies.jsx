@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Search, SlidersHorizontal } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-// 💊 Mock alternative suggestions
+// Mock alternative suggestions
 function getAlternativeMedicines(name) {
   const altMap = {
     paracetamol: ['Acetaminophen', 'Panadol', 'Ibuprofen'],

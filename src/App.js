@@ -1,6 +1,7 @@
 // src/App.jsx
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -12,18 +13,21 @@ import { TopRatedDoctors, HealthArticles, WhyChooseUs } from './components/TopRa
 import AppPromoBanner from './components/AppPromoBanner';
 import AppPromoBannerr, { WhatsAppFloatButton } from './components/AppPromoBannerr';
 import TestimonialsSection from './components/TestimonialsSection';
+
 import Pharmacies from "./pages/Pharmacies";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
+
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from './pages/ForgotPassword';
+
 import PharmacyProfile from './pages/PharmacyProfile';
 import AdminPanel from './pages/AdminPanel';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './routes/AdminRoute';
-import RewardWalletPage from './pages/RewardWalletPage';
+
 import ProductProfile from "./pages/ProductProfile";
 import Cart from "./pages/Cart";
 import ScrollToTop from "./components/ScrollToTop";
@@ -32,27 +36,37 @@ import LabTestProfile from "./pages/LabTestProfile";
 import Plus from './pages/Plus';
 import CategoryListing from "./pages/CategoryListing";
 import BrandStore from "./pages/BrandStore";
-import CategoriesPage from './pages/CategoryHub';
-import SearchPage from './search/SearchPage';
-import ServiceHub from './pages/ServiceHub';
-import Profile from './pages/Profile';          
-import AccountSettings from "./pages/AccountSettings";
-import PrescriptionSuccess from 'pages/PrescriptionSuccess';
+
+// ✅ Fix wrong import path (was pointing to CategoryHub by mistake)
+import CategoriesPage from './pages/CategoriesPage';
 import CategoryHub from "./pages/CategoryHub";
 
+import SearchPage from './search/SearchPage';
+import ServiceHub from './pages/ServiceHub';
+import Profile from './pages/Profile';
+import AccountSettings from "./pages/AccountSettings";
+
+// ✅ Fix missing './' in path
+import PrescriptionSuccess from './pages/PrescriptionSuccess';
+
+// ✅ Rewards system (professional version)
+import Rewards from './pages/Rewards';
+import { RewardsProvider } from './context/RewardsContext';
 
 import './App.css';
 
-function App() {
+function AppShell() {
   const location = useLocation();
 
   // Hide header/footer on auth pages
   const hideLayout = ['/login', '/register', '/forgot-password'].includes(location.pathname);
+
   const hideFooter =
     location.pathname === '/pharmacies' ||
     location.pathname.startsWith('/pharmacy/') ||
     location.pathname.startsWith('/admin') ||
     location.pathname.startsWith('/wallet') ||
+    location.pathname.startsWith('/rewards') ||
     location.pathname.startsWith('/profile') ||
     location.pathname.startsWith('/account-settings');
 
@@ -117,11 +131,14 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/services/:slug" element={<ServiceHub />} />
         <Route path="/prescription-success" element={<PrescriptionSuccess />} />
-        <Route path="/hub/:slug" element={<CategoryHub />} />
+        <Route path="/hub/:slug" element={<CategoryHub />} />
 
         {/* Protected */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/wallet" element={<RewardWalletPage />} />
+          {/* ✅ use the new Rewards page */}
+          <Route path="/wallet" element={<Rewards />} />
+          <Route path="/rewards" element={<Rewards />} />
+
           <Route path="/cart" element={<Cart />} />
           <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
           <Route path="/product/:slug" element={<ProductProfile />} />
@@ -141,4 +158,11 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  // ✅ Mount RewardsProvider at the app boundary so any page can earn/redeem/see balance
+  return (
+    <RewardsProvider>
+      <AppShell />
+    </RewardsProvider>
+  );
+}

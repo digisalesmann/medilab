@@ -352,6 +352,88 @@ export const mockPharmacies = [
   },
 ];
 
+// --- keep your other exports here (products, articles, etc.) ---
+
+// 💊 Centralized alternative medicine suggestions
+export const alternativeSuggestions = {
+  "Ventolin Inhaler": ["Salbutamol", "Levosalbutamol"],
+  "Paracetamol": ["Acetaminophen", "Panadol"],
+  "Ibuprofen": ["Diclofenac", "Naproxen"],
+  "Cough Syrup": ["Expectorant", "Lozenges"],
+
+  "Amoxicillin 500mg": ["Augmentin", "Ampicillin"],
+  "Ciprofloxacin 500mg": ["Levofloxacin", "Ofloxacin"],
+  "Azithromycin 250mg": ["Clarithromycin", "Erythromycin"],
+  "Augmentin 625mg": ["Amoxicillin + Clavulanic Acid"],
+
+  "Cetirizine 10mg": ["Loratadine", "Fexofenadine"],
+  "Cetirizine": ["Loratadine", "Fexofenadine"],
+  "Chlorpheniramine Maleate": ["Diphenhydramine", "Loratadine"],
+  "Loratadine": ["Cetirizine", "Fexofenadine"],
+
+  "Omeprazole 20mg": ["Pantoprazole", "Esomeprazole"],
+  "Antacid": ["Ranitidine 150mg", "Omeprazole 20mg"],
+
+  "Artemether/Lumefantrine": ["Coartem", "Dihydroartemisinin/Piperaquine"],
+  "Coartem 80/480mg": ["Artemether/Lumefantrine", "Fansidar"],
+
+  "Folic Acid 5mg": ["Vitamin B-Complex", "Multivitamins"],
+  "Multivitamin Complex": ["Vitamin C", "Vitamin D3 + Calcium"],
+
+  "Metformin 1000mg": ["Glimepiride", "Pioglitazone"],
+  "Metformin": ["Glimepiride", "Pioglitazone"],
+
+  "Lisinopril 10mg": ["Enalapril", "Losartan"],
+  "Losartan 50mg": ["Valsartan", "Telmisartan"],
+
+  "Simvastatin 40mg": ["Atorvastatin", "Rosuvastatin"],
+  "Atorvastatin 20mg": ["Rosuvastatin", "Simvastatin"],
+
+  "Diclofenac Sodium 100mg": ["Ibuprofen", "Naproxen"],
+
+  "Prednisone 20mg": ["Hydrocortisone", "Methylprednisolone"],
+
+  "Erythromycin 500mg": ["Azithromycin", "Clarithromycin"],
+
+  "Hydroxychloroquine 200mg": ["Chloroquine", "Artemether/Lumefantrine"],
+  "Salbutamol Syrup": ["Ventolin Inhaler", "Levosalbutamol"],
+
+  "Lorazepam 2mg": ["Diazepam", "Clonazepam"],
+  "Diazepam 5mg": ["Lorazepam", "Clonazepam"],
+  "Nitrazepam 5mg": ["Temazepam", "Clonazepam"],
+
+  "Clopidogrel 75mg": ["Aspirin", "Prasugrel"],
+
+  "Ketoconazole Shampoo": ["Clotrimazole Cream", "Miconazole"],
+
+  "Sildenafil 50mg": ["Tadalafil", "Vardenafil"],
+
+  "Magnesium Sulfate": ["Calcium Gluconate", "Zinc Sulphate"],
+  "ORS Sachet": ["Zinc Sulphate Syrup", "Electrolyte Mix"],
+
+  "Gentamicin Injection": ["Ceftriaxone", "Amikacin"],
+
+  "Insulin Glargine": ["Insulin Aspart", "Insulin Lispro"],
+
+  "Warfarin 5mg": ["Apixaban", "Rivaroxaban"],
+
+  "Levothyroxine 50mcg": ["Liothyronine", "Thyroxine"],
+
+  "Vitamin C": ["Ascorbic Acid", "Multivitamin Complex"],
+  "Neurovite Forte": ["Vitamin B12", "Vitamin B-Complex"],
+
+  "Sodium Valproate 200mg": ["Carbamazepine", "Lamotrigine"],
+  "Melatonin 3mg": ["Clonazepam", "Diazepam"],
+
+  "Oral Contraceptive Pill": ["Emergency Contraceptive", "Intrauterine Device"],
+
+  "Fluconazole 150mg": ["Itraconazole", "Ketoconazole"],
+  "Miconazole Oral Gel": ["Clotrimazole", "Nystatin"],
+
+  // Fallback trigger
+  "Consult Pharmacist": ["Consult Pharmacist"],
+};
+
 // Home page / sections data
 // ---------- Categories (with slugs + keywords) ----------
 export const categories = [
