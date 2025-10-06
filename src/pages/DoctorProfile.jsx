@@ -35,6 +35,38 @@ function slugify(s = "") {
     .replace(/-+/g, "-");
 }
 
+// Human weekday name from Date (e.g. Monday -> Mon)
+function weekdayShortFromISO(dateISO) {
+  const d = new Date(dateISO + "T00:00:00");
+  return d.toLocaleDateString(undefined, { weekday: "short" }); // "Mon"
+}
+function weekdayFullFromISO(dateISO) {
+  const d = new Date(dateISO + "T00:00:00");
+  return d.toLocaleDateString(undefined, { weekday: "long" }); // "Monday"
+}
+
+/* ----------------- small storage helpers for appointments ----------------- */
+const APPT_KEY = "medilab.appointments";
+function readAppointments() {
+  try {
+    const raw = localStorage.getItem(APPT_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed;
+    return [];
+  } catch {
+    return [];
+  }
+}
+function saveAppointmentToStorage(appt) {
+  const arr = readAppointments();
+  arr.unshift(appt); // newest first
+  try {
+    localStorage.setItem(APPT_KEY, JSON.stringify(arr));
+  } catch {}
+}
+
+/* ----------------- small UI atoms ----------------- */
 // Uniform section with left-aligned title
 const Section = ({ title, right, children, className = "" }) => (
   <section className={`bg-white border rounded-2xl p-5 md:p-6 shadow-sm ${className}`}>
@@ -87,6 +119,351 @@ const serviceIconMap = {
   "Medication Review": Pill,
   "Preventive Care": ShieldCheck,
 };
+
+/* ----------------- Booking Modal (embedded) ----------------- */
+function BookingModal({ open, onClose, doctor, onSaved }) {
+  const [date, setDate] = useState(() => {
+    // default to today's date
+    const d = new Date();
+    // choose next available day if today's not within doctor's availability
+    return d.toISOString().slice(0, 10);
+  });
+  const [slot, setSlot] = useState("");
+  const [mode, setMode] = useState("in_person"); // in_person | online
+  const [patientName, setPatientName] = useState(() => {
+    try {
+      const raw = localStorage.getItem("medilab.userProfile");
+      if (!raw) return "";
+      const parsed = JSON.parse(raw);
+      return parsed?.name || "";
+    } catch {
+      return "";
+    }
+  });
+  const [phone, setPhone] = useState(() => localStorage.getItem("medilab.userPhone") || "");
+  const [notes, setNotes] = useState("");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [successAppt, setSuccessAppt] = useState(null);
+
+  const initialRef = useRef(null);
+
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => initialRef.current?.focus?.(), 60);
+    } else {
+      // reset when closed
+      setSlot("");
+      setMode("in_person");
+      setPatientName((p) => p || "");
+      setPhone((p) => p || "");
+      setNotes("");
+      setError("");
+      setSaving(false);
+      setSuccessAppt(null);
+    }
+  }, [open]);
+
+  // lock body scroll
+  useEffect(() => {
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => (document.body.style.overflow = "");
+  }, [open]);
+
+  if (!doctor) return null;
+
+  // derive available slots for selected date (also ensure date not past)
+  const todayISO = new Date().toISOString().slice(0, 10);
+  const isPast = date < todayISO;
+
+  // doctor.availability.days might be full names like ["Monday","Wednesday"] or short ["Mon"]
+  const normalizeDay = (d) => d.slice(0, 3).toLowerCase();
+  const apptWeekShort = weekdayShortFromISO(date).toLowerCase(); // e.g. "mon"
+  const daysAvail = (doctor.availability?.days || []).map((d) => normalizeDay(d));
+  const isDayAvailable = daysAvail.length === 0 ? true : daysAvail.includes(apptWeekShort);
+
+  const availableSlots = isDayAvailable ? (doctor.availability?.slots || []) : [];
+
+  // validation + conflict check (simple)
+  function checkConflict(dateISO, slotStr) {
+    const appts = readAppointments();
+    return appts.some(
+      (a) => String(a.doctorId) === String(doctor.id) && a.date === dateISO && a.slot === slotStr
+    );
+  }
+
+  async function handleConfirm(e) {
+    e?.preventDefault?.();
+    setError("");
+
+    if (isPast) {
+      setError("Please pick a date today or in the future.");
+      return;
+    }
+    if (!slot) {
+      setError("Select a time slot.");
+      return;
+    }
+    if (!patientName?.trim()) {
+      setError("Enter patient name.");
+      return;
+    }
+    if (!phone?.trim() || phone.trim().length < 7) {
+      setError("Enter a valid phone number.");
+      return;
+    }
+    if (checkConflict(date, slot)) {
+      setError("That time slot is already booked for this doctor. Choose another slot or date.");
+      return;
+    }
+
+    // simulate saving (network)
+    setSaving(true);
+    setTimeout(() => {
+      const appt = {
+        id: `APPT-${Date.now()}`,
+        doctorId: doctor.id,
+        doctorName: doctor.name,
+        specialty: doctor.specialty,
+        date,
+        slot,
+        mode,
+        patientName: patientName.trim(),
+        phone: phone.trim(),
+        notes: notes.trim(),
+        createdAt: new Date().toISOString(),
+      };
+
+      // persist
+      saveAppointmentToStorage(appt);
+      // also save some user profile hints
+      try {
+        localStorage.setItem("medilab.userPhone", phone.trim());
+        const profile = { name: patientName.trim() };
+        localStorage.setItem("medilab.userProfile", JSON.stringify(profile));
+      } catch {}
+
+      setSaving(false);
+      setSuccessAppt(appt);
+      onSaved?.(appt);
+    }, 900);
+  }
+
+  return (
+    <>
+      {open && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+        >
+          <div
+            className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-auto max-h-[92vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* header */}
+            <div className="flex items-start justify-between p-4 border-b">
+              <div>
+                <div className="text-sm text-gray-600">Book appointment</div>
+                <div className="text-lg font-semibold text-gray-900">{doctor.name} • {doctor.specialty}</div>
+                <div className="text-xs text-gray-500 mt-1">Choose date, slot and confirm.</div>
+              </div>
+              <button
+                aria-label="Close"
+                onClick={() => onClose()}
+                className="text-gray-500 hover:text-gray-700 mt-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* body */}
+            <form className="p-4 space-y-4" onSubmit={handleConfirm}>
+              {/* date & slots */}
+              <div className="grid md:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-sm text-gray-700">Date</label>
+                  <input
+                    ref={initialRef}
+                    required
+                    type="date"
+                    value={date}
+                    min={todayISO}
+                    onChange={(e) => {
+                      setDate(e.target.value);
+                      setSlot(""); // reset slot when date changes
+                      setError("");
+                    }}
+                    className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
+                  />
+                  <div className="mt-1 text-xs text-gray-500">
+                    {isDayAvailable ? (
+                      <>Available on {availableSlots.length} slot(s)</>
+                    ) : (
+                      <>No availability on {weekdayFullFromISO(date)} — choose another date</>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-700">Time slot</label>
+                  <div className="mt-1 grid grid-cols-2 gap-2">
+                    {availableSlots.length === 0 && (
+                      <div className="col-span-2 text-sm text-gray-500">No slots available</div>
+                    )}
+                    {availableSlots.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => {
+                          setSlot(s);
+                          setError("");
+                        }}
+                        className={`text-sm px-3 py-2 rounded-lg border text-left ${slot === s ? "bg-emerald-600 text-white" : "bg-white text-gray-800"}`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* mode & contact */}
+              <div className="grid md:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-sm text-gray-700">Mode</label>
+                  <div className="mt-2 flex gap-2">
+                    <label className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border ${mode === "in_person" ? "bg-emerald-50 border-emerald-200" : "bg-white"}`}>
+                      <input type="radio" name="mode" checked={mode === "in_person"} onChange={() => setMode("in_person")} />
+                      <span className="text-sm">In-person</span>
+                    </label>
+                    <label className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border ${mode === "online" ? "bg-emerald-50 border-emerald-200" : "bg-white"}`}>
+                      <input type="radio" name="mode" checked={mode === "online"} onChange={() => setMode("online")} />
+                      <span className="text-sm">Online</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-700">Contact phone</label>
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="e.g. +2348012345678"
+                    className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* patient */}
+              <div>
+                <label className="text-sm text-gray-700">Patient name</label>
+                <input
+                  value={patientName}
+                  onChange={(e) => setPatientName(e.target.value)}
+                  placeholder="Full name"
+                  className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm text-gray-700">Notes (optional)</label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows={3}
+                  placeholder="Reason for visit or useful notes"
+                  className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
+                />
+              </div>
+
+              {error && <div className="text-xs text-rose-600">{error}</div>}
+
+              {/* footer actions */}
+              <div className="flex items-center justify-between gap-3 border-t pt-4">
+                <div className="text-sm text-gray-700">
+                  <div>Doctor fee</div>
+                  <div className="text-lg font-semibold text-gray-900">₦{Number(doctor.fee || 0).toLocaleString()}</div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => onClose()}
+                    className="px-4 py-2 rounded-lg bg-gray-100 text-gray-700"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={saving || successAppt}
+                    className={`px-4 py-2 rounded-lg text-white ${saving ? "bg-emerald-300" : "bg-emerald-600 hover:bg-emerald-700"}`}
+                  >
+                    {saving ? "Booking..." : successAppt ? "Booked" : "Confirm booking"}
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            {/* success view (inline) */}
+            {successAppt && (
+              <div className="p-4 border-t bg-emerald-50">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center border">
+                    <CheckMarkIcon className="w-6 h-6 text-emerald-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-gray-900">Appointment confirmed</div>
+                    <div className="text-xs text-gray-700">
+                      {successAppt.date} • {successAppt.slot} — {successAppt.mode === "online" ? "Online" : "In-person"}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={() => {
+                      // close modal and optionally navigate
+                      onClose();
+                    }}
+                    className="px-3 py-2 rounded-lg bg-white border"
+                  >
+                    Done
+                  </button>
+                  <button
+                    onClick={() => {
+                      // navigate to /appointments if route exists
+                      try {
+                        // use window.location so this component doesn't require router hook
+                        window.location.href = "/appointments";
+                      } catch {
+                        onClose();
+                      }
+                    }}
+                    className="px-3 py-2 rounded-lg bg-emerald-600 text-white"
+                  >
+                    View my appointments
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* Simple check mark icon */
+function CheckMarkIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 /* ----------------- page ----------------- */
 export default function DoctorProfile() {
@@ -147,6 +524,8 @@ export default function DoctorProfile() {
     return () => window.removeEventListener("keydown", onEsc);
   }, [zoomOpen]);
 
+  // Booking modal
+  const [bookingOpen, setBookingOpen] = useState(false);
   // Similar doctors
   const similar = useMemo(() => {
     if (!doctor) return [];
@@ -204,6 +583,14 @@ export default function DoctorProfile() {
     website,
     patientReviews = [],
   } = doctor;
+
+  // callback after booking saved
+  function handleSavedAppointment(appt) {
+    // close modal after small delay for UX (modal handles its own success)
+    setTimeout(() => {
+      setBookingOpen(false);
+    }, 700);
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 pt-24 pb-20 lg:pb-24">
@@ -296,23 +683,23 @@ export default function DoctorProfile() {
               </div>
 
               {/* Fee */}
-                <div className="mt-2 flex items-center gap-2 text-sm text-gray-700 text-left">
-                  <Clock className="w-4 h-4" />
-                  <span>Consultation fee from</span>
-                  <span className="font-semibold text-gray-900">₦{Number(fee || 0).toLocaleString()}</span>
-                </div>
+              <div className="mt-2 flex items-center gap-2 text-sm text-gray-700 text-left">
+                <Clock className="w-4 h-4" />
+                <span>Consultation fee from</span>
+                <span className="font-semibold text-gray-900">₦{Number(fee || 0).toLocaleString()}</span>
+              </div>
 
-                {/* Languages */}
-                {languages.length > 0 && (
-                  <p className="mt-2 text-sm text-gray-700 text-left">
-                    Languages: <span className="text-gray-900 font-medium">{languages.join(", ")}</span>
-                  </p>
-                )}
-                
+              {/* Languages */}
+              {languages.length > 0 && (
+                <p className="mt-2 text-sm text-gray-700 text-left">
+                  Languages: <span className="text-gray-900 font-medium">{languages.join(", ")}</span>
+                </p>
+              )}
+
               {/* CTAs */}
               <div className="mt-5 flex flex-wrap gap-3">
                 <button
-                  onClick={() => alert("Booking flow coming soon")}
+                  onClick={() => setBookingOpen(true)}
                   className="px-5 py-2.5 rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   Book appointment
@@ -459,8 +846,8 @@ export default function DoctorProfile() {
         title="Patient Reviews"
         className="mt-8"
         right={
-          <button onClick={() => alert("Write review flow coming soon")} className="text-sm px-3 py-1.5 border rounded-lg hover:bg-gray-50">
-            Write a review
+          <button onClick={() => setBookingOpen(true)} className="text-sm px-3 py-1.5 border rounded-lg hover:bg-gray-50">
+            Book appointment
           </button>
         }
       >
@@ -563,6 +950,14 @@ export default function DoctorProfile() {
         </div>
       )}
 
+      {/* ===== Booking Modal (integrated) ===== */}
+      <BookingModal
+        open={bookingOpen}
+        onClose={() => setBookingOpen(false)}
+        doctor={doctor}
+        onSaved={handleSavedAppointment}
+      />
+
       {/* ===== Sticky mobile CTA ===== */}
       <div className="fixed bottom-4 left-0 right-0 px-4 md:hidden pointer-events-none">
         <div className="max-w-6xl mx-auto pointer-events-auto">
@@ -570,7 +965,7 @@ export default function DoctorProfile() {
             <div className="text-sm text-gray-700 px-2 text-left">
               From <span className="font-semibold">₦{Number(fee || 0).toLocaleString()}</span>
             </div>
-            <button onClick={() => alert("Booking flow coming soon")} className="px-4 py-2 rounded-lg text-white bg-emerald-600 hover:bg-emerald-700">
+            <button onClick={() => setBookingOpen(true)} className="px-4 py-2 rounded-lg text-white bg-emerald-600 hover:bg-emerald-700">
               Book now
             </button>
           </div>

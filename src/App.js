@@ -30,14 +30,13 @@ import AdminRoute from './routes/AdminRoute';
 
 import ProductProfile from "./pages/ProductProfile";
 import Cart from "./pages/Cart";
-import ScrollToTop from "./components/ScrollToTop";
+import ScrollRestoration from "./components/ScrollRestoration"; // ✅ New component
 import DoctorProfile from './pages/DoctorProfile';
 import LabTestProfile from "./pages/LabTestProfile";
 import Plus from './pages/Plus';
 import CategoryListing from "./pages/CategoryListing";
 import BrandStore from "./pages/BrandStore";
 
-// ✅ Fix wrong import path (was pointing to CategoryHub by mistake)
 import CategoriesPage from './pages/CategoriesPage';
 import CategoryHub from "./pages/CategoryHub";
 
@@ -45,11 +44,8 @@ import SearchPage from './search/SearchPage';
 import ServiceHub from './pages/ServiceHub';
 import Profile from './pages/Profile';
 import AccountSettings from "./pages/AccountSettings";
-
-// ✅ Fix missing './' in path
 import PrescriptionSuccess from './pages/PrescriptionSuccess';
 
-// ✅ Rewards system (professional version)
 import Rewards from './pages/Rewards';
 import { RewardsProvider } from './context/RewardsContext';
 
@@ -58,7 +54,6 @@ import './App.css';
 function AppShell() {
   const location = useLocation();
 
-  // Hide header/footer on auth pages
   const hideLayout = ['/login', '/register', '/forgot-password'].includes(location.pathname);
 
   const hideFooter =
@@ -68,11 +63,14 @@ function AppShell() {
     location.pathname.startsWith('/wallet') ||
     location.pathname.startsWith('/rewards') ||
     location.pathname.startsWith('/profile') ||
-    location.pathname.startsWith('/account-settings');
+    location.pathname.startsWith('/account-settings') ||
+    location.pathname.startsWith('/prescription-success') ||
+    location.pathname.startsWith('/cart') ||
+    location.pathname.startsWith('/search');
 
   return (
     <div className="App">
-      {/* 🔒 Global reCAPTCHA container (must exist and NOT be display:none) */}
+      {/* 🔒 reCAPTCHA container */}
       <div
         id="recaptcha-container"
         style={{
@@ -87,7 +85,7 @@ function AppShell() {
       />
 
       {!hideLayout && <Header />}
-      <ScrollToTop />
+      <ScrollRestoration /> {/* ✅ This handles scroll saving/restoring */}
 
       <Routes>
         <Route
@@ -115,7 +113,7 @@ function AppShell() {
           }
         />
 
-        {/* Public */}
+        {/* Public Routes */}
         <Route path="/pharmacies" element={<Pharmacies />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/contact" element={<Contact />} />
@@ -135,10 +133,8 @@ function AppShell() {
 
         {/* Protected */}
         <Route element={<ProtectedRoute />}>
-          {/* ✅ use the new Rewards page */}
           <Route path="/wallet" element={<Rewards />} />
           <Route path="/rewards" element={<Rewards />} />
-
           <Route path="/cart" element={<Cart />} />
           <Route path="/pharmacy/:id" element={<PharmacyProfile />} />
           <Route path="/product/:slug" element={<ProductProfile />} />
@@ -159,7 +155,6 @@ function AppShell() {
 }
 
 export default function App() {
-  // ✅ Mount RewardsProvider at the app boundary so any page can earn/redeem/see balance
   return (
     <RewardsProvider>
       <AppShell />

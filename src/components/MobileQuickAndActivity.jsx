@@ -9,15 +9,6 @@ import {
   RiArrowRightSLine,
   RiPulseLine,
 } from "react-icons/ri";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
 import { useAnalytics } from "../lib/analytics";
 
 /** --------------------------------------------
@@ -206,9 +197,7 @@ function QuickAction({ label, icon, color, onClick, className }) {
   );
 }
 
-function WeeklyActivityCard({ data, total, onBarClick }) {
-  const max = Math.max(1, ...data.map((d) => d.value || 0));
-
+function WeeklyActivityTimeline({ data, total, onDayClick }) {
   return (
     <div className="bg-white/95 p-3 mx-2 mt-4 rounded-xl shadow-sm border border-gray-100">
       <div className="flex items-center justify-between mb-2">
@@ -221,26 +210,30 @@ function WeeklyActivityCard({ data, total, onBarClick }) {
         </span>
       </div>
 
-      <div className="h-20 flex items-end gap-1.5">
-        {data.map((d, idx) => {
-          const pct = max === 0 ? 0 : (d.value / max) * 100;
+      <div className="flex gap-2 overflow-x-auto pb-2">
+        {data.map((d) => {
           const isToday = d.date === todayISO();
           return (
             <button
               key={d.date}
-              className="relative flex-1 rounded-t-md overflow-visible focus:outline-none"
-              onClick={() => onBarClick?.(d, idx)}
-              aria-label={`${shortDayLabel(d.date)}: ${d.value}`}
-            >
-              <div
-                className={`w-full rounded-t-md transition-all duration-300 bg-gradient-to-t from-emerald-500 to-emerald-300 ${
-                  isToday ? "ring-2 ring-emerald-500/60" : ""
+              onClick={() => onDayClick?.(d)}
+              className={`flex flex-col items-center justify-center px-3 py-2 rounded-xl min-w-[60px] shadow-sm border transition 
+                ${
+                  isToday
+                    ? "bg-emerald-50 border-emerald-400 ring-2 ring-emerald-500/50"
+                    : "bg-gray-50 border-gray-200"
                 }`}
-                style={{ height: `${Math.max(4, pct)}%` }}
-              />
-              <div className="absolute -bottom-4 w-full text-[10px] text-gray-500 text-center">
+            >
+              <span
+                className={`text-[11px] font-medium ${
+                  isToday ? "text-emerald-700" : "text-gray-500"
+                }`}
+              >
                 {shortDayLabel(d.date).slice(0, 3)}
-              </div>
+              </span>
+              <span className="text-sm font-semibold text-gray-800 mt-1">
+                {d.value}
+              </span>
             </button>
           );
         })}
@@ -248,7 +241,7 @@ function WeeklyActivityCard({ data, total, onBarClick }) {
 
       <div className="mt-2 flex items-center justify-between">
         <span className="text-[11px] text-gray-500">
-          Tap a bar to set today’s value
+          Tap today to update activity
         </span>
         <a
           href="/activity"
@@ -256,6 +249,74 @@ function WeeklyActivityCard({ data, total, onBarClick }) {
         >
           View details →
         </a>
+      </div>
+    </div>
+  );
+}
+
+/** --------------------------------------------
+ * Desktop weekly layout (not a graph)
+ * -------------------------------------------*/
+
+function WeeklyActivityDesktop({ data, total }) {
+  const max = Math.max(1, ...data.map((d) => d.value || 0));
+
+  return (
+    <div className="hidden md:block mt-6 p-4 bg-white rounded-xl border shadow-sm">
+      <h2 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
+        <RiPulseLine className="text-rose-500 mr-1" />
+        Your Weekly Health Activity
+      </h2>
+
+      <div className="grid grid-cols-7 gap-4">
+        {data.map((d) => {
+          const isToday = d.date === todayISO();
+          const pct = max === 0 ? 0 : Math.round((d.value / max) * 100);
+
+          return (
+            <div
+              key={d.date}
+              className={`flex flex-col items-center p-2 rounded-lg border ${
+                isToday ? "border-emerald-400 bg-emerald-50" : "border-gray-200 bg-gray-50"
+              }`}
+            >
+              <span className="text-xs font-medium text-gray-600 mb-1">
+                {shortDayLabel(d.date).slice(0, 3)}
+              </span>
+              {/* circular ring */}
+              <div className="relative w-14 h-14">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="25"
+                    stroke="#e5e7eb"
+                    strokeWidth="5"
+                    fill="none"
+                  />
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="25"
+                    stroke="#10b981"
+                    strokeWidth="5"
+                    fill="none"
+                    strokeDasharray={2 * Math.PI * 25}
+                    strokeDashoffset={2 * Math.PI * 25 * (1 - pct / 100)}
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-gray-800">
+                  {d.value}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-3 text-xs text-gray-500">
+        Total activity this week: <strong>{total}</strong>
       </div>
     </div>
   );
@@ -399,62 +460,13 @@ export default function MobileQuickAndActivity({ pharmacies, initialActivity }) 
         </button>
       </section>
 
+      {/* Mobile activity bars */}
       <div className="md:hidden">
-        <WeeklyActivityCard data={data} total={total} onBarClick={handleBarClick} />
+        <WeeklyActivityTimeline data={data} total={total} onDayClick={handleBarClick} />
       </div>
 
-      {/* Desktop Chart */}
-      <div className="hidden md:block mt-6 p-4 bg-white rounded-xl border shadow-sm">
-        <h2 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
-          <RiPulseLine className="text-rose-500 mr-1" />
-          Weekly Activity (Desktop View)
-        </h2>
-        <ResponsiveContainer width="100%" height={260}>
-          <BarChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
-          >
-            <defs>
-              <linearGradient id="activityGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#34d399" stopOpacity={0.9} />
-                <stop offset="100%" stopColor="#10b981" stopOpacity={0.6} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-            <XAxis
-              dataKey="date"
-              tickFormatter={(d) => shortDayLabel(d).slice(0, 3)}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              allowDecimals={false}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip
-              cursor={{ fill: "#f0fdf4" }}
-              contentStyle={{
-                borderRadius: "0.5rem",
-                borderColor: "#d1fae5",
-                background: "white",
-                fontSize: "12px",
-              }}
-              labelFormatter={(d) => shortDayLabel(d)}
-              formatter={(value) => [`${value} activity`, "Count"]}
-            />
-            <Bar
-              dataKey="value"
-              fill="url(#activityGradient)"
-              radius={[8, 8, 0, 0]}
-              barSize={28}
-              animationDuration={600}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+      {/* Desktop weekly strip */}
+      <WeeklyActivityDesktop data={data} total={total} />
     </>
   );
 }

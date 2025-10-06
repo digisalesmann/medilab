@@ -25,6 +25,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useNotifications } from "../context/NotificationContext";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 const ADMIN_EMAIL = "admin@medilab.com";
 
@@ -61,6 +62,9 @@ export default function Header() {
     user?.phoneNumber ||
     "Profile";
   const avatarLetter = (displayName?.[0] || "U").toUpperCase();
+
+  const { items } = useCart();
+  const cartCount = items.reduce((sum, item) => sum + (item.qty || 1), 0);
 
   const handleHomeClick = () => {
     if (location.pathname === "/") {
@@ -190,10 +194,15 @@ export default function Header() {
               setIsOpen(false);
               navigate("/cart");
             }}
-            className="p-1.5 rounded-full hover:bg-gray-100"
+            className="p-1.5 rounded-full hover:bg-gray-100 relative"
             aria-label="Open cart"
           >
             <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-green-600 transition-colors" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-emerald-600 text-white text-xs rounded-full px-1.5 font-bold border-2 border-white">
+                {cartCount}
+              </span>
+            )}
           </button>
 
           {/* Auth (desktop) */}

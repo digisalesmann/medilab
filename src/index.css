@@ -40,3 +40,21 @@ code {
   height: 0;  /* Chrome/Safari/Opera */
   display: none;
 }
+
+/* Hide scrollbar on mobile only */
+@media (max-width: 768px) {
+  /* For WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For Firefox */
+  html, body {
+    scrollbar-width: none;
+  }
+
+  /* For IE/Edge */
+  html, body {
+    -ms-overflow-style: none;
+  }
+}

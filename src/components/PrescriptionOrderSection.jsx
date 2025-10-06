@@ -101,7 +101,7 @@ function UploadPrescriptionCTA() {
       if (!phone.trim()) return setError("Please enter your phone number.");
 
       const form = new FormData();
-      form.append("prescription", file);
+      form.append("file", file);
       form.append("address", address);
       form.append("phone", phone);
 
@@ -113,7 +113,7 @@ function UploadPrescriptionCTA() {
 
       if (!res.ok) throw new Error((await res.text()) || "Upload failed");
       const data = await res.json(); // { id, filename, url? }
-      navigate(`/prescriptions/success?id=${encodeURIComponent(data.id)}`);
+      navigate(`/prescription-success?id=${encodeURIComponent(data.id)}`); // <-- fix here
     } catch (e) {
       setError(e.message || "Upload failed");
     } finally {

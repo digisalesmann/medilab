@@ -1,50 +1,62 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { buildSearchDocs } from "./buildIndex";
-import { createFuse } from "./fuseInstance";
-import type { SearchDoc } from "./types";
+// src/search/useSearch.ts
+import { useEffect, useState } from "react";
 
-export function useSearch(initialQuery = "") {
-  // build once (safe with refs)
-  const docsRef = useRef<SearchDoc[] | null>(null);
-  const fuseRef = useRef<ReturnType<typeof createFuse> | null>(null);
-  const debounceRef = useRef<number | null>(null);
+export interface Drug {
+  id: number;
+  ndc?: string;
+  brandName?: string;
+  genericName?: string;
+  manufacturer?: string;
+  PharmacyStock?: { quantity: number }[];
+}
 
-  if (!docsRef.current) {
-    docsRef.current = buildSearchDocs();
-    fuseRef.current = createFuse(docsRef.current);
-  }
-
-  const [q, setQ] = useState(initialQuery);
-  const [results, setResults] = useState<SearchDoc[]>([]);
+export function useSearch(initialQuery: string = "") {
+  const [query, setQuery] = useState(initialQuery);
+  const [results, setResults] = useState<Drug[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (debounceRef.current) window.clearTimeout(debounceRef.current);
-
-    if (!q.trim()) {
+    // skip empty search
+    if (!query.trim()) {
       setResults([]);
-      setLoading(false);
+      setCount(0);
       return;
     }
 
-    setLoading(true);
-    debounceRef.current = window.setTimeout(() => {
-      const fuse = fuseRef.current!;
-      const raw = fuse.search(q.trim(), { limit: 50 });
-      setResults(raw.map((r) => r.item));
-      setLoading(false);
-    }, 220);
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const fetchResults = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/drugs/search?q=${encodeURIComponent(query)}`,
+          { signal }
+        );
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+        setResults(data.items || []);
+        setCount(data.total || data.items?.length || 0);
+      } catch (err: any) {
+        if (err.name !== "AbortError") setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // debounce typing
+    const timeout = setTimeout(fetchResults, 400);
 
     return () => {
-      if (debounceRef.current) window.clearTimeout(debounceRef.current);
+      clearTimeout(timeout);
+      controller.abort();
     };
-  }, [q]);
+  }, [query]);
 
-  const grouped = useMemo(() => {
-    const g: Record<string, SearchDoc[]> = {};
-    for (const r of results) (g[r.type] ||= []).push(r);
-    return g;
-  }, [results]);
-
-  return { q, setQ, results, grouped, loading, count: results.length };
+  return { query, setQuery, results, loading, error, count };
 }
