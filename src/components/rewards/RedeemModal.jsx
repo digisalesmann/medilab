@@ -1,31 +1,38 @@
+// src/components/rewards/RedeemModal.jsx
 import React from "react";
-import { createPortal } from "react-dom";
+import { motion } from "framer-motion";
 
 export default function RedeemModal({ open, item, onClose, onConfirm, canAfford }) {
-  if (!open || !item) return null;
-  return createPortal(
-    <div className="fixed inset-0 z-[100]">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="absolute inset-x-0 bottom-0 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2
-                      w-full sm:w-[460px] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl p-5">
-        <h3 className="text-lg font-semibold mb-2">Redeem “{item.name}”</h3>
-        <p className="text-sm text-gray-600">{item.desc}</p>
-        <p className="mt-3 text-sm">
-          Cost: <b>{item.cost} pts</b>
-          {item.minSpend ? <> • Min spend: ₦{item.minSpend.toLocaleString()}</> : null}
-        </p>
-        <div className="grid grid-cols-2 gap-2 mt-5">
-          <button onClick={onClose} className="h-11 rounded-lg border hover:bg-gray-50">Cancel</button>
-          <button
-            onClick={() => { onConfirm(item.id); }}
-            disabled={!canAfford}
-            className={`h-11 rounded-lg ${canAfford ? "bg-emerald-600 text-white hover:bg-emerald-700" : "bg-gray-200 text-gray-500"}`}
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-    </div>,
-    document.body
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <motion.div
+        initial={{ y: 10, opacity: 0, scale: 0.98 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: 10, opacity: 0, scale: 0.98 }}
+        className="relative z-10 max-w-lg w-full bg-white rounded-2xl shadow-xl p-6"
+      >
+        <h3 className="text-lg font-semibold mb-2">Confirm Redeem</h3>
+        {item ? (
+          <>
+            <p className="text-sm text-gray-600">You're redeeming <b>{item.name}</b> for <b>{item.cost} pts</b>.</p>
+            {item.minSpend && <p className="text-xs text-gray-500 mt-2">Min spend: ₦{item.minSpend}</p>}
+            <div className="mt-6 flex justify-end gap-2">
+              <button onClick={onClose} className="px-4 py-2 rounded-lg border">Cancel</button>
+              <button
+                onClick={() => onConfirm(item.id)}
+                disabled={!canAfford}
+                className={`px-4 py-2 rounded-lg font-semibold ${canAfford ? "bg-emerald-600 text-white" : "bg-gray-200 text-gray-500"}`}
+              >
+                {canAfford ? "Confirm" : "Insufficient points"}
+              </button>
+            </div>
+          </>
+        ) : (
+          <p>No item selected.</p>
+        )}
+      </motion.div>
+    </div>
   );
 }

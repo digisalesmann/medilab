@@ -48,6 +48,7 @@ import PrescriptionSuccess from './pages/PrescriptionSuccess';
 
 import Rewards from './pages/Rewards';
 import { RewardsProvider } from './context/RewardsContext';
+import DrugDetailPage from "./drugs/DrugDetailPage";
 
 import './App.css';
 
@@ -65,7 +66,6 @@ function AppShell() {
     location.pathname.startsWith('/profile') ||
     location.pathname.startsWith('/account-settings') ||
     location.pathname.startsWith('/prescription-success') ||
-    location.pathname.startsWith('/cart') ||
     location.pathname.startsWith('/search');
 
   return (
@@ -127,6 +127,7 @@ function AppShell() {
         <Route path="/brand/:slug" element={<BrandStore />} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/drug/:id" element={<DrugDetailPage />} />
         <Route path="/services/:slug" element={<ServiceHub />} />
         <Route path="/prescription-success" element={<PrescriptionSuccess />} />
         <Route path="/hub/:slug" element={<CategoryHub />} />

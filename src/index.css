@@ -58,3 +58,15 @@ code {
     -ms-overflow-style: none;
   }
 }
+
+.hide-scrollbar {
+  /* For IE and Edge */
+  -ms-overflow-style: none;
+  /* For Firefox */
+  scrollbar-width: none;
+}
+
+/* For Chrome, Safari, and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

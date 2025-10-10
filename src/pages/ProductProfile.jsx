@@ -16,48 +16,15 @@ import {
   ListChecks,
   FileText,
   Newspaper,
+  Minus,
+  Plus,
 } from "lucide-react";
 
-  const articles = [
-    {
-      title: "What is Hepatitis A? Causes, Symptoms, and How It Spreads",
-      img: "/images/hep.png",
-      link: "/articles/hepatitis-a",
-    },
-    {
-      title: "Everything You Need to Know About the Hepatitis A Vaccine",
-      img: "/images/vac.png",
-      link: "/articles/hepatitis-a-vaccine",
-    },
-    {
-      title: "Everything To Know About the Influenza Vaccine & Its Importance",
-      img: "/images/influ.png",
-      link: "/articles/influenza-vaccine",
-    },
-    {
-      title: "HPV Vaccine: What is It, When to Be Taken, Importance & Side Effects",
-      img: "/images/hpv.png",
-      link: "/articles/hpv-vaccine",
-    },
-    {
-      title: "Managing Hypertension: Diet, Lifestyle & Medication",
-      img: "/images/hyper.png",
-      link: "/articles/hypertension-management",
-    },
-    {
-      title: "Understanding Type 2 Diabetes: Causes & Daily Tips",
-      img: "/images/diab.png",
-      link: "/articles/type2-diabetes-guide",
-    },
-    {
-      title: "Mental Health: Recognizing Signs of Anxiety & Stress",
-      img: "/images/mental.png",
-      link: "/articles/mental-health-awareness",
-    },
-  ];
+// --- Existing Articles and Helper Functions (omitted for brevity) ---
+// (All existing functions like slugify, catalogLists, normalizeProduct, getAllCatalogProducts,
+// pickRelated, pickFrequentlyBought, buildRatingBreakdown, sampleReviews, and ProductTile are assumed to be here)
 
-/* ----------------- helpers ----------------- */
-
+// Start of copied/modified helper functions
 function slugify(s = "") {
   return String(s)
     .toLowerCase()
@@ -164,7 +131,7 @@ function ProductTile({ item, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="flex-shrink-0 w-40 sm:w-48 lg:w-52 border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-md cursor-pointer transition"
+      className="flex-shrink-0 w-40 sm:w-48 lg:w-52 border border-gray-200 rounded-xl p-3 shadow-sm hover:shadow-lg cursor-pointer transition duration-300"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onClick()}
@@ -222,8 +189,97 @@ function sampleReviews(title, rating, count) {
   }
   return out;
 }
+const articles = [
+    {
+      title: "What is Hepatitis A? Causes, Symptoms, and How It Spreads",
+      img: "/images/hep.png",
+      link: "/articles/hepatitis-a",
+    },
+    {
+      title: "Everything You Need to Know About the Hepatitis A Vaccine",
+      img: "/images/vac.png",
+      link: "/articles/hepatitis-a-vaccine",
+    },
+    {
+      title: "Everything To Know About the Influenza Vaccine & Its Importance",
+      img: "/images/influ.png",
+      link: "/articles/influenza-vaccine",
+    },
+    {
+      title: "HPV Vaccine: What is It, When to Be Taken, Importance & Side Effects",
+      img: "/images/hpv.png",
+      link: "/articles/hpv-vaccine",
+    },
+    {
+      title: "Managing Hypertension: Diet, Lifestyle & Medication",
+      img: "/images/hyper.png",
+      link: "/articles/hypertension-management",
+    },
+    {
+      title: "Understanding Type 2 Diabetes: Causes & Daily Tips",
+      img: "/images/diab.png",
+      link: "/articles/type2-diabetes-guide",
+    },
+    {
+      title: "Mental Health: Recognizing Signs of Anxiety & Stress",
+      img: "/images/mental.png",
+      link: "/articles/mental-health-awareness",
+    },
+  ];
+
+// --- New Tabbed Content Component ---
+
+const TabbedContent = ({ sections, activeTab, setActiveTab }) => {
+  const activeSection = sections.find(s => s.id === activeTab) || sections[0];
+
+  return (
+    <div className="bg-white border rounded-xl shadow-sm">
+      {/* Tabs Menu - Adjusted spacing for mobile */}
+      <div className="border-b border-gray-200 overflow-x-auto scroll-hide">
+        <nav className="-mb-px flex space-x-4 md:space-x-8 px-5 pt-3 w-max md:w-full" aria-label="Tabs">
+          {sections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => setActiveTab(section.id)}
+              className={`
+                ${section.id === activeTab
+                  ? "border-emerald-600 text-emerald-600 font-semibold"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                }
+                whitespace-nowrap py-3 px-1 border-b-2 text-sm transition duration-150 ease-in-out focus:outline-none
+              `}
+            >
+              <div className="flex items-center gap-2">
+                {section.icon}
+                <span>{section.title}</span>
+              </div>
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      <div className="p-5">
+        {activeSection.content}
+      </div>
+    </div>
+  );
+};
 
 /* ----------------- page ----------------- */
+
+// Utility class for hiding scrollbars but allowing scroll
+const style = document.createElement('style');
+style.innerHTML = `
+.scroll-hide::-webkit-scrollbar {
+    display: none;
+}
+.scroll-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+`;
+document.head.appendChild(style);
 
 export default function ProductProfile() {
   const { slug } = useParams();
@@ -235,6 +291,7 @@ export default function ProductProfile() {
 
   const [activeImg, setActiveImg] = useState(0);
   const [qty, setQty] = useState(1);
+  const [activeTab, setActiveTab] = useState("description"); // New state for tabs
 
   const gallery = useMemo(() => {
     if (!product) return ["/images/placeholder.png", "/images/placeholder.png", "/images/placeholder.png"];
@@ -244,6 +301,7 @@ export default function ProductProfile() {
 
   useEffect(() => {
     setActiveImg(0);
+    setActiveTab("description"); // Reset tab on product change
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [slug]);
 
@@ -309,40 +367,194 @@ export default function ProductProfile() {
       pharmacyId: "global",
       pharmacyName: "MediLab Marketplace",
     });
-    navigate("/cart");
+    // Removed navigation to cart for premium feel - a notification banner is typical instead.
+    // navigate("/cart"); 
   };
 
   const dist = buildRatingBreakdown(rating);
   const reviewsList = __reviewsList || sampleReviews(title, rating, reviewsCount);
 
+  // --- Tab Content Definitions (Same as before) ---
+  const tabSections = [
+    {
+      id: "description",
+      title: "About",
+      icon: <FileText className="w-4 h-4 text-purple-600" />,
+      content: (
+        <p className="text-sm text-gray-700 leading-relaxed text-left">
+          {description}
+        </p>
+      ),
+    },
+    {
+      id: "highlights",
+      title: "Key Highlights",
+      icon: <ListChecks className="w-4 h-4 text-emerald-600" />,
+      content: (
+        // Adjusted to single column on mobile for better flow
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {(highlights || []).map((h, i) => (
+            <div key={i} className="flex items-start gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-gray-700 text-left leading-snug">{h}</p>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      id: "specs",
+      title: "Specifications",
+      icon: <Info className="w-4 h-4 text-sky-600" />,
+      content: (
+        // Ensured specifications are readable on small screens
+        <dl className="divide-y divide-gray-100">
+          {(specs || []).map((s, i) => {
+            const [label, ...rest] = s.split(":");
+            const value = rest.join(":").trim();
+            return (
+              <div key={i} className="py-2 grid grid-cols-2 md:grid-cols-3 gap-2">
+                <dt className="text-sm font-medium text-gray-500 col-span-1 text-left">
+                  {label}
+                </dt>
+                <dd className="text-sm text-gray-900 col-span-1 md:col-span-2 text-left">
+                  {value || "—"}
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      ),
+    },
+    {
+      id: "reviews",
+      title: `Reviews (${reviewsCount})`,
+      icon: <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />,
+      content: (
+        <>
+          {/* Adjusted grid for review score for mobile (stacked) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+            {/* Score card */}
+            <div className="bg-gray-50 border rounded-lg p-4 h-full">
+              <div className="text-left">
+                <div className="text-4xl font-semibold text-gray-900">
+                  {rating.toFixed(1)}
+                  <span className="text-xl text-gray-400">/5</span>
+                </div>
+                <div className="mt-1 flex gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-5 h-5 ${i < Math.round(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                    />
+                  ))}
+                </div>
+                <p className="text-sm text-gray-500 mt-1">{reviewsCount} Ratings</p>
+              </div>
+            </div>
+
+            {/* Distribution */}
+            <div className="bg-gray-50 border rounded-lg p-4 h-full">
+              {[5, 4, 3, 2, 1].map((stars) => {
+                const pct = dist[stars - 1];
+                return (
+                  <div key={stars} className="flex items-center gap-3 mb-2">
+                    <div className="w-14 text-xs text-gray-600">{stars} stars</div>
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                    </div>
+                    <div className="w-8 text-right text-xs text-gray-700">{pct}%</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {/* Recent reviews */}
+          <div className="mt-5 space-y-4">
+            <h4 className="font-semibold text-gray-900 text-left">Recent Reviews</h4>
+            {reviewsList.map((r, i) => (
+              <div key={i} className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0">
+                <div className="flex items-center justify-between">
+                  <p className="font-medium text-gray-800">{r.user}</p>
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: 5 }).map((_, j) => (
+                      <Star key={j} className={`w-3 h-3 ${j < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
+                    ))}
+                  </div>
+                </div>
+                <p className="mt-1 text-sm text-gray-700 text-left">{r.comment}</p>
+                <p className="mt-1 text-xs text-gray-400 text-left">{r.daysAgo} days ago</p>
+              </div>
+            ))}
+          </div>
+        </>
+      ),
+    },
+  ];
+
+  // --- New Quantity Selector Component ---
+  const QtySelector = () => (
+    <div className="flex items-center border border-gray-300 rounded-lg p-1">
+      <button
+        onClick={() => setQty(Math.max(1, qty - 1))}
+        className="p-1 text-gray-600 hover:bg-gray-100 rounded-md transition"
+        aria-label="Decrease quantity"
+        disabled={qty <= 1}
+      >
+        <Minus className="w-4 h-4" />
+      </button>
+      <input
+        type="number"
+        min={1}
+        value={qty}
+        onChange={(e) => setQty(Math.max(1, Number(e.target.value) || 1))}
+        className="w-10 text-center text-sm font-medium border-none focus:ring-0 p-0"
+        aria-label="Quantity"
+      />
+      <button
+        onClick={() => setQty(qty + 1)}
+        className="p-1 text-gray-600 hover:bg-gray-100 rounded-md transition"
+        aria-label="Increase quantity"
+      >
+        <Plus className="w-4 h-4" />
+      </button>
+    </div>
+  );
+
+  // --- Main Render ---
   return (
-    <div className="max-w-6xl mx-auto px-4 pt-28 pb-16">
-      {/* PRIMARY: Gallery + Buy block */}
-      <div className="bg-white border rounded-2xl shadow-sm">
-        <div className="p-5 md:p-7 lg:p-8">
-          <div className="grid grid-cols-12 gap-8">
-            {/* LEFT: Gallery */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16 lg:pb-8 bg-gray-50 min-h-screen">
+      <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+
+        {/* LEFT COLUMN: Gallery & Product Details Tabs */}
+        <div className="lg:col-span-8 space-y-8 pb-20 lg:pb-0">
+
+          {/* GALLERY BLOCK */}
+          <div className="bg-white border rounded-2xl shadow-lg p-4 sm:p-5 md:p-7">
+            {/* Gallery */}
             <div
-              className="col-span-12 lg:col-span-5 space-y-3"
+              className="space-y-4"
               onKeyDown={onKeyDownGallery}
               tabIndex={0}
               aria-label="Product image gallery"
             >
-              <div className={`w-full border rounded-xl ${bg} flex items-center justify-center p-4 md:p-5`}>
+              {/* Main Image - Made height flexible for mobile */}
+              <div className={`w-full border rounded-xl ${bg} flex items-center justify-center p-4 md:p-5 h-[300px] sm:h-[350px] md:h-[400px]`}>
                 <img
                   src={gallery[activeImg]}
                   alt={`${title} – ${activeImg + 1}`}
-                  className="max-h-[320px] md:max-h-[360px] object-contain"
+                  className="max-h-full object-contain"
                 />
               </div>
 
-              <div className="flex gap-2 overflow-x-auto scroll-hide">
+              {/* Thumbnails */}
+              <div className="flex gap-3 overflow-x-auto scroll-hide">
                 {gallery.map((src, i) => (
                   <button
                     key={i}
                     onClick={() => setActiveImg(i)}
-                    className={`border rounded-lg p-1 w-16 h-16 flex items-center justify-center transition
-                      ${i === activeImg ? "border-gray-900 shadow-sm" : "border-gray-200 hover:border-gray-300"}`}
+                    className={`border-2 rounded-lg p-1 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center transition duration-200 flex-shrink-0
+                      ${i === activeImg ? "border-emerald-600 shadow-md" : "border-gray-200 hover:border-gray-400"}`}
                     aria-label={`Show image ${i + 1}`}
                   >
                     <img src={src} alt={`${title} – ${i + 1}`} className="max-h-full object-contain" />
@@ -350,24 +562,91 @@ export default function ProductProfile() {
                 ))}
               </div>
             </div>
-
-            {/* RIGHT: Info & CTAs */}
-            <div className="col-span-12 lg:col-span-7 flex flex-col">
+          </div>
+          
+          {/* MOBILE/TABLET HEADER (NEW POSITION) - 
+            This block now sits *after* the gallery block in the flow, 
+            and it is hidden on desktop (lg:hidden) 
+          */}
+          <div className="lg:hidden p-0"> {/* Removed container padding/border here since it's already in the gallery block */}
+            <div className="text-left px-4 sm:px-0"> {/* Added left alignment for text */}
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs px-2 py-0.5 rounded-full bg-gray-50 text-gray-700 border border-gray-200">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-gray-50 text-gray-700 border border-gray-200 font-medium">
                   {brand}
                 </span>
                 {discount > 0 && (
-                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200">
-                    {discount}% OFF
+                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200 font-bold">
+                    SAVE {discount}%
                   </span>
                 )}
               </div>
-
-              <h1 className="text-left text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-2">
                 {title}
               </h1>
+              <div className="mt-2 flex items-center gap-2 text-sm mb-4">
+                <div className="flex items-center" aria-label={`${rating} star rating`}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-4 h-4 ${i < Math.round(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                    />
+                  ))}
+                </div>
+                <span className="text-gray-600">{rating.toFixed(1)}</span>
+                <span className="text-gray-400">·</span>
+                <button
+                  onClick={() => setActiveTab('reviews')}
+                  className="text-gray-500 hover:text-emerald-600 transition"
+                  aria-label={`View ${reviewsCount} reviews`}
+                >
+                  {reviewsCount} ratings
+                </button>
+              </div>
+              {/* Price block for mobile/tablet just under the title/ratings */}
+              <div className="flex items-end gap-3 pb-3">
+                <span className="text-3xl font-bold text-emerald-700">
+                  ₦{Number(price).toLocaleString()}
+                </span>
+                {mrp > price && (
+                  <span className="text-lg text-gray-400 line-through">
+                    ₦{Number(mrp).toLocaleString()}
+                  </span>
+                )}
+              </div>
+              {savings && <p className="text-sm text-emerald-700 font-medium mb-4">{savings}</p>}
+            </div>
+          </div>
+          
+          {/* PRODUCT OVERVIEW: Tabbed Sections */}
+          <section>
+            <h2 className="sr-only">Product Details</h2>
+            <TabbedContent
+              sections={tabSections}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
+          </section>
+        </div>
+        
+        {/* RIGHT COLUMN: Desktop Info & Purchase Block */}
+        <div className="lg:col-span-4 text-left mt-8 lg:mt-0">
+          <div className="lg:sticky lg:top-28 space-y-6">
 
+            {/* Product Header (Desktop Only) - This stays as a dedicated desktop header/price block */}
+            <div className="hidden lg:block">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm px-2 py-0.5 rounded-full bg-gray-50 text-gray-700 border border-gray-200 font-medium">
+                  {brand}
+                </span>
+                {discount > 0 && (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200 font-bold">
+                    SAVE {discount}%
+                  </span>
+                )}
+              </div>
+              <h1 className="text-2xl font-bold text-gray-900 leading-snug">
+                {title}
+              </h1>
               <div className="mt-2 flex items-center gap-2 text-sm">
                 <div className="flex items-center" aria-label={`${rating} star rating`}>
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -379,221 +658,143 @@ export default function ProductProfile() {
                 </div>
                 <span className="text-gray-600">{rating.toFixed(1)}</span>
                 <span className="text-gray-400">·</span>
-                <span className="text-gray-500">{reviewsCount} ratings</span>
+                <button
+                  onClick={() => setActiveTab('reviews')}
+                  className="text-gray-500 hover:text-emerald-600 transition"
+                  aria-label={`View ${reviewsCount} reviews`}
+                >
+                  {reviewsCount} ratings
+                </button>
               </div>
+            </div>
 
-              <div className="mt-4 flex items-end gap-3">
-                <div className="flex items-baseline gap-3">
-                  <span className="text-2xl md:text-3xl font-semibold text-gray-900">
+            {/* Price & CTA Card (Desktop Only) - Mobile uses a sticky bar */}
+            <div className="hidden lg:block bg-white border rounded-xl p-5 shadow-lg">
+              <div className="flex flex-col gap-3">
+                
+                {/* Price Block */}
+                <div className="flex items-end gap-3 border-b pb-3">
+                  <span className="text-3xl font-bold text-emerald-700">
                     ₦{Number(price).toLocaleString()}
                   </span>
                   {mrp > price && (
-                    <span className="text-sm md:text-base text-gray-400 line-through">
+                    <span className="text-lg text-gray-400 line-through">
                       ₦{Number(mrp).toLocaleString()}
                     </span>
                   )}
                 </div>
-              </div>
-              {savings && <p className="mt-1 text-sm text-emerald-700 font-medium">{savings}</p>}
+                {savings && <p className="text-sm text-emerald-700 font-medium">{savings}</p>}
 
-              <div className="mt-5 flex items-center gap-3">
-                <label className="text-sm text-gray-700" htmlFor="qty-input">Qty</label>
-                <input
-                  id="qty-input"
-                  type="number"
-                  min={1}
-                  value={qty}
-                  onChange={(e) => setQty(Math.max(1, Number(e.target.value) || 1))}
-                  className="w-20 border rounded-md px-3 py-2"
-                />
+                {/* Quantity and Cart */}
+                <div className="mt-3 flex items-center gap-4">
+                  <label className="text-sm text-gray-700 font-medium" htmlFor="qty-input-new">Quantity:</label>
+                  <QtySelector />
+                </div>
+
                 <button
                   disabled={!canAdd}
                   onClick={handleAddToCart}
-                  className={`px-5 py-2 rounded text-white transition shadow-sm
+                  className={`w-full px-5 py-3 mt-4 rounded-xl text-white font-semibold uppercase tracking-wider transition duration-200 shadow-md hover:shadow-lg
                     ${canAdd ? "bg-emerald-600 hover:bg-emerald-700" : "bg-gray-400 cursor-not-allowed"}`}
                 >
-                  Add to Cart
+                  {canAdd ? "Add to Cart" : "Out of Stock"}
                 </button>
+                
+                {/* Trust Badges */}
+                <div className="flex items-center gap-4 mt-3 text-sm text-gray-600">
+                  <div className="flex items-center gap-1">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <span>In Stock</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Info className="w-4 h-4 text-sky-500" />
+                    <span>Free Shipping</span>
+                  </div>
+                </div>
+
               </div>
             </div>
+            
+          </div>
+        </div>
+
+      </div> {/* End of main grid */}
+      
+      {/* ------------------- STICKY MOBILE CTA BAR ------------------- */}
+      <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-200 p-4 shadow-2xl z-20">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col">
+            <span className="text-lg font-bold text-gray-900">
+              ₦{Number(price * qty).toLocaleString()}
+            </span>
+            {mrp > price && (
+              <span className="text-xs text-gray-400 line-through">
+                ₦{Number(mrp * qty).toLocaleString()}
+              </span>
+            )}
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <QtySelector />
+            <button
+              disabled={!canAdd}
+              onClick={handleAddToCart}
+              className={`px-4 py-2 flex-1 rounded-xl text-white font-semibold text-sm transition duration-200 shadow-md
+                ${canAdd ? "bg-emerald-600 hover:bg-emerald-700" : "bg-gray-400 cursor-not-allowed"}`}
+            >
+              {canAdd ? "Add to Cart" : "Out of Stock"}
+            </button>
           </div>
         </div>
       </div>
-
-      {/* ---------- PRODUCT OVERVIEW: individual sections (left-aligned, not inside hero card) ---------- */}
-        <section className="mt-10 space-y-8">
-          {/* Highlights */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <ListChecks className="w-5 h-5 text-emerald-600" />
-              <h2 className="text-lg font-semibold text-gray-900">Key Highlights</h2>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {(highlights || []).map((h, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-gray-700 text-left leading-snug">{h}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Specifications */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <Info className="w-5 h-5 text-sky-600" />
-              <h2 className="text-lg font-semibold text-gray-900">Specifications</h2>
-            </div>
-            <dl className="divide-y divide-gray-100">
-              {(specs || []).map((s, i) => {
-                const [label, ...rest] = s.split(":");
-                const value = rest.join(":").trim();
-                return (
-                  <div key={i} className="py-2 grid grid-cols-3 gap-4">
-                    <dt className="text-sm font-medium text-gray-500 col-span-1 text-left">
-                      {label}
-                    </dt>
-                    <dd className="text-sm text-gray-900 col-span-2 text-left">
-                      {value || "—"}
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
-          </div>
-
-          {/* About */}
-          <div className="bg-white border rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <FileText className="w-5 h-5 text-purple-600" />
-              <h2 className="text-lg font-semibold text-gray-900">About this item</h2>
-            </div>
-            <p className="text-sm text-gray-700 leading-relaxed text-left">
-              {description}
-            </p>
-          </div>
-        </section>
-
-      {/* ---------- RATINGS & REVIEWS (equal height/width, left-aligned) ---------- */}
-      <section className="mt-10">
-        <h2 className="text-xl font-bold text-left text-gray-900 mb-4">Ratings & Reviews</h2>
-
-        <div className="grid md:grid-cols-12 gap-5 items-stretch">
-          {/* Score card */}
-          <div className="md:col-span-6">
-            <div className="bg-white border rounded-xl p-5 h-full min-h-[200px] flex flex-col justify-between">
-              <div>
-                <div className="text-left">
-                  <div className="text-4xl font-semibold text-gray-900">
-                    {rating.toFixed(1)}
-                    <span className="text-xl text-gray-400">/5</span>
-                  </div>
-                  <div className="mt-1 flex gap-1">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${i < Math.round(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-500 mt-1">{reviewsCount} Ratings</p>
-                </div>
-              </div>
-              <p className="text-xs text-gray-400 mt-4">
-                Ratings are aggregated from verified buyers.
-              </p>
-            </div>
-          </div>
-
-          {/* Distribution */}
-          <div className="md:col-span-6">
-            <div className="bg-white border rounded-xl p-5 h-full min-h-[200px]">
-              {[5, 4, 3, 2, 1].map((stars) => {
-                const pct = dist[stars - 1];
-                return (
-                  <div key={stars} className="flex items-center gap-3 mb-2">
-                    <div className="w-14 text-sm text-gray-600">{stars} stars</div>
-                    <div className="flex-1 h-3 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct}%` }} />
-                    </div>
-                    <div className="w-10 text-right text-sm text-gray-700">{pct}%</div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Recent reviews (left-aligned) */}
-        <div className="mt-5 bg-white border rounded-xl p-5">
-          <h3 className="font-semibold text-gray-900 mb-3 text-left">Recent Reviews</h3>
-          <div className="space-y-4">
-            {reviewsList.map((r, i) => (
-              <div key={i} className="border rounded-lg p-3">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium text-gray-800">{r.user}</p>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`w-4 h-4 ${j < r.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`} />
-                    ))}
-                  </div>
-                </div>
-                <p className="mt-1 text-sm text-gray-700 text-left">{r.comment}</p>
-                <p className="mt-1 text-xs text-gray-400 text-left">{r.daysAgo} days ago</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- RELATED ARTICLES ---------- */}
-      <section className="px-3 sm:px-5 py-5 bg-white">
-        <div className="flex justify-between items-center mb-3">
+      {/* ----------------- END STICKY MOBILE CTA BAR ----------------- */}
+      
+      {/* ---------- RELATED ARTICLES (Moved outside the main grid for full-width look) ---------- */}
+      <section className="mt-12 bg-white border rounded-xl p-6 shadow-sm">
+        <div className="flex justify-between items-center mb-5">
           <div className="flex items-center space-x-2">
-            <Newspaper className="w-5 h-5 text-purple-600" />
-            <h2 className="text-base sm:text-lg font-bold text-gray-800">
-              Health Articles
+            <Newspaper className="w-6 h-6 text-purple-600" />
+            <h2 className="text-xl font-bold text-gray-900">
+              Related Health Insights
             </h2>
           </div>
           <a
             href="/articles"
-            className="text-teal-600 text-xs sm:text-sm font-medium hover:underline"
+            className="text-emerald-600 text-sm font-medium hover:underline whitespace-nowrap"
           >
-            View All
+            View All Articles &rarr;
           </a>
         </div>
 
-        <div className="overflow-x-auto scrollbar-hide -mx-1 sm:mx-0">
-          <div className="flex space-x-3 px-1 sm:px-0 w-max">
-            {articles.map((article, index) => (
+        <div className="overflow-x-auto scroll-hide">
+          <div className="flex space-x-4 w-max pb-2">
+            {articles.slice(0, 4).map((article, index) => (
               <a
                 href={article.link}
                 key={index}
-                className="min-w-[160px] sm:min-w-[200px] max-w-[220px] bg-white rounded-lg shadow-sm hover:shadow-md transition hover:scale-[1.015]"
+                className="min-w-[200px] max-w-[250px] bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition duration-300 block"
               >
                 <img
                   src={article.img}
                   alt={article.title}
-                  className="w-full h-28 sm:h-32 object-cover rounded-t-lg"
+                  className="w-full h-32 object-cover rounded-t-lg"
                 />
-                <div className="p-2">
-                  <h3 className="text-xs sm:text-sm text-gray-800 font-medium line-clamp-3">
+                <div className="p-3">
+                  <h3 className="text-sm text-gray-800 font-medium line-clamp-3">
                     {article.title}
                   </h3>
+                  <p className="text-xs text-emerald-600 mt-2">Read More</p>
                 </div>
               </a>
             ))}
           </div>
         </div>
-        <div className="lg:hidden relative w-screen left-1/2 -translate-x-1/2 h-2 bg-[#e9eff6] my-4"></div>
       </section>
 
-      {/* ---------- RELATED & FBT ---------- */}
-      <section className="mt-10">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-bold text-gray-900 text-left">Related items</h3>
-        </div>
-        <div className="flex gap-3 scroll-hide overflow-x-auto pb-2">
+      {/* ---------- RELATED & FBT (Re-styled section titles) ---------- */}
+      <section className="mt-12">
+        <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-left mb-4">You Might Also Like</h3>
+        <div className="flex gap-4 scroll-hide overflow-x-auto pb-2">
           {related.map((item) => (
             <ProductTile
               key={item.__slug}
@@ -605,10 +806,8 @@ export default function ProductProfile() {
       </section>
 
       <section className="mt-8">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-bold text-gray-900 text-left">Frequently bought together</h3>
-        </div>
-        <div className="flex gap-3 scroll-hide overflow-x-auto pb-2">
+        <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-left mb-4">Frequently Bought Together</h3>
+        <div className="flex gap-4 scroll-hide overflow-x-auto pb-2">
           {frequentlyBought.map((item) => (
             <ProductTile
               key={item.__slug}
