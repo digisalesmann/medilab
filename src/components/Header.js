@@ -1,5 +1,5 @@
 // src/components/Header.jsx
-import { useState, useRef, useEffect } from "react"; // ADDED useRef and useEffect
+import { useState, useRef, useEffect } from "react";
 import Logo from "./Logo";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import {
@@ -15,8 +15,6 @@ import {
   Leaf,
   Dog,
   Sparkles,
-  Mail,
-  Send,
 } from "lucide-react";
 import {
   HomeIcon,
@@ -24,7 +22,6 @@ import {
   WalletIcon,
   LifebuoyIcon,
   UserIcon,
-  NewspaperIcon,
 } from "@heroicons/react/24/outline";
 import { useNotifications } from "../context/NotificationContext";
 import { useAuth } from "../context/AuthContext";
@@ -59,9 +56,12 @@ export default function Header() {
 
   const { user, initializing, logout } = useAuth();
   const isAdmin = (user?.email || "").toLowerCase() === ADMIN_EMAIL;
+  
+  // --- Avatar/Display Name Logic Update ---
   const displayName =
     user?.displayName || user?.email?.split("@")[0] || user?.phoneNumber || "Profile";
   const avatarLetter = (displayName?.[0] || "U").toUpperCase();
+  const photoURL = user?.photoURL; // Get the user's photo URL
 
   const { items } = useCart();
   const cartCount = items.reduce((sum, item) => sum + (item.qty || 1), 0);
@@ -94,6 +94,12 @@ export default function Header() {
     setShowDropdown(false);
     setIsOpen(false);
     navigate(`/hub/${slug}`);
+  };
+
+  // Helper function to navigate and close the drawer
+  const navigateAndClose = (to) => {
+    navigate(to);
+    setIsOpen(false);
   };
 
   return (
@@ -209,6 +215,8 @@ export default function Header() {
                 isAdmin={isAdmin}
                 onNavigate={(to) => navigate(to)}
                 onLogout={logout}
+                photoURL={photoURL} // <-- Pass photoURL
+                avatarLetter={avatarLetter} // <-- Pass avatarLetter
               />
             </div>
           ) : (
@@ -223,7 +231,7 @@ export default function Header() {
           )}
 
           {/* Mobile Toggle */}
-          <button onClick={() => setIsOpen(!isOpen)} className="ml-1 p-1.5 rounded hover:bg-gray-100">
+          <button onClick={() => setIsOpen(!isOpen)} className="ml-1 p-1.5 rounded hover:bg-gray-100 md:hidden">
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -246,10 +254,11 @@ export default function Header() {
               <UserPanel
                 displayName={displayName}
                 email={user.email}
+                photoURL={photoURL} // <-- Pass photoURL
                 avatarLetter={avatarLetter}
                 isAdmin={isAdmin}
                 onLogout={logout}
-                navigate={navigate}
+                navigateAndClose={navigateAndClose} // <-- Pass new combined handler
               />
             ) : (
               <div className="flex gap-4 mb-6">
@@ -268,11 +277,12 @@ export default function Header() {
 
             {/* Navigation */}
             <div className="space-y-1 text-gray-800 text-base mb-8">
+              {/* Use MobileLink's built-in close functionality */}
               <MobileLink Icon={HomeIcon} label="Home" to="/" setIsOpen={setIsOpen} />
               <MobileLink Icon={BuildingStorefrontIcon} label="Pharmacies" to="/pharmacies" setIsOpen={setIsOpen} />
               <MobileLink Icon={WalletIcon} label="Reward System" to="/wallet" setIsOpen={setIsOpen} />
               <MobileLink Icon={LifebuoyIcon} label="Contact/Help" to="/contact" setIsOpen={setIsOpen} />
-              <MobileLink Icon={UserIcon} label="Profile" to="/profile" setIsOpen={setIsOpen} />
+              <MobileLink Icon={UserIcon} label="Profile" to="/profile" setIsOpen={setIsOpen} /> 
             </div>
 
             <hr className="my-4" />
@@ -284,7 +294,7 @@ export default function Header() {
                   key={slug}
                   onClick={() => {
                     goToCategory(slug);
-                    setIsOpen(false);
+                    setIsOpen(false); // Ensure close here as well
                   }}
                   className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 text-left"
                 >
@@ -292,19 +302,6 @@ export default function Header() {
                   {label}
                 </button>
               ))}
-            </div>
-
-            <hr className="my-6" />
-
-            {/* Contact Us + Stay Updated */}
-            <div className="space-y-4 text-base">
-              <Link to="/contact" onClick={() => setIsOpen(false)} className="flex items-center gap-3 text-emerald-700 hover:text-emerald-900 font-medium">
-                <Mail className="w-5 h-5" /> Contact Us
-              </Link>
-              <Link to="/subscribe" onClick={() => setIsOpen(false)} className="flex items-center gap-3 text-emerald-700 hover:text-emerald-900 font-medium">
-                <NewspaperIcon className="w-5 h-5" /> Stay Updated
-                <Send className="w-5 h-5 text-emerald-400" /> {/* Use Send icon here */}
-              </Link>
             </div>
           </div>
         </>
@@ -330,7 +327,7 @@ function MobileLink({ Icon, label, to, setIsOpen }) {
     <button
       onClick={() => {
         navigate(to);
-        if (setIsOpen) setIsOpen(false);
+        if (setIsOpen) setIsOpen(false); // <-- FIX: Closes the drawer after navigation
       }}
       className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 text-left"
     >
@@ -341,13 +338,19 @@ function MobileLink({ Icon, label, to, setIsOpen }) {
 }
 
 /** User panel (mobile) */
-function UserPanel({ displayName, email, avatarLetter, isAdmin, onLogout, navigate }) {
+function UserPanel({ displayName, email, photoURL, avatarLetter, isAdmin, onLogout, navigateAndClose }) { // <-- Receive photoURL and combined handler
   return (
     <div className="mb-6 p-4 border rounded-xl bg-gray-50">
       <div className="flex items-center gap-3">
-        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-600 text-white text-sm">
-          {avatarLetter}
+        {/* --- Avatar Display Logic for Mobile --- */}
+        <div className={`inline-flex items-center justify-center w-10 h-10 rounded-full text-white text-sm overflow-hidden flex-shrink-0 ${!photoURL ? 'bg-emerald-600' : ''}`}>
+          {photoURL ? (
+            <img src={photoURL} alt="Avatar" className="w-full h-full object-cover" />
+          ) : (
+            avatarLetter
+          )}
         </div>
+        {/* ------------------------------------- */}
         <div>
           <div className="font-semibold text-gray-900">{displayName}</div>
           <div className="text-xs text-gray-500">{email}</div>
@@ -356,20 +359,20 @@ function UserPanel({ displayName, email, avatarLetter, isAdmin, onLogout, naviga
       <div className="mt-3 grid grid-cols-2 gap-2">
         <button
           className="w-full border rounded-md py-2 text-sm hover:bg-gray-50"
-          onClick={() => navigate("/profile")}
+          onClick={() => navigateAndClose("/profile")} // <-- Use new handler
         >
           Profile
         </button>
         <button
           className="w-full border rounded-md py-2 text-sm hover:bg-gray-50"
-          onClick={() => navigate("/orders")}
+          onClick={() => navigateAndClose("/orders")} // <-- FIX: Changed to /orders, use new handler
         >
           Orders
         </button>
         {isAdmin && (
           <button
             className="col-span-2 border rounded-md py-2 text-sm hover:bg-gray-50 text-rose-600"
-            onClick={() => navigate("/admin")}
+            onClick={() => navigateAndClose("/admin")} // <-- Use new handler
           >
             Admin Panel
           </button>
@@ -379,7 +382,7 @@ function UserPanel({ displayName, email, avatarLetter, isAdmin, onLogout, naviga
           onClick={async () => {
             await onLogout();
             localStorage.removeItem("currentUser");
-            navigate("/login");
+            navigateAndClose("/login"); // <-- Use new handler
           }}
         >
           Logout
@@ -390,12 +393,13 @@ function UserPanel({ displayName, email, avatarLetter, isAdmin, onLogout, naviga
 }
 
 /** Profile dropdown (desktop) */
-function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout }) {
+function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout, photoURL, avatarLetter }) { // <-- Receive photoURL and avatarLetter
   const [open, setOpen] = useState(false);
   
-  // Note: The ProfileMenu still closes on mouseLeave, as defined in your original code.
-  // If you wanted to apply the click-outside logic to this menu as well, 
-  // you would need to implement useRef/useEffect in this component too.
+  const handleItemClick = (to) => {
+    onNavigate(to);
+    setOpen(false);
+  };
 
   return (
     <div className="relative">
@@ -403,9 +407,15 @@ function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout }) {
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-full hover:bg-emerald-100"
       >
-        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-600 text-white text-sm">
-          {(name?.[0] || "U").toUpperCase()}
-        </span>
+        {/* --- Avatar Display Logic for Desktop --- */}
+        <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-white text-sm overflow-hidden flex-shrink-0 ${!photoURL ? 'bg-emerald-600' : ''}`}>
+          {photoURL ? (
+            <img src={photoURL} alt="Avatar" className="w-full h-full object-cover" />
+          ) : (
+            avatarLetter
+          )}
+        </div>
+        {/* ------------------------------------- */}
         <span className="text-sm font-semibold hidden sm:block max-w-[140px] truncate">
           {name}
         </span>
@@ -413,7 +423,7 @@ function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout }) {
 
       {open && (
         <div
-          className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg p-1"
+          className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg p-1 z-50"
           onMouseLeave={() => setOpen(false)}
         >
           <div className="px-3 py-2">
@@ -424,26 +434,26 @@ function ProfileMenu({ name, email, isAdmin, onNavigate, onLogout }) {
           <nav className="py-1">
             <button
               className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50"
-              onClick={() => onNavigate("/profile")}
+              onClick={() => handleItemClick("/profile")}
             >
               My Profile
             </button>
             <button
               className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50"
-              onClick={() => onNavigate("/orders")}
+              onClick={() => handleItemClick("/cart")}
             >
               Orders
             </button>
             <button
               className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50"
-              onClick={() => onNavigate("/plus")}
+              onClick={() => handleItemClick("/plus")}
             >
               PLUS Membership
             </button>
             {isAdmin && (
               <button
                 className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-gray-50 text-rose-600"
-                onClick={() => onNavigate("/admin")}
+                onClick={() => handleItemClick("/admin")}
               >
                 Admin Panel
               </button>

@@ -135,16 +135,16 @@ const whoIcon = (label = "") => {
 // --- PREMIUM COMPONENTS ---
 
 const IconStatCard = ({ icon: Icon, title, value }) => (
-  <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 shadow-sm transition hover:shadow-md w-full">
-    <div className="p-3 rounded-full bg-emerald-50 text-emerald-600 flex-shrink-0">
+  <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 shadow-sm transition hover:shadow-md">
+    <div className="p-3 rounded-full bg-emerald-50 text-emerald-600">
       <Icon className="w-6 h-6" />
     </div>
-    <div className="text-left truncate">
-      <p className="text-xs sm:text-sm font-medium text-gray-500">{title}</p>
-      <p className="text-sm sm:text-lg font-semibold text-gray-900">{value}</p>
+    <div className="text-left">
+      <p className="text-sm font-medium text-gray-500">{title}</p>
+      <p className="text-lg font-semibold text-gray-900">{value}</p>
     </div>
   </div>
-)
+);
 
 // New sticky element for mobile/scroll action (Functional CTA)
 const StickyBookingPanel = ({ title, price, oldPrice, discount, navigate, bookingRef }) => {
@@ -170,32 +170,30 @@ const StickyBookingPanel = ({ title, price, oldPrice, discount, navigate, bookin
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-[100] p-3 bg-white border-t shadow-lg md:hidden transition-transform duration-300 ${
+      className={`fixed bottom-0 left-0 right-0 z-[100] p-3 bg-white border-t-2 border-emerald-100 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] transition-transform duration-300 transform md:hidden ${
         isVisible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      <div className="flex items-center justify-between gap-4 max-w-xl mx-auto">
-        <div className="flex-1 min-w-0">
-          <p className="text-xs text-gray-600 truncate">{title}</p>
-          <div className="flex items-baseline gap-1">
-            <span className="text-lg font-bold text-gray-900">
-              ₦{Number(price).toLocaleString()}
-            </span>
+      <div className="flex items-center justify-between max-w-xl mx-auto">
+        <div className="text-left">
+          <p className="text-xs font-medium text-gray-600 truncate">{title}</p>
+          <div className="flex items-baseline gap-2">
+            <span className="text-xl font-bold text-gray-900">₦{Number(price).toLocaleString()}</span>
             {oldPrice && (
-              <span className="text-xs text-gray-500 line-through">
+              <span className="text-sm text-gray-500 line-through">
                 ₦{Number(oldPrice).toLocaleString()}
               </span>
             )}
           </div>
           {discount && (
-            <span className="text-xs text-emerald-600 font-medium">
-              ({discount})
+            <span className="text-xs font-medium text-emerald-600">
+              ({discount} Discount)
             </span>
           )}
         </div>
         <button
-          className="flex-shrink-0 px-4 py-2 text-sm font-semibold rounded-lg bg-emerald-600 text-white shadow-md hover:bg-emerald-700"
-          onClick={() => console.log("Book Now clicked")}
+          className="px-5 py-3 rounded-xl bg-emerald-600 text-white font-semibold shadow-lg hover:bg-emerald-700 transition active:scale-95 text-sm"
+          onClick={() => console.log("Book Now clicked from sticky bar")}
         >
           Book Now
         </button>
@@ -265,14 +263,17 @@ export default function PremiumLabTestProfile() {
   // 4) Not found
   if (!test) {
     return (
-      <div className="px-4 py-20 text-center">
-        <h2 className="text-lg font-bold text-gray-800 mb-2">Test not found</h2>
-        <button
-          onClick={() => navigate("/lab-tests")}
-          className="px-4 py-2 bg-emerald-600 text-white rounded-lg"
-        >
-          Back
-        </button>
+      <div className="max-w-7xl mx-auto px-4 pt-28 pb-12">
+        <div className="bg-white border rounded-3xl p-8 text-left shadow-xl">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Test not found</h2>
+          <p className="text-gray-600 mb-6">It looks like the requested test package isn't available.</p>
+          <button
+            onClick={() => navigate("/lab-tests")}
+            className="px-6 py-3 rounded-xl bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition shadow-lg"
+          >
+            Back to Lab Tests
+          </button>
+        </div>
       </div>
     );
   }
@@ -287,13 +288,13 @@ export default function PremiumLabTestProfile() {
   const TabButton = ({ tab, label, Icon }) => (
     <button
       onClick={() => setActiveTab(tab)}
-      className={`flex-1 flex items-center justify-center py-3 text-sm font-semibold transition ${
+      className={`flex-1 flex items-center justify-center py-3 px-2 text-sm font-semibold transition-all duration-200 min-w-0 ${
         activeTab === tab
-          ? "border-b-2 border-emerald-600 text-emerald-700 bg-emerald-50"
-          : "text-gray-600 hover:bg-gray-50"
-      }`}
+          ? "border-b-4 border-emerald-600 text-emerald-700 bg-emerald-50/50"
+          : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 border-b-4 border-transparent"
+      } md:min-w-[150px]`}
     >
-      <Icon className="w-4 h-4 mr-1 hidden sm:block" /> {label}
+      <Icon className="w-4 h-4 mr-2 hidden sm:block" /> {label}
     </button>
   );
 
@@ -598,7 +599,7 @@ export default function PremiumLabTestProfile() {
       />
 
       {/* Breadcrumb */}
-      <div className="text-sm text-gray-500 mb-6 text-left">
+      <div className="text-sm text-gray-500 mb-6 text-center">
         <button onClick={() => navigate("/lab-tests")} className="hover:text-emerald-600 transition">
           <span className="font-medium">Lab Tests</span>
         </button>
